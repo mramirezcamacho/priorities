@@ -1,0 +1,363 @@
+B2c gmv,Old_1_vs_New_Rs
+month,Old priority,New priority
+1,,0.04854326
+2,,0.09557629
+3,,0.12110743
+4,0.2498226,0.15242677
+5,0.1601212,0.15067002
+
+B2c per order,Old_1_vs_New_Rs
+month,Old priority,New priority
+1,,399.4330519
+2,,925.3796296
+3,,1083.948476
+4,2080.754808,1288.768581
+5,1342.920694,1267.892754
+
+B2c total burn,Old_1_vs_New_Rs
+month,Old priority,New priority
+1,,331130.0
+2,,799528.0
+3,,1493681.0
+4,1298391.0,1525902.0
+5,2167474.0,2187115.0
+
+Bad rating rate,Old_1_vs_New_Rs
+month,Old priority,New priority
+1,,0.05548854041
+2,,0.03356481481
+3,,0.02612481858
+4,0.03525641026,0.03209459459
+5,0.02416356877,0.02376811594
+
+B cancel rate,Old_1_vs_New_Rs
+month,Old priority,New priority
+1,,0.05021367521
+2,,0.04214963119
+3,,0.05043712172
+4,0.0436746988,0.05246671887
+5,0.04693760733,0.04965296316
+
+B p1p2,Old_1_vs_New_Rs
+month,Old priority,New priority
+1,0.0,0.00520063303
+2,0.0,0.005374853944
+3,0.0,0.00530944085
+4,0.004225719179,0.005502458014
+5,0.00541837557,0.007049018068
+
+Daily online hours,Old_1_vs_New_Rs
+month,Old priority,New priority
+1,0.0,264.7175
+2,0.0,325.0689464
+3,0.0,371.3060036
+4,102.415213,333.8988333
+5,229.0952957,275.1104659
+
+Daily orders,Old_1_vs_New_Rs
+month,Old priority,New priority
+1,0.0,26.74193548
+2,0.0,29.79310345
+3,0.0,44.4516129
+4,20.8,39.46666667
+5,52.06451613,55.64516129
+
+Exposure uv,Old_1_vs_New_Rs
+month,Old priority,New priority
+1,87649,192092
+2,63760,184005
+3,89402,289296
+4,161156,240438
+5,332572,273797
+
+Healthy stores,Old_1_vs_New_Rs
+month,Old priority,New priority
+1,0.0,24.06451613
+2,0.0,29.89655172
+3,0.0,34.77419355
+4,8.933333333,33.43333333
+5,24.83870968,29.58064516
+
+Imperfect orders,Old_1_vs_New_Rs
+month,Old priority,New priority
+1,,46.0
+2,,33.0
+3,,39.0
+4,14.0,32.0
+5,45.0,49.0
+
+Orders per eff online,Old_1_vs_New_Rs
+month,Old priority,New priority
+1,,0.8298298298
+2,,0.7926605505
+3,,1.018477458
+4,1.583756345,0.9502407705
+5,1.74864572,1.568181818
+
+R burn,Old_1_vs_New_Rs
+month,Old priority,New priority
+1,,1120378.0
+2,,1388526.0
+3,,1450444.0
+4,223766.0,732372.0
+5,961485.0,1066337.0
+
+R burn gmv,Old_1_vs_New_Rs
+month,Old priority,New priority
+1,,0.164246052
+2,,0.165985642
+3,,0.117601778
+4,0.043054676,0.073158759
+5,0.071029285,0.073459794
+
+R burn per order,Old_1_vs_New_Rs
+month,Old priority,New priority
+1,,1351.481303
+2,,1607.090278
+3,,1052.571843
+4,358.599359,618.5574324
+5,595.7156134,618.1663768
+
+Ted,Old_1_vs_New_Rs
+month,Old priority,New priority
+1,,1796081.0
+2,,2627791.0
+3,,3494821.0
+4,1820205.0,2785870.0
+5,3957961.0,4124218.0
+
+Ted gmv,Old_1_vs_New_Rs
+month,Old priority,New priority
+1,,0.26330329
+2,,0.314128491
+3,,0.283359553
+4,0.350224503,0.278288619
+5,0.292392641,0.28411675
+
+Bad rating rate,Old_1_vs_New_Rs
+month,Old priority,New priority
+1,,0.05548854041
+2,,0.03356481481
+3,,0.02612481858
+4,0.03525641026,0.03209459459
+5,0.02416356877,0.02376811594
+
+B cancel rate,Old_1_vs_New_Rs
+month,Old priority,New priority
+1,,0.05021367521
+2,,0.04214963119
+3,,0.05043712172
+4,0.0436746988,0.05246671887
+5,0.04693760733,0.04965296316
+
+B p1p2,Old_1_vs_New_Rs
+month,Old priority,New priority
+1,0.0,0.00520063303
+2,0.0,0.005374853944
+3,0.0,0.00530944085
+4,0.004225719179,0.005502458014
+5,0.00541837557,0.007049018068
+
+Daily online hours,Old_1_vs_New_Rs
+month,Old priority,New priority
+1,0.0,264.7175
+2,0.0,325.0689464
+3,0.0,371.3060036
+4,102.415213,333.8988333
+5,229.0952957,275.1104659
+
+Daily orders,Old_1_vs_New_Rs
+month,Old priority,New priority
+1,0.0,26.74193548
+2,0.0,29.79310345
+3,0.0,44.4516129
+4,20.8,39.46666667
+5,52.06451613,55.64516129
+
+Exposure uv,Old_1_vs_New_Rs
+month,Old priority,New priority
+1,87649,192092
+2,63760,184005
+3,89402,289296
+4,161156,240438
+5,332572,273797
+
+Healthy stores,Old_1_vs_New_Rs
+month,Old priority,New priority
+1,0.0,24.06451613
+2,0.0,29.89655172
+3,0.0,34.77419355
+4,8.933333333,33.43333333
+5,24.83870968,29.58064516
+
+Imperfect orders,Old_1_vs_New_Rs
+month,Old priority,New priority
+1,,46.0
+2,,33.0
+3,,39.0
+4,14.0,32.0
+5,45.0,49.0
+
+Orders per eff online,Old_1_vs_New_Rs
+month,Old priority,New priority
+1,,0.8298298298
+2,,0.7926605505
+3,,1.018477458
+4,1.583756345,0.9502407705
+5,1.74864572,1.568181818
+
+Ted gmv,Old_1_vs_New_Rs
+month,Old priority,New priority
+1,,0.26330329
+2,,0.314128491
+3,,0.283359553
+4,0.350224503,0.278288619
+5,0.292392641,0.28411675
+
+Bad rating rate,Old_1_vs_New_Rs
+month,Old priority,New priority
+1,,0.05548854041
+2,,0.03356481481
+3,,0.02612481858
+4,0.03525641026,0.03209459459
+5,0.02416356877,0.02376811594
+
+B cancel rate,Old_1_vs_New_Rs
+month,Old priority,New priority
+1,,0.05021367521
+2,,0.04214963119
+3,,0.05043712172
+4,0.0436746988,0.05246671887
+5,0.04693760733,0.04965296316
+
+B p1p2,Old_1_vs_New_Rs
+month,Old priority,New priority
+1,0.0,0.00520063303
+2,0.0,0.005374853944
+3,0.0,0.00530944085
+4,0.004225719179,0.005502458014
+5,0.00541837557,0.007049018068
+
+Daily orders,Old_1_vs_New_Rs
+month,Old priority,New priority
+1,0.0,26.74193548
+2,0.0,29.79310345
+3,0.0,44.4516129
+4,20.8,39.46666667
+5,52.06451613,55.64516129
+
+Exposure uv,Old_1_vs_New_Rs
+month,Old priority,New priority
+1,87649,192092
+2,63760,184005
+3,89402,289296
+4,161156,240438
+5,332572,273797
+
+Healthy stores,Old_1_vs_New_Rs
+month,Old priority,New priority
+1,0.0,24.06451613
+2,0.0,29.89655172
+3,0.0,34.77419355
+4,8.933333333,33.43333333
+5,24.83870968,29.58064516
+
+Imperfect orders,Old_1_vs_New_Rs
+month,Old priority,New priority
+1,,46.0
+2,,33.0
+3,,39.0
+4,14.0,32.0
+5,45.0,49.0
+
+Orders per eff online,Old_1_vs_New_Rs
+month,Old priority,New priority
+1,,0.8298298298
+2,,0.7926605505
+3,,1.018477458
+4,1.583756345,0.9502407705
+5,1.74864572,1.568181818
+
+Ted gmv,Old_1_vs_New_Rs
+month,Old priority,New priority
+1,,0.26330329
+2,,0.314128491
+3,,0.283359553
+4,0.350224503,0.278288619
+5,0.292392641,0.28411675
+
+Bad rating rate,Old_1_vs_New_Rs
+month,Old priority,New priority
+1,,0.05548854041
+2,,0.03356481481
+3,,0.02612481858
+4,0.03525641026,0.03209459459
+5,0.02416356877,0.02376811594
+
+B cancel rate,Old_1_vs_New_Rs
+month,Old priority,New priority
+1,,0.05021367521
+2,,0.04214963119
+3,,0.05043712172
+4,0.0436746988,0.05246671887
+5,0.04693760733,0.04965296316
+
+B p1p2,Old_1_vs_New_Rs
+month,Old priority,New priority
+1,0.0,0.00520063303
+2,0.0,0.005374853944
+3,0.0,0.00530944085
+4,0.004225719179,0.005502458014
+5,0.00541837557,0.007049018068
+
+Daily orders,Old_1_vs_New_Rs
+month,Old priority,New priority
+1,0.0,26.74193548
+2,0.0,29.79310345
+3,0.0,44.4516129
+4,20.8,39.46666667
+5,52.06451613,55.64516129
+
+Exposure uv,Old_1_vs_New_Rs
+month,Old priority,New priority
+1,87649,192092
+2,63760,184005
+3,89402,289296
+4,161156,240438
+5,332572,273797
+
+Healthy stores,Old_1_vs_New_Rs
+month,Old priority,New priority
+1,0.0,24.06451613
+2,0.0,29.89655172
+3,0.0,34.77419355
+4,8.933333333,33.43333333
+5,24.83870968,29.58064516
+
+Imperfect orders,Old_1_vs_New_Rs
+month,Old priority,New priority
+1,,46.0
+2,,33.0
+3,,39.0
+4,14.0,32.0
+5,45.0,49.0
+
+Orders per eff online,Old_1_vs_New_Rs
+month,Old priority,New priority
+1,,0.8298298298
+2,,0.7926605505
+3,,1.018477458
+4,1.583756345,0.9502407705
+5,1.74864572,1.568181818
+
+Ted gmv,Old_1_vs_New_Rs
+month,Old priority,New priority
+1,,0.26330329
+2,,0.314128491
+3,,0.283359553
+4,0.350224503,0.278288619
+5,0.292392641,0.28411675
+
+
+
+

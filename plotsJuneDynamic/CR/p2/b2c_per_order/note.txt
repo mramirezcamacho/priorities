@@ -1,0 +1,2 @@
+- The new priority has@a better tendency@than the old one over the last 3 months (64.49% > 56.79%)
+- The last 3 months mean of the old priority is 379.97 and the new priority is 395.47
