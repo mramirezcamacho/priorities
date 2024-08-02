@@ -4,6 +4,8 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import os
 import pandas as pd
+from priorityChangesScript import makePlots
+
 
 months = [1, 6]
 mainFolder = 'comparacionesCSVJuneDynamic'
@@ -17,7 +19,7 @@ def getInitialData(serio: bool):
         paises = ['PE', 'CO', 'MX', 'CR']
         prioridades = ['1', '2', '3', '4', '5']
         columns = ['daily_orders', 'orders_per_eff_online', 'daily_online_hours',
-                   'b_cancel_rate', 'bad_rating_rate', "healthy_stores", 'imperfect_orders', 'ted', 'ted_gmv', 'exposure_uv', 'b_p1p2', "r_burn", "r_burn_gmv", "r_burn_per_order", "b2c_total_burn", "b2c_gmv", "b2c_per_order"]
+                   'b_cancel_rate', 'bad_rating_rate', "healthy_stores", 'imperfect_orders', 'ted', 'ted_gmv', 'exposure_uv', 'b_p1p2', "r_burn", "r_burn_gmv", "r_burn_per_order", "b2c_total_burn", "b2c_gmv", "b2c_per_order", 'eff_online_rs', 'imperfect_order_rate']
         # prioridades = ['4', '5']
         # columns = ['eff_online_rs', 'imperfect_order_rate']
     else:
@@ -340,3 +342,7 @@ def main():
                     makePlot(pais, prioridad, columna,
                              yLabelsPerColumn, config)
             print(f'Plots de {pais} p{prioridad} creado')
+
+
+main()
+makePlots()
