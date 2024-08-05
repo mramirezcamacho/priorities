@@ -10,9 +10,13 @@ from pptx.enum.text import PP_ALIGN, MSO_ANCHOR
 MAC = 1
 both = 1
 
-columns = ['orders_per_eff_online', 'ted_gmv', 'b_p1p2',
-           "b_cancel_rate", 'bad_rating_rate', 'imperfect_order_rate',
-           'eff_online_rs', 'daily_orders', ]
+columns = ['orders_per_eff_online', 'b_p1p2', 'ted_gmv_r_burn_gmv_b2c_gmv_p2c_gmv',
+           #    "b_cancel_rate", 'bad_rating_rate', 'imperfect_order_rate',
+           'eff_online_rs', 'daily_orders', 'priorityChanges',
+           'imperfect_order_rate_b_cancel_rate_bad_rating_rate', 'eff_online_rs_healthy_stores',
+           ]
+
+# P1P2 vs UV en distintos ejes
 
 
 def getFilesFromFolder(folder):
@@ -196,19 +200,19 @@ def addGraphAndText(slide, graph_image_path: str, graph_note_path: str, Ypositio
 
 def getPriorityText(priority: str):
     if priority == "1":
-        priorityText = 'Previous P1 vs New Rs'
+        priorityText = 'Priority 1 (New Rs)'
     elif priority == "2":
-        priorityText = 'Previous P2 vs New P1'
+        priorityText = 'Priority 2'
     elif priority == "3":
-        priorityText = 'Previous P3 vs New P2'
+        priorityText = 'Priority 3'
     elif priority == "4":
-        priorityText = 'Previous P4 vs New P4'
+        priorityText = 'Priority 4'
     else:
-        priorityText = 'Previous P5 vs New P5'
+        priorityText = 'Priority 5'
     return priorityText
 
 
-def makePresentation(MAC: bool = True, prioridades: list = ['2', '3', '4', '5'], bigFolder='plotsJuneDynamic', imagesPerSlide: int = 3):
+def makePresentation(MAC: bool = True, prioridades: list = ['1', '2', '3', '4', '5'], bigFolder='plotsJuneDynamic', imagesPerSlide: int = 3):
     if MAC:
         paises = ['CO', 'PE', 'CR',]
     else:
@@ -239,6 +243,9 @@ def makePresentation(MAC: bool = True, prioridades: list = ['2', '3', '4', '5'],
                 if i % imagesPerSlide == 0:
                     if i//imagesPerSlide == 0:
                         add_text(slide, f'PERFORMANCE', font_size=0.5,
+                                 bold=True, color=(252, 76, 2), position=(titleStart[0], titleStart[1], width-titleStart[0]-2-0.5, 0.75),)
+                    elif i//imagesPerSlide == 1:
+                        add_text(slide, f'MIXED', font_size=0.5,
                                  bold=True, color=(252, 76, 2), position=(titleStart[0], titleStart[1], width-titleStart[0]-2-0.5, 0.75),)
                     else:
                         add_text(slide, f'SERVICE', font_size=0.5,

@@ -1,477 +1,538 @@
 Country,Priority,Month,ChangeTo,# Rs
-CO,Priority 5,march,Stays,19965
-CO,Priority 5,march,No Registered,1288
-CO,Priority 5,march,Priority 4,251
-CO,Priority 5,march,Priority 3,61
-CO,Priority 5,march,Priority 2,218
-CO,Priority 5,april,Stays,20081
-CO,Priority 5,april,Priority 2,147
-CO,Priority 5,april,Priority 4,216
-CO,Priority 5,april,Priority 3,15
-CO,Priority 5,may,Stays,20204
-CO,Priority 5,may,Priority 1,12
-CO,Priority 5,may,Priority 2,99
-CO,Priority 5,may,Priority 4,225
-CO,Priority 5,may,Priority 6,75
-CO,Priority 5,may,Priority 3,19
-CO,Priority 5,june,Stays,20434
-CO,Priority 5,june,Priority 6,67
-CO,Priority 5,june,Priority 1,1
-CO,Priority 5,june,Priority 3,17
-CO,Priority 5,june,Priority 2,6
-CO,Priority 4,march,Priority 2,272
-CO,Priority 4,march,Stays,425
-CO,Priority 4,march,Priority 5,123
-CO,Priority 4,march,Priority 1,14
-CO,Priority 4,march,Priority 3,5
-CO,Priority 4,april,Stays,462
-CO,Priority 4,april,Priority 5,279
-CO,Priority 4,april,Priority 2,78
-CO,Priority 4,april,Priority 3,8
-CO,Priority 4,april,Priority 1,6
-CO,Priority 4,may,Stays,398
-CO,Priority 4,may,Priority 3,63
-CO,Priority 4,may,Priority 2,144
-CO,Priority 4,may,Priority 5,180
-CO,Priority 4,may,Priority 6,60
-CO,Priority 4,may,Priority 1,61
-CO,Priority 4,june,Stays,346
-CO,Priority 4,june,Priority 2,115
-CO,Priority 4,june,Priority 3,40
-CO,Priority 4,june,Priority 5,129
-CO,Priority 4,june,Priority 6,32
-CO,Priority 4,june,Priority 1,51
-CO,Priority 2,april,Priority 5,109
-CO,Priority 2,april,Priority 4,201
-CO,Priority 2,april,Stays,726
-CO,Priority 2,april,Priority 1,51
-CO,Priority 2,april,Priority 3,5
-CO,Priority 2,march,Priority 1,30
-CO,Priority 2,march,Stays,517
-CO,Priority 2,march,Priority 4,109
-CO,Priority 2,march,Priority 5,97
-CO,Priority 2,march,Priority 3,10
-CO,Priority 2,may,Stays,730
-CO,Priority 2,may,Priority 5,120
-CO,Priority 2,may,Priority 1,58
-CO,Priority 2,may,Priority 4,86
-CO,Priority 2,may,Priority 6,17
-CO,Priority 2,may,Priority 3,3
-CO,Priority 2,june,Priority 5,107
-CO,Priority 2,june,Priority 1,92
-CO,Priority 2,june,Stays,643
-CO,Priority 2,june,Priority 4,144
-CO,Priority 2,june,Priority 3,34
-CO,Priority 2,june,Priority 6,15
-CO,Priority 1,june,Priority 2,59
-CO,Priority 1,june,Stays,328
-CO,Priority 1,june,Priority 4,18
-CO,Priority 1,june,Priority 5,10
-CO,Priority 1,june,Priority 3,1
-CO,Priority 1,june,Priority 6,4
-CO,Priority 1,april,Stays,281
-CO,Priority 1,april,Priority 4,3
-CO,Priority 1,april,Priority 2,28
-CO,Priority 1,may,Stays,288
-CO,Priority 1,may,Priority 2,46
-CO,Priority 1,may,Priority 4,3
-CO,Priority 1,may,Priority 5,1
-CO,Priority 1,march,Stays,263
-CO,Priority 1,march,Priority 2,45
-CO,Priority 1,march,Priority 4,2
-CO,Priority 3,june,Priority 2,96
-CO,Priority 3,june,Stays,85
-CO,Priority 3,june,Priority 1,21
-CO,Priority 3,june,Priority 5,30
-CO,Priority 3,june,Priority 4,21
-CO,Priority 3,june,Priority 6,20
-CO,Priority 3,march,Priority 4,29
-CO,Priority 3,march,Priority 2,37
-CO,Priority 3,march,Stays,185
-CO,Priority 3,march,Priority 5,81
-CO,Priority 3,march,Priority 1,5
-CO,Priority 3,may,Priority 2,16
-CO,Priority 3,may,Stays,188
-CO,Priority 3,may,Priority 6,2
-CO,Priority 3,may,Priority 5,20
-CO,Priority 3,may,Priority 1,1
-CO,Priority 3,may,Priority 4,1
-CO,Priority 3,april,Stays,200
-CO,Priority 3,april,Priority 5,48
-CO,Priority 3,april,Priority 4,5
-CO,Priority 3,april,Priority 2,8
-CO,No Registered,april,Stays,1353
-CO,No Registered,april,Priority 5,117
-CO,No Registered,april,Priority 2,27
-CO,No Registered,april,Priority 4,19
-CO,No Registered,may,Stays,1353
-CO,No Registered,june,Stays,1285
-CO,No Registered,june,Priority 2,42
-CO,No Registered,june,Priority 4,26
-CO,No Registered,march,Stays,228
-CO,No Registered,march,Priority 5,193
-CO,No Registered,march,Priority 4,17
-CO,No Registered,march,Priority 2,3
-CO,Priority 6,june,Priority 4,83
-CO,Priority 6,june,Priority 3,17
-CO,Priority 6,june,Priority 2,49
-CO,Priority 6,june,Priority 1,4
-CO,Priority 6,june,Priority 5,1
-PE,Priority 5,march,Priority 3,23
-PE,Priority 5,march,Stays,3803
-PE,Priority 5,march,No Registered,388
-PE,Priority 5,march,Priority 2,121
-PE,Priority 5,march,Priority 4,115
-PE,Priority 5,march,Priority 1,1
-PE,Priority 5,april,Stays,3855
-PE,Priority 5,april,Priority 2,85
-PE,Priority 5,april,Priority 4,25
-PE,Priority 5,april,Priority 1,1
-PE,Priority 5,april,Priority 3,2
-PE,Priority 5,may,Stays,3972
-PE,Priority 5,may,Priority 4,47
-PE,Priority 5,may,Priority 2,33
-PE,Priority 5,may,Priority 1,9
-PE,Priority 5,may,Priority 6,29
-PE,Priority 5,may,Priority 3,7
-PE,Priority 5,june,Stays,4132
-PE,Priority 5,june,Priority 2,3
-PE,Priority 5,june,Priority 6,20
-PE,Priority 5,june,Priority 3,1
-PE,Priority 3,april,Stays,88
-PE,Priority 3,april,Priority 5,37
-PE,Priority 3,april,Priority 2,6
-PE,Priority 3,may,Priority 2,9
-PE,Priority 3,may,Stays,81
-PE,Priority 3,may,Priority 5,5
-PE,Priority 3,may,Priority 1,1
-PE,Priority 3,may,Priority 6,1
-PE,Priority 3,march,Priority 4,12
-PE,Priority 3,march,Stays,103
-PE,Priority 3,march,Priority 5,45
-PE,Priority 3,march,Priority 2,8
-PE,Priority 3,march,Priority 1,1
-PE,Priority 3,june,Stays,53
-PE,Priority 3,june,Priority 2,23
-PE,Priority 3,june,Priority 5,12
-PE,Priority 3,june,Priority 4,3
-PE,Priority 3,june,Priority 6,3
-PE,Priority 2,june,Stays,166
-PE,Priority 2,june,Priority 1,27
-PE,Priority 2,june,Priority 5,31
-PE,Priority 2,june,Priority 4,23
-PE,Priority 2,june,Priority 3,15
-PE,Priority 2,june,Priority 6,4
-PE,Priority 2,april,Stays,230
-PE,Priority 2,april,Priority 4,32
-PE,Priority 2,april,Priority 5,61
-PE,Priority 2,april,Priority 1,18
-PE,Priority 2,april,Priority 3,4
-PE,Priority 2,may,Stays,192
-PE,Priority 2,may,Priority 5,138
-PE,Priority 2,may,Priority 4,36
-PE,Priority 2,may,Priority 1,12
-PE,Priority 2,may,Priority 6,13
-PE,Priority 2,may,Priority 3,3
-PE,Priority 2,march,Stays,146
-PE,Priority 2,march,Priority 5,59
-PE,Priority 2,march,Priority 1,12
-PE,Priority 2,march,Priority 4,14
-PE,Priority 2,march,Priority 3,3
-PE,No Registered,march,Stays,81
-PE,No Registered,march,Priority 5,46
-PE,No Registered,march,Priority 2,2
-PE,No Registered,march,Priority 4,5
-PE,No Registered,april,Priority 5,47
-PE,No Registered,april,Stays,401
-PE,No Registered,april,Priority 2,14
-PE,No Registered,april,Priority 4,7
-PE,No Registered,may,Stays,401
-PE,No Registered,june,Stays,387
-PE,No Registered,june,Priority 4,10
-PE,No Registered,june,Priority 2,4
-PE,Priority 4,june,Stays,30
-PE,Priority 4,june,Priority 5,29
-PE,Priority 4,june,Priority 6,6
-PE,Priority 4,june,Priority 2,30
-PE,Priority 4,june,Priority 1,14
-PE,Priority 4,june,Priority 3,7
-PE,Priority 4,march,Priority 2,49
-PE,Priority 4,march,Priority 5,15
-PE,Priority 4,march,Priority 1,8
-PE,Priority 4,march,Stays,49
-PE,Priority 4,may,Priority 2,15
-PE,Priority 4,may,Priority 6,13
-PE,Priority 4,may,Priority 5,38
-PE,Priority 4,may,Stays,31
-PE,Priority 4,may,Priority 1,14
-PE,Priority 4,may,Priority 3,3
-PE,Priority 4,april,Priority 3,3
-PE,Priority 4,april,Priority 2,45
-PE,Priority 4,april,Stays,49
-PE,Priority 4,april,Priority 5,97
-PE,Priority 4,april,Priority 1,2
-PE,Priority 1,march,Stays,69
-PE,Priority 1,march,Priority 2,19
-PE,Priority 1,march,Priority 4,1
-PE,Priority 1,march,Priority 3,2
-PE,Priority 1,april,Stays,76
-PE,Priority 1,april,Priority 2,14
-PE,Priority 1,april,Priority 4,1
-PE,Priority 1,may,Stays,73
-PE,Priority 1,may,Priority 2,17
-PE,Priority 1,may,Priority 6,2
-PE,Priority 1,may,Priority 5,3
-PE,Priority 1,may,Priority 4,2
-PE,Priority 1,june,Stays,80
-PE,Priority 1,june,Priority 2,21
-PE,Priority 1,june,Priority 5,4
-PE,Priority 1,june,Priority 4,4
-PE,Priority 6,june,Priority 3,13
-PE,Priority 6,june,Priority 2,32
-PE,Priority 6,june,Priority 4,12
-PE,Priority 6,june,Priority 1,1
-MX,Priority 5,march,Stays,124363
-MX,Priority 5,march,No Registered,12649
-MX,Priority 5,march,Priority 4,1425
-MX,Priority 5,march,Priority 3,154
-MX,Priority 5,march,Priority 2,466
-MX,Priority 5,march,Priority 1,1
-MX,Priority 5,april,Stays,123876
-MX,Priority 5,april,Priority 3,1098
-MX,Priority 5,april,Priority 4,935
-MX,Priority 5,april,Priority 2,340
-MX,Priority 5,may,Stays,124124
-MX,Priority 5,may,Priority 2,438
-MX,Priority 5,may,Priority 4,1244
-MX,Priority 5,may,Priority 3,130
-MX,Priority 5,may,Priority 6,1029
-MX,Priority 5,may,Priority 1,9
-MX,Priority 5,may,No Registered,2
-MX,Priority 5,june,Stays,124796
-MX,Priority 5,june,Priority 6,488
-MX,Priority 5,june,Priority 2,30
-MX,Priority 5,june,Priority 1,8
-MX,Priority 5,june,Priority 3,19
-MX,Priority 5,june,Priority 4,3
-MX,Priority 5,june,Pri,1
-MX,No Registered,april,Stays,13009
-MX,No Registered,april,Priority 5,542
-MX,No Registered,april,Priority 2,97
-MX,No Registered,april,Priority 4,150
-MX,No Registered,may,Stays,13009
-MX,No Registered,june,Stays,12701
-MX,No Registered,june,Priority 2,181
-MX,No Registered,june,Priority 4,136
-MX,No Registered,march,Stays,1074
-MX,No Registered,march,Priority 5,469
-MX,No Registered,march,Priority 2,18
-MX,No Registered,march,Priority 1,8
-MX,No Registered,march,Priority 4,45
-MX,Priority 4,march,Stays,6197
-MX,Priority 4,march,Priority 2,1205
-MX,Priority 4,march,Priority 5,872
-MX,Priority 4,march,Priority 1,150
-MX,Priority 4,march,Priority 3,51
-MX,Priority 4,march,No Registered,1
-MX,Priority 4,april,Stays,6214
-MX,Priority 4,april,Priority 5,1926
-MX,Priority 4,april,Priority 2,347
-MX,Priority 4,april,Priority 3,129
-MX,Priority 4,april,Priority 1,92
-MX,Priority 4,may,Stays,5714
-MX,Priority 4,may,Priority 2,817
-MX,Priority 4,may,Priority 1,197
-MX,Priority 4,may,Priority 3,136
-MX,Priority 4,may,Priority 6,400
-MX,Priority 4,may,Priority 5,787
-MX,Priority 4,june,Stays,5256
-MX,Priority 4,june,Priority 2,765
-MX,Priority 4,june,Priority 1,317
-MX,Priority 4,june,Priority 5,625
-MX,Priority 4,june,Priority 3,267
-MX,Priority 4,june,Priority 6,196
-MX,Priority 1,march,Stays,2823
-MX,Priority 1,march,Priority 2,286
-MX,Priority 1,march,Priority 4,74
-MX,Priority 1,march,Priority 5,1
-MX,Priority 1,march,Priority 3,7
-MX,Priority 1,april,Stays,2667
-MX,Priority 1,april,Priority 5,42
-MX,Priority 1,april,Priority 3,24
-MX,Priority 1,april,Priority 2,429
-MX,Priority 1,april,Priority 4,91
-MX,Priority 1,may,Stays,2672
-MX,Priority 1,may,Priority 2,298
-MX,Priority 1,may,Priority 4,65
-MX,Priority 1,may,Priority 5,10
-MX,Priority 1,may,No Registered,5
-MX,Priority 1,may,Priority 3,6
-MX,Priority 1,june,Stays,2881
-MX,Priority 1,june,Priority 2,238
-MX,Priority 1,june,Priority 4,90
-MX,Priority 1,june,Priority 5,22
-MX,Priority 1,june,Priority 6,1
-MX,Priority 3,may,Stays,1601
-MX,Priority 3,may,Priority 5,151
-MX,Priority 3,may,Priority 1,9
-MX,Priority 3,may,Priority 2,124
-MX,Priority 3,may,Priority 4,7
-MX,Priority 3,may,Priority 6,35
-MX,Priority 3,june,Stays,1263
-MX,Priority 3,june,Priority 5,121
-MX,Priority 3,june,Priority 4,202
-MX,Priority 3,june,Priority 2,193
-MX,Priority 3,june,Priority 6,71
-MX,Priority 3,june,Priority 1,41
-MX,Priority 3,march,Stays,795
-MX,Priority 3,march,Priority 2,54
-MX,Priority 3,march,Priority 4,210
-MX,Priority 3,march,No Registered,73
-MX,Priority 3,march,Priority 5,289
-MX,Priority 3,march,Priority 1,8
-MX,Priority 3,april,Priority 5,357
-MX,Priority 3,april,Stays,620
-MX,Priority 3,april,Priority 4,36
-MX,Priority 3,april,Priority 2,27
-MX,Priority 3,april,Priority 1,1
-MX,Priority 2,april,Stays,3248
-MX,Priority 2,april,Priority 5,233
-MX,Priority 2,april,Priority 4,625
-MX,Priority 2,april,Priority 3,56
-MX,Priority 2,april,Priority 1,296
-MX,Priority 2,may,Stays,3384
-MX,Priority 2,may,Priority 1,345
-MX,Priority 2,may,Priority 5,273
-MX,Priority 2,may,Priority 6,70
-MX,Priority 2,may,Priority 4,396
-MX,Priority 2,may,Priority 3,18
-MX,Priority 2,may,No Registered,2
-MX,Priority 2,june,Priority 5,367
-MX,Priority 2,june,Stays,3310
-MX,Priority 2,june,Priority 1,427
-MX,Priority 2,june,Priority 4,738
-MX,Priority 2,june,Priority 3,174
-MX,Priority 2,june,Priority 6,44
-MX,Priority 2,june,No Registered,1
-MX,Priority 2,march,Priority 5,255
-MX,Priority 2,march,Stays,2429
-MX,Priority 2,march,Priority 4,757
-MX,Priority 2,march,Priority 1,263
-MX,Priority 2,march,Priority 3,34
-MX,Priority 2,march,No Registered,1
-MX,Priority 6,june,Priority 3,349
-MX,Priority 6,june,Priority 4,937
-MX,Priority 6,june,Priority 2,187
-MX,Priority 6,june,Priority 1,58
-MX,Priority 6,june,Priority 5,2
-MX,Priority 6,june,No Registered,1
-CR,Priority 4,march,Priority 2,48
-CR,Priority 4,march,Stays,95
-CR,Priority 4,march,Priority 5,26
-CR,Priority 4,march,Priority 3,1
-CR,Priority 4,march,Priority 1,1
-CR,Priority 4,april,Stays,115
-CR,Priority 4,april,Priority 5,32
-CR,Priority 4,april,Priority 3,10
-CR,Priority 4,april,Priority 2,8
-CR,Priority 4,april,Priority 1,5
-CR,Priority 4,may,Priority 5,42
-CR,Priority 4,may,Stays,98
-CR,Priority 4,may,Priority 3,7
-CR,Priority 4,may,Priority 2,15
-CR,Priority 4,may,Priority 1,8
-CR,Priority 4,may,Priority 6,8
-CR,Priority 4,june,Stays,67
-CR,Priority 4,june,Priority 2,25
-CR,Priority 4,june,Priority 5,23
-CR,Priority 4,june,Priority 1,13
-CR,Priority 4,june,Priority 6,10
-CR,Priority 4,june,Priority 3,18
-CR,Priority 4,june,No Registered,1
-CR,Priority 2,april,Stays,150
-CR,Priority 2,april,Priority 5,16
-CR,Priority 2,april,Priority 1,14
-CR,Priority 2,april,Priority 4,15
-CR,Priority 2,april,Priority 3,6
-CR,Priority 2,may,Stays,131
-CR,Priority 2,may,Priority 6,7
-CR,Priority 2,may,Priority 4,19
-CR,Priority 2,may,Priority 5,15
-CR,Priority 2,may,Priority 1,9
-CR,Priority 2,may,Priority 3,1
-CR,Priority 2,june,Stays,129
-CR,Priority 2,june,Priority 3,13
-CR,Priority 2,june,Priority 1,18
-CR,Priority 2,june,Priority 5,4
-CR,Priority 2,june,Priority 6,3
-CR,Priority 2,june,Priority 4,19
-CR,Priority 2,june,No Registered,2
-CR,Priority 2,march,Priority 4,28
-CR,Priority 2,march,Stays,116
-CR,Priority 2,march,Priority 5,21
-CR,Priority 2,march,Priority 1,3
-CR,Priority 5,march,Stays,4139
-CR,Priority 5,march,No Registered,262
-CR,Priority 5,march,Priority 2,20
-CR,Priority 5,march,Priority 4,36
-CR,Priority 5,march,Priority 3,2
-CR,Priority 5,april,Stays,4038
-CR,Priority 5,april,Priority 4,46
-CR,Priority 5,april,Priority 3,146
-CR,Priority 5,april,Priority 2,15
-CR,Priority 5,may,Stays,4010
-CR,Priority 5,may,Priority 4,33
-CR,Priority 5,may,Priority 3,30
-CR,Priority 5,may,Priority 6,32
-CR,Priority 5,may,Priority 2,13
-CR,Priority 5,may,Priority 1,1
-CR,Priority 5,june,Stays,4030
-CR,Priority 5,june,Priority 6,53
-CR,Priority 5,june,No Registered,1
-CR,No Registered,april,Stays,270
-CR,No Registered,april,Priority 5,18
-CR,No Registered,april,Priority 4,2
-CR,No Registered,may,Stays,270
-CR,No Registered,june,Stays,262
-CR,No Registered,june,Priority 4,3
-CR,No Registered,june,Priority 2,5
-CR,No Registered,march,Priority 5,35
-CR,No Registered,march,Stays,28
-CR,No Registered,march,Priority 3,1
-CR,No Registered,march,Priority 1,1
-CR,Priority 1,march,Stays,72
-CR,Priority 1,march,Priority 2,14
-CR,Priority 1,march,Priority 4,5
-CR,Priority 1,april,Stays,69
-CR,Priority 1,april,Priority 2,7
-CR,Priority 1,april,Priority 5,1
-CR,Priority 1,may,Stays,71
+MX,Priority 5,april,Stays,51367
+MX,Priority 5,april,Priority 4,378
+MX,Priority 5,april,No Registered,173
+MX,Priority 5,april,Priority 2,100
+MX,Priority 5,april,Priority 3,123
+MX,Priority 5,april,Priority 1,1
+MX,Priority 5,may,Stays,51152
+MX,Priority 5,may,Priority 3,151
+MX,Priority 5,may,Priority 4,766
+MX,Priority 5,may,Priority 2,113
+MX,Priority 5,may,No Registered,171
+MX,Priority 5,may,Priority 1,18
+MX,Priority 5,june,Stays,51278
+MX,Priority 5,june,Priority 4,295
+MX,Priority 5,june,Priority 3,67
+MX,Priority 5,june,Priority 2,114
+MX,Priority 5,june,Priority 1,2
+MX,Priority 5,july,Stays,51545
+MX,Priority 5,july,Priority 2,151
+MX,Priority 5,july,Priority 4,240
+MX,Priority 5,july,Priority 3,61
+MX,Priority 5,july,Priority 1,11
+MX,Priority 5,august,Stays,51984
+MX,Priority 5,august,Priority 4,118
+MX,Priority 5,august,Priority 2,79
+MX,Priority 5,august,No Registered,14
+MX,Priority 5,august,Priority 1,10
+MX,Priority 5,august,Priority 3,15
+MX,Priority 3,april,Stays,331
+MX,Priority 3,april,Priority 4,28
+MX,Priority 3,april,Priority 5,70
+MX,Priority 3,april,Priority 2,14
+MX,Priority 3,april,Priority 1,2
+MX,Priority 3,july,Priority 4,112
+MX,Priority 3,july,Stays,516
+MX,Priority 3,july,Priority 2,91
+MX,Priority 3,july,Priority 6,135
+MX,Priority 3,july,Priority 5,7
+MX,Priority 3,august,Stays,827
+MX,Priority 3,august,Priority 5,2
+MX,Priority 3,may,Priority 5,470
+MX,Priority 3,may,Stays,260
+MX,Priority 3,may,Priority 4,53
+MX,Priority 3,may,Priority 2,19
+MX,Priority 3,may,Priority 1,10
+MX,Priority 3,june,Stays,663
+MX,Priority 3,june,Priority 5,59
+MX,Priority 3,june,Priority 2,9
+MX,Priority 3,june,Priority 4,66
+MX,Priority 3,june,Priority 1,1
+MX,Priority 6,july,Priority 5,187
+MX,Priority 6,july,Priority 4,79
+MX,Priority 6,july,Priority 3,33
+MX,Priority 6,july,Priority 2,24
+MX,Priority 6,june,Priority 5,403
+MX,Priority 6,june,Priority 3,13
+MX,Priority 6,june,Priority 4,163
+MX,Priority 6,june,Priority 2,24
+MX,Priority 4,august,Priority 6,296
+MX,Priority 4,august,Stays,2722
+MX,Priority 4,august,Priority 2,133
+MX,Priority 4,august,Priority 3,15
+MX,Priority 4,august,No Registered,62
+MX,Priority 4,april,Priority 5,580
+MX,Priority 4,april,Stays,2548
+MX,Priority 4,april,Priority 2,320
+MX,Priority 4,april,Priority 3,89
+MX,Priority 4,april,Priority 1,31
+MX,Priority 4,april,No Registered,17
+MX,Priority 4,july,Priority 6,369
+MX,Priority 4,july,Stays,2176
+MX,Priority 4,july,No Registered,44
+MX,Priority 4,july,Priority 2,292
+MX,Priority 4,july,Priority 3,91
+MX,Priority 4,july,Priority 1,36
+MX,Priority 4,july,Priority 5,1
+MX,Priority 4,may,Stays,2591
+MX,Priority 4,may,Priority 5,383
+MX,Priority 4,may,Priority 2,264
+MX,Priority 4,may,No Registered,43
+MX,Priority 4,may,Priority 1,42
+MX,Priority 4,may,Priority 3,19
+MX,Priority 4,june,Stays,2412
+MX,Priority 4,june,Priority 5,459
+MX,Priority 4,june,Priority 2,142
+MX,Priority 4,june,Priority 1,27
+MX,Priority 4,june,Priority 3,3
+MX,No Registered,april,Priority 5,5199
+MX,No Registered,april,Stays,462
+MX,No Registered,april,Priority 3,26
+MX,No Registered,may,Stays,5450
+MX,No Registered,june,Stays,5450
+MX,No Registered,june,Priority 5,1
+MX,No Registered,june,Priority 2,1
+MX,No Registered,june,Priority 1,2
+MX,No Registered,july,Stays,5338
+MX,No Registered,july,Priority 6,1
+MX,No Registered,august,Stays,5206
+MX,No Registered,august,Priority 5,21
+MX,No Registered,august,Priority 2,7
+MX,No Registered,august,Priority 1,9
+MX,No Registered,august,Priority 3,4
+MX,No Registered,august,Priority 4,3
+MX,Priority 1,april,Priority 2,96
+MX,Priority 1,april,Stays,1155
+MX,Priority 1,april,Priority 3,3
+MX,Priority 1,april,Priority 4,69
+MX,Priority 1,april,No Registered,2
+MX,Priority 1,june,Priority 2,144
+MX,Priority 1,june,Stays,1091
+MX,Priority 1,june,Priority 4,78
+MX,Priority 1,june,Priority 3,5
+MX,Priority 1,june,Priority 5,3
+MX,Priority 1,july,Stays,1179
+MX,Priority 1,july,Priority 2,169
+MX,Priority 1,july,Priority 4,136
+MX,Priority 1,july,Priority 6,26
+MX,Priority 1,july,Priority 3,18
+MX,Priority 1,july,Priority 5,5
+MX,Priority 1,august,Stays,1514
+MX,Priority 1,august,Priority 2,57
+MX,Priority 1,august,Priority 4,10
+MX,Priority 1,may,Stays,1078
+MX,Priority 1,may,Priority 2,131
+MX,Priority 1,may,Priority 4,38
+MX,Priority 2,may,Priority 1,177
+MX,Priority 2,may,Stays,1302
+MX,Priority 2,may,Priority 5,137
+MX,Priority 2,may,Priority 4,137
+MX,Priority 2,may,Priority 3,15
+MX,Priority 2,may,No Registered,23
+MX,Priority 2,july,Priority 4,300
+MX,Priority 2,july,Stays,1311
+MX,Priority 2,july,Priority 6,72
+MX,Priority 2,july,Priority 3,79
+MX,Priority 2,july,No Registered,72
+MX,Priority 2,july,Priority 1,95
+MX,Priority 2,july,Priority 5,11
+MX,Priority 2,april,Stays,991
+MX,Priority 2,april,Priority 4,504
+MX,Priority 2,april,Priority 1,121
+MX,Priority 2,april,Priority 5,188
+MX,Priority 2,april,Priority 3,19
+MX,Priority 2,april,No Registered,6
+MX,Priority 2,june,Stays,1357
+MX,Priority 2,june,Priority 4,328
+MX,Priority 2,june,Priority 1,124
+MX,Priority 2,june,Priority 5,168
+MX,Priority 2,june,Priority 3,61
+MX,Priority 2,august,Priority 4,156
+MX,Priority 2,august,Stays,1664
+MX,Priority 2,august,Priority 6,27
+MX,Priority 2,august,No Registered,57
+MX,Priority 2,august,Priority 5,1
+CR,Priority 5,april,Stays,1306
+CR,Priority 5,april,Priority 3,6
+CR,Priority 5,april,Priority 4,9
+CR,Priority 5,april,No Registered,9
+CR,Priority 5,april,Priority 2,8
+CR,Priority 5,may,Stays,1279
+CR,Priority 5,may,Priority 4,12
+CR,Priority 5,may,No Registered,8
+CR,Priority 5,may,Priority 2,8
+CR,Priority 5,may,Priority 3,2
+CR,Priority 5,june,Stays,1271
+CR,Priority 5,june,Priority 3,8
+CR,Priority 5,june,Priority 4,14
+CR,Priority 5,june,Priority 2,2
+CR,Priority 5,july,Stays,1278
+CR,Priority 5,july,Priority 3,4
+CR,Priority 5,july,Priority 4,9
+CR,Priority 5,july,Priority 2,2
+CR,Priority 5,july,Priority 1,1
+CR,Priority 5,august,Stays,1294
+CR,Priority 5,august,Priority 4,2
+CR,Priority 5,august,No Registered,2
+CR,Priority 5,august,Priority 2,1
+CR,Priority 5,august,Priority 3,1
+CR,Priority 3,may,Priority 5,43
+CR,Priority 3,may,Stays,2
+CR,Priority 3,may,Priority 4,1
+CR,Priority 3,may,Priority 2,2
+CR,Priority 3,june,Stays,34
+CR,Priority 3,june,Priority 5,9
+CR,Priority 3,june,Priority 4,3
+CR,Priority 3,july,Stays,31
+CR,Priority 3,july,Priority 4,9
+CR,Priority 3,july,Priority 6,12
+CR,Priority 3,july,Priority 2,4
+CR,Priority 3,august,Stays,55
+CR,Priority 3,april,Stays,5
+CR,Priority 3,april,Priority 4,1
+CR,Priority 2,april,Stays,37
+CR,Priority 2,april,Priority 4,17
+CR,Priority 2,april,Priority 3,2
+CR,Priority 2,april,Priority 5,5
+CR,Priority 2,april,Priority 1,3
+CR,Priority 2,may,Stays,47
+CR,Priority 2,may,Priority 1,1
+CR,Priority 2,may,Priority 5,4
+CR,Priority 2,may,Priority 3,2
+CR,Priority 2,may,Priority 4,2
+CR,Priority 2,june,Stays,44
+CR,Priority 2,june,Priority 5,5
+CR,Priority 2,june,Priority 1,3
+CR,Priority 2,june,Priority 4,4
+CR,Priority 2,june,Priority 3,4
+CR,Priority 2,july,Stays,39
+CR,Priority 2,july,Priority 4,9
+CR,Priority 2,july,Priority 1,4
+CR,Priority 2,july,Priority 6,4
+CR,Priority 2,july,Priority 3,5
+CR,Priority 2,july,No Registered,1
+CR,Priority 2,august,Stays,55
+CR,Priority 2,august,Priority 4,3
+CR,Priority 2,august,Priority 6,3
+CR,No Registered,april,Priority 5,90
+CR,No Registered,april,Stays,14
+CR,No Registered,may,Stays,95
+CR,No Registered,june,Stays,95
+CR,No Registered,july,Stays,93
+CR,No Registered,july,Priority 2,1
+CR,No Registered,july,Priority 4,1
+CR,No Registered,august,Stays,92
+CR,Priority 1,april,Stays,26
+CR,Priority 1,april,Priority 4,1
+CR,Priority 1,may,Stays,26
 CR,Priority 1,may,Priority 4,2
-CR,Priority 1,may,Priority 2,15
-CR,Priority 1,june,Stays,70
-CR,Priority 1,june,Priority 5,2
-CR,Priority 1,june,Priority 4,2
-CR,Priority 1,june,Priority 2,13
-CR,Priority 1,june,No Registered,2
-CR,Priority 3,may,Stays,129
-CR,Priority 3,may,Priority 2,14
-CR,Priority 3,may,Priority 6,4
-CR,Priority 3,may,Priority 5,17
-CR,Priority 3,may,Priority 4,5
-CR,Priority 3,june,Priority 1,2
-CR,Priority 3,june,Stays,123
-CR,Priority 3,june,Priority 6,14
-CR,Priority 3,june,Priority 2,11
-CR,Priority 3,june,Priority 5,13
-CR,Priority 3,june,Priority 4,4
-CR,Priority 3,march,Stays,19
-CR,Priority 3,march,Priority 5,24
-CR,Priority 3,march,Priority 2,3
-CR,Priority 3,march,Priority 4,6
-CR,Priority 3,april,Priority 5,14
-CR,Priority 3,april,Stays,7
-CR,Priority 3,april,Priority 2,2
-CR,Priority 6,june,Priority 2,11
-CR,Priority 6,june,Priority 3,30
-CR,Priority 6,june,Priority 4,10
+CR,Priority 1,may,Priority 2,2
+CR,Priority 1,june,Stays,27
+CR,Priority 1,june,Priority 4,3
+CR,Priority 1,june,Priority 2,3
+CR,Priority 1,july,Stays,28
+CR,Priority 1,july,Priority 2,6
+CR,Priority 1,july,Priority 4,4
+CR,Priority 1,july,Priority 3,1
+CR,Priority 1,august,Stays,39
+CR,Priority 1,august,Priority 2,1
+CR,Priority 4,april,Priority 5,12
+CR,Priority 4,april,Stays,40
+CR,Priority 4,april,Priority 2,11
+CR,Priority 4,april,Priority 1,3
+CR,Priority 4,april,Priority 3,2
+CR,Priority 4,may,Priority 5,12
+CR,Priority 4,may,Stays,51
+CR,Priority 4,may,Priority 2,5
+CR,Priority 4,may,No Registered,1
+CR,Priority 4,june,Stays,41
+CR,Priority 4,june,Priority 5,11
+CR,Priority 4,june,Priority 3,2
+CR,Priority 4,june,Priority 2,4
+CR,Priority 4,august,Priority 2,5
+CR,Priority 4,august,Stays,30
+CR,Priority 4,august,Priority 6,23
+CR,Priority 4,august,No Registered,1
+CR,Priority 4,july,Stays,23
+CR,Priority 4,july,Priority 6,4
+CR,Priority 4,july,Priority 2,7
+CR,Priority 4,july,No Registered,1
+CR,Priority 6,june,Priority 4,4
+CR,Priority 6,june,Priority 2,3
+CR,Priority 6,june,Priority 5,13
+CR,Priority 6,july,Priority 4,3
+CR,Priority 6,july,Priority 3,5
+CR,Priority 6,july,Priority 5,17
+CR,Priority 6,july,Priority 2,1
+CO,Priority 5,april,Stays,8046
+CO,Priority 5,april,Priority 4,44
+CO,Priority 5,april,No Registered,61
+CO,Priority 5,april,Priority 2,45
+CO,Priority 5,april,Priority 3,36
+CO,Priority 5,may,Stays,8090
+CO,Priority 5,may,Priority 4,113
+CO,Priority 5,may,No Registered,36
+CO,Priority 5,may,Priority 2,37
+CO,Priority 5,may,Priority 3,19
+CO,Priority 5,june,Stays,8125
+CO,Priority 5,june,Priority 2,50
+CO,Priority 5,june,Priority 4,61
+CO,Priority 5,june,Priority 3,6
+CO,Priority 5,july,Stays,8210
+CO,Priority 5,july,Priority 2,44
+CO,Priority 5,july,Priority 4,52
+CO,Priority 5,july,Priority 1,8
+CO,Priority 5,july,Priority 3,8
+CO,Priority 5,july,Priority 6,1
+CO,Priority 5,august,Stays,8312
+CO,Priority 5,august,Priority 4,10
+CO,Priority 5,august,Priority 2,15
+CO,Priority 5,august,Priority 3,1
+CO,Priority 5,august,No Registered,1
+CO,Priority 5,august,Priority 1,1
+CO,Priority 2,may,Priority 5,56
+CO,Priority 2,may,Stays,269
+CO,Priority 2,may,Priority 1,15
+CO,Priority 2,may,Priority 4,37
+CO,Priority 2,may,No Registered,7
+CO,Priority 2,may,Priority 3,1
+CO,Priority 2,june,Stays,270
+CO,Priority 2,june,Priority 4,70
+CO,Priority 2,june,Priority 3,6
+CO,Priority 2,june,Priority 1,15
+CO,Priority 2,june,Priority 5,34
+CO,Priority 2,august,No Registered,10
+CO,Priority 2,august,Stays,343
+CO,Priority 2,august,Priority 4,37
+CO,Priority 2,august,Priority 6,2
+CO,Priority 2,august,Priority 3,3
+CO,Priority 2,july,Stays,235
+CO,Priority 2,july,Priority 6,22
+CO,Priority 2,july,Priority 3,36
+CO,Priority 2,july,Priority 4,39
+CO,Priority 2,july,No Registered,17
+CO,Priority 2,july,Priority 1,27
+CO,Priority 2,april,Stays,182
+CO,Priority 2,april,Priority 4,111
+CO,Priority 2,april,Priority 1,17
+CO,Priority 2,april,Priority 5,81
+CO,Priority 2,april,Priority 3,14
+CO,Priority 2,april,No Registered,2
+CO,No Registered,april,Stays,92
+CO,No Registered,april,Priority 5,555
+CO,No Registered,may,Stays,597
+CO,No Registered,june,Stays,597
+CO,No Registered,july,Stays,572
+CO,No Registered,august,Stays,554
+CO,No Registered,august,Priority 5,9
+CO,No Registered,august,Priority 1,6
+CO,No Registered,august,Priority 4,2
+CO,No Registered,august,Priority 3,1
+CO,No Registered,august,Priority 2,2
+CO,Priority 1,april,Priority 4,5
+CO,Priority 1,april,Stays,103
+CO,Priority 1,april,Priority 2,8
+CO,Priority 1,april,Priority 3,1
+CO,Priority 1,may,Stays,100
+CO,Priority 1,may,Priority 2,16
+CO,Priority 1,may,Priority 4,4
+CO,Priority 1,june,Stays,104
+CO,Priority 1,june,Priority 2,24
+CO,Priority 1,june,Priority 4,25
+CO,Priority 1,june,Priority 3,1
+CO,Priority 1,june,Priority 5,5
+CO,Priority 1,july,Stays,115
+CO,Priority 1,july,Priority 2,39
+CO,Priority 1,july,Priority 4,21
+CO,Priority 1,july,Priority 3,12
+CO,Priority 1,july,Priority 6,2
+CO,Priority 1,august,Stays,182
+CO,Priority 1,august,Priority 4,2
+CO,Priority 1,august,Priority 2,4
+CO,Priority 4,may,Priority 1,2
+CO,Priority 4,may,Stays,185
+CO,Priority 4,may,Priority 2,81
+CO,Priority 4,may,Priority 5,83
+CO,Priority 4,may,Priority 3,3
+CO,Priority 4,may,No Registered,7
+CO,Priority 4,june,Priority 5,86
+CO,Priority 4,june,Priority 2,32
+CO,Priority 4,june,Stays,152
+CO,Priority 4,june,Priority 1,1
+CO,Priority 4,july,Priority 2,57
+CO,Priority 4,july,Priority 6,40
+CO,Priority 4,july,Stays,128
+CO,Priority 4,july,No Registered,8
+CO,Priority 4,july,Priority 1,7
+CO,Priority 4,july,Priority 3,8
+CO,Priority 4,august,Stays,197
+CO,Priority 4,august,Priority 6,51
+CO,Priority 4,august,Priority 2,12
+CO,Priority 4,august,No Registered,7
+CO,Priority 4,august,Priority 3,2
+CO,Priority 4,april,Priority 5,99
+CO,Priority 4,april,Stays,182
+CO,Priority 4,april,Priority 2,41
+CO,Priority 4,april,No Registered,9
+CO,Priority 4,april,Priority 3,10
+CO,Priority 4,april,Priority 1,2
+CO,Priority 3,july,Priority 4,16
+CO,Priority 3,july,Priority 6,7
+CO,Priority 3,july,Stays,35
+CO,Priority 3,july,Priority 5,9
+CO,Priority 3,july,Priority 2,15
+CO,Priority 3,august,Stays,75
+CO,Priority 3,august,Priority 5,2
+CO,Priority 3,may,Priority 5,3
+CO,Priority 3,may,Stays,74
+CO,Priority 3,may,Priority 4,4
+CO,Priority 3,may,Priority 2,4
+CO,Priority 3,april,Stays,69
+CO,Priority 3,april,Priority 2,4
+CO,Priority 3,april,Priority 5,24
+CO,Priority 3,june,Stays,71
+CO,Priority 3,june,Priority 5,7
+CO,Priority 3,june,Priority 4,27
+CO,Priority 3,june,Priority 2,2
+CO,Priority 6,june,Priority 5,38
+CO,Priority 6,june,Priority 4,26
+CO,Priority 6,june,Priority 2,7
+CO,Priority 6,june,Priority 3,1
+CO,Priority 6,july,Priority 5,23
+CO,Priority 6,july,Priority 1,2
+CO,Priority 6,july,Priority 3,8
+CO,Priority 6,july,Priority 4,15
+CO,Priority 6,july,Priority 2,5
+PE,Priority 5,april,Stays,1601
+PE,Priority 5,april,Priority 3,21
+PE,Priority 5,april,Priority 2,25
+PE,Priority 5,april,No Registered,15
+PE,Priority 5,april,Priority 4,3
+PE,Priority 5,may,Stays,1627
+PE,Priority 5,may,Priority 3,17
+PE,Priority 5,may,Priority 2,30
+PE,Priority 5,may,Priority 4,45
+PE,Priority 5,may,No Registered,11
+PE,Priority 5,june,Stays,1680
+PE,Priority 5,june,Priority 2,53
+PE,Priority 5,june,Priority 1,2
+PE,Priority 5,june,Priority 4,14
+PE,Priority 5,june,Priority 3,2
+PE,Priority 5,july,Stays,1740
+PE,Priority 5,july,Priority 4,9
+PE,Priority 5,july,Priority 1,2
+PE,Priority 5,july,Priority 2,15
+PE,Priority 5,july,Priority 3,6
+PE,Priority 5,august,Stays,1771
+PE,Priority 5,august,Priority 3,1
+PE,Priority 5,august,Priority 2,2
+PE,Priority 5,august,Priority 4,1
+PE,Priority 2,april,Priority 5,48
+PE,Priority 2,april,Priority 3,6
+PE,Priority 2,april,Stays,60
+PE,Priority 2,april,Priority 4,13
+PE,Priority 2,april,Priority 1,9
+PE,Priority 2,may,Stays,82
+PE,Priority 2,may,Priority 1,7
+PE,Priority 2,may,Priority 5,28
+PE,Priority 2,may,No Registered,6
+PE,Priority 2,may,Priority 3,7
+PE,Priority 2,may,Priority 4,24
+PE,Priority 2,june,Stays,68
+PE,Priority 2,june,Priority 4,8
+PE,Priority 2,june,Priority 5,7
+PE,Priority 2,june,Priority 1,7
+PE,Priority 2,june,Priority 3,1
+PE,Priority 2,july,Stays,59
+PE,Priority 2,july,Priority 1,15
+PE,Priority 2,july,Priority 4,15
+PE,Priority 2,july,Priority 3,12
+PE,Priority 2,july,Priority 5,1
+PE,Priority 2,july,Priority 6,9
+PE,Priority 2,july,No Registered,2
+PE,Priority 2,august,Stays,106
+PE,Priority 2,august,Priority 5,1
+PE,Priority 2,august,Priority 4,6
+PE,Priority 2,august,Priority 6,3
+PE,Priority 2,august,No Registered,4
+PE,Priority 1,april,Priority 2,8
+PE,Priority 1,april,Stays,33
+PE,Priority 1,april,Priority 3,1
+PE,Priority 1,april,Priority 4,1
+PE,Priority 1,may,Stays,35
+PE,Priority 1,may,Priority 4,1
+PE,Priority 1,may,Priority 2,6
+PE,Priority 1,june,Priority 3,1
+PE,Priority 1,june,Stays,32
+PE,Priority 1,june,Priority 2,7
+PE,Priority 1,june,Priority 4,8
+PE,Priority 1,june,Priority 5,5
+PE,Priority 1,july,Stays,35
+PE,Priority 1,july,Priority 4,6
+PE,Priority 1,july,Priority 2,8
+PE,Priority 1,july,Priority 6,1
+PE,Priority 1,august,Stays,49
+PE,Priority 1,august,Priority 2,2
+PE,Priority 1,august,Priority 4,2
+PE,Priority 1,august,Priority 6,1
+PE,No Registered,april,Priority 5,148
+PE,No Registered,april,Stays,30
+PE,No Registered,may,Stays,159
+PE,No Registered,june,Stays,159
+PE,No Registered,july,Stays,153
+PE,No Registered,august,Stays,148
+PE,No Registered,august,Priority 2,2
+PE,No Registered,august,Priority 1,1
+PE,Priority 3,april,Stays,45
+PE,Priority 3,april,Priority 5,11
+PE,Priority 3,april,Priority 2,5
+PE,Priority 3,may,Priority 2,3
+PE,Priority 3,may,Stays,37
+PE,Priority 3,may,Priority 4,2
+PE,Priority 3,may,Priority 5,1
+PE,Priority 3,june,Stays,39
+PE,Priority 3,june,Priority 2,5
+PE,Priority 3,june,Priority 5,6
+PE,Priority 3,july,Stays,30
+PE,Priority 3,july,Priority 2,4
+PE,Priority 3,july,Priority 6,9
+PE,Priority 3,july,Priority 5,1
+PE,Priority 3,july,Priority 4,3
+PE,Priority 3,august,Stays,46
+PE,Priority 4,may,Priority 2,15
+PE,Priority 4,may,Priority 1,1
+PE,Priority 4,may,Stays,20
+PE,Priority 4,may,No Registered,2
+PE,Priority 4,may,Priority 5,9
+PE,Priority 4,june,Stays,13
+PE,Priority 4,june,Priority 2,13
+PE,Priority 4,june,Priority 1,1
+PE,Priority 4,june,Priority 5,18
+PE,Priority 4,july,Stays,10
+PE,Priority 4,july,Priority 6,7
+PE,Priority 4,july,Priority 2,4
+PE,Priority 4,july,No Registered,4
+PE,Priority 4,july,Priority 3,1
+PE,Priority 4,july,Priority 1,1
+PE,Priority 4,august,Stays,18
+PE,Priority 4,august,Priority 6,9
+PE,Priority 4,august,No Registered,1
+PE,Priority 4,august,Priority 2,1
+PE,Priority 4,april,Priority 2,8
+PE,Priority 4,april,Stays,21
+PE,Priority 4,april,Priority 3,7
+PE,Priority 4,april,Priority 5,53
+PE,Priority 4,april,No Registered,3
+PE,Priority 6,june,Priority 5,14
+PE,Priority 6,june,Priority 2,8
+PE,Priority 6,june,Priority 4,4
+PE,Priority 6,july,Priority 4,2
+PE,Priority 6,july,Priority 5,9
+PE,Priority 6,july,Priority 3,1
+PE,Priority 6,july,Priority 2,1
+No Registered,No Registered,april,Stays,1
+No Registered,No Registered,may,Stays,1
+No Registered,No Registered,june,Stays,1
+No Registered,No Registered,july,Stays,1
+No Registered,No Registered,august,Stays,1

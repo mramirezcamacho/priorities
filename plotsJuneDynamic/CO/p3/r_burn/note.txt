@@ -1,2 +1,1 @@
-El rendimiento de la nueva prioridad en los últimos 4 meses es:
-- Media de los últimos 4 meses: 1139888013.5
+Media de los últimos 4 meses: 1139888013.5
