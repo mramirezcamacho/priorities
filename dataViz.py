@@ -231,6 +231,89 @@ def makeMultiMetricPlot(pais: str, prioridad: str, columnas: list, yLabels: dict
     saveTXT(plot_folder, f'note.txt', 'Example text')
 
 
+def makeDualYPlot(pais: str, prioridad: str, columnas: list, yLabels: dict, config: tuple = ('bottom', 'top'), tasaCambio=0.06):
+    if len(columnas) != 2:
+        raise ValueError("This function requires exactly two columns.")
+
+    folder = f'{mainFolder}/{pais}/p{prioridad}/'
+    data_dict = {}
+
+    for columna in columnas:
+        file_path = folder + f'comparacion_{columna}.csv'
+        data = pd.read_csv(file_path, skiprows=1)
+
+        data = data.iloc[months[0]-1:]
+        data.reset_index(drop=True, inplace=True)
+
+        Month = data['month']
+        OldPriority = data['Old priority']
+        NewPriority = data['New priority']
+
+        data_dict[columna] = pd.DataFrame(
+            {'Month': Month, 'OldPriority': OldPriority, 'NewPriority': NewPriority})
+
+    sns.set_theme(style="whitegrid")
+    fig, ax1 = plt.subplots(figsize=(12, 8))
+
+    # Plot for the first column on the left Y-axis
+    data1 = data_dict[columnas[0]]
+    color1 = 'tab:blue'
+    ax1.set_xlabel('Month')
+    ax1.set_ylabel(yLabels.get(columnas[0], columnas[0]), color=color1)
+    ax1.plot(data1['Month'], data1['NewPriority'], label=columnas[0].replace("_", " ").replace("gmv", "/gmv").capitalize(),
+             color=color1, linewidth=4)
+    ax1.tick_params(axis='y', labelcolor=color1)
+
+    # Plot for the second column on the right Y-axis
+    ax2 = ax1.twinx()  # instantiate a second axes that shares the same x-axis
+    data2 = data_dict[columnas[1]]
+    color2 = 'tab:red'
+    ax2.set_ylabel(yLabels.get(columnas[1], columnas[1]), color=color2)
+    ax2.plot(data2['Month'], data2['NewPriority'], label=columnas[1].replace("_", " ").replace("gmv", "/gmv").capitalize(),
+             color=color2, linewidth=4)
+    ax2.tick_params(axis='y', labelcolor=color2)
+
+    # Add legend
+    fig.legend(loc='upper center', bbox_to_anchor=(0.5, 1.15),
+               ncol=2, frameon=False, prop={'size': 16})
+
+    # Format Y-axis
+    for ax, data, color in [(ax1, data1, color1), (ax2, data2, color2)]:
+        max_value = max(data['NewPriority'])
+        min_value = min(data['NewPriority'])
+        meanValue = (max_value - min_value)
+        bigData = max_value > 1
+
+        for i, (mes, new_priority) in enumerate(zip(data['Month'], data['NewPriority'])):
+            ax.text(mes, new_priority + ((-meanValue * tasaCambio) if config[1] == 'bottom' else (meanValue * tasaCambio)),
+                    f'{round(new_priority/1000000, 2)}M' if max_value // 1000000 > 0 else (
+                        f'{round(new_priority * 100, 2)}%' if (max_value <
+                                                               1) and not bigData else f"{new_priority:,.2f}"
+            ),
+                color=color, ha='center', va=config[1], fontsize=12,
+                bbox=dict(facecolor='white', edgecolor=color, boxstyle='round,pad=0.3', linewidth=1))
+
+        if bigData:
+            formatter = FuncFormatter(lambda x, pos: '{:,.2f}'.format(x))
+        else:
+            formatter = FuncFormatter(
+                lambda x, pos: str(round(x * 100, 2)) + '%')
+        ax.yaxis.set_major_formatter(formatter)
+
+    ax1.xaxis.set_major_locator(MaxNLocator(integer=True))
+
+    # Save plots
+    plot_folder = f'{mainPlotFolder}/{pais}/p{prioridad}/{'_'.join(columnas)}/'
+
+    savePlot(plot_folder, f'''DualY.png''')
+    saveTXT(plot_folder, f'note.txt', 'Example text')
+
+    plt.show()  # Show the plot
+
+# Example usage
+# makeDualYPlot('CO', '1', ['column1', 'column2'], {'column1': 'Label 1', 'column2': 'Label 2'})
+
+
 def main():
     paises, prioridades, columns, yLabelsPerColumn = getInitialData(serio)
     combinatory = getCombinatoryData()

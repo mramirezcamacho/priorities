@@ -4,6 +4,8 @@ from pprint import pprint
 from matplotlib import pyplot as plt
 import pandas as pd
 
+SUPEROUTPUT = 'plotsJuneDynamic'
+
 
 def saveData2Csv():
     # Load the CSV data into a DataFrame
@@ -199,7 +201,7 @@ def makePlots2():
     for country, priorities in Data.items():
         # Iterate over each initial priority
         for priority_initial, months_data in priorities.items():
-            output_folder = f'''plotsJuneDynamic/{country}/{
+            output_folder = f'''{SUPEROUTPUT}/{country}/{
                 priorityFolderName(priority_initial)}/priorityChanges'''
             if not os.path.exists(output_folder):
                 os.makedirs(output_folder)
