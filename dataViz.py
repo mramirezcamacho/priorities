@@ -4,8 +4,11 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import os
 import pandas as pd
+from priorityChangesScript import makePlots
+from matplotlib.ticker import MaxNLocator, FuncFormatter
 
-months = [1, 6]
+
+months = [3, 6]
 mainFolder = 'comparacionesCSVJuneDynamic'
 mainPlotFolder = 'plotsJuneDynamic'
 mesesAtras = 3
@@ -16,8 +19,8 @@ def getInitialData(serio: bool):
     if serio:
         paises = ['PE', 'CO', 'MX', 'CR']
         prioridades = ['1', '2', '3', '4', '5']
-        columns = ['daily_orders', 'orders_per_eff_online', 'daily_online_hours',
-                   'b_cancel_rate', 'bad_rating_rate', "healthy_stores", 'imperfect_orders', 'ted', 'ted_gmv', 'exposure_uv', 'b_p1p2', "r_burn", "r_burn_gmv", "r_burn_per_order", "b2c_total_burn", "b2c_gmv", "b2c_per_order"]
+        columns = ['daily_orders', 'orders_per_eff_online', 'daily_online_hours', 'b2c_per_order',
+                   'b_cancel_rate', 'bad_rating_rate', "healthy_stores", 'imperfect_orders', 'ted', 'ted_gmv', 'exposure_uv', 'b_p1p2', "r_burn", "r_burn_gmv", "r_burn_per_order", "b2c_total_burn", "b2c_gmv", "b2c_per_order", 'eff_online_rs', 'imperfect_order_rate']
         # prioridades = ['4', '5']
         # columns = ['eff_online_rs', 'imperfect_order_rate']
     else:
@@ -41,19 +44,12 @@ def getInitialData(serio: bool):
 
 
 def getCombinatoryData(serio: bool = True):
-    if serio:
-        combinatoryData = [
-            ('daily_orders', 'orders_per_eff_online'),
-            ('daily_orders', 'daily_online_hours'),
-            ('bad_rating_rate', 'imperfect_orders'),
-            ('ted', 'ted_gmv'),
-            ('exposure_uv', 'b_p1p2'),
-        ]
-    else:
-        combinatoryData = [
-            ('daily_orders', 'healthy_stores'),
-            ('daily_orders', 'daily_online_hours'),
-        ]
+    combinatoryData = [
+        ['ted_gmv', 'r_burn_gmv', 'b2c_gmv', 'p2c_gmv'],
+        ['imperfect_order_rate', 'b_cancel_rate', 'bad_rating_rate'],
+        ['imperfect_order_rate', 'orders_per_eff_online']
+
+    ]
     return combinatoryData
 
 
@@ -80,6 +76,91 @@ def checkForNanValues(npArray):
         if npArray[i] == None:
             npArray[i] = 0
     return npArray
+
+
+def makeNewPriorityPlot(pais: str, prioridad: str, columna: str, yLabels: dict, config: tuple = ('bottom', 'top'), tasaCambio=0.06):
+    folder = f'{mainFolder}/{pais}/p{prioridad}/'
+    file_path = folder + f'comparacion_{columna}.csv'
+    data = pd.read_csv(file_path, skiprows=1)
+
+    if prioridad == '2':
+        data = data.iloc[2:]
+        data.reset_index(drop=True, inplace=True)
+    Month = data['month']
+    NewPriority = data['New priority']
+
+    # Create a DataFrame
+    data = pd.DataFrame({'Month': Month, 'NewPriority': NewPriority})
+
+    # Plot using seaborn
+    sns.set_theme(style="whitegrid")  # Set style, optional
+    plt.figure(figsize=(9, 6))  # Set figure size, optional
+
+    # Plot NewPriority
+    sns.lineplot(x='Month', y='NewPriority',
+                 data=data, label=f'{columna.replace("_", " ").replace("gmv", "/gmv").capitalize()}', linewidth=4, color='#fc4c02')
+
+    # Mean and range calculations
+    meanLast4MonthsNew = np.mean(NewPriority[-4:])
+    maxValue = max(NewPriority)
+    minValue = min(NewPriority)
+    meanValue = (maxValue - minValue)
+
+    for i, (mes, new_priority) in enumerate(zip(Month, NewPriority)):
+        plt.text(mes, new_priority + ((-meanValue*tasaCambio) if config[1] == 'bottom' else (meanValue*tasaCambio)),
+                 f'''{round(new_priority/1000000, 2)}M''' if maxValue // 1000000 > 0 else (
+            f'''{round(new_priority * 100, 2)
+                 }%''' if (maxValue < 1) else f"{new_priority:,.2f}"
+        ), color='#fc4c02', ha='center', va=config[1],
+                 bbox=dict(facecolor='white', edgecolor='#fc4c02', boxstyle='round,pad=0.3'))
+
+    # Format y-axis
+    if maxValue > 10:
+        formatter = FuncFormatter(lambda x, pos: '{:,.0f}'.format(x))
+    elif maxValue > 1:
+        formatter = FuncFormatter(lambda x, pos: '{:,.1f}'.format(x))
+    else:
+        formatter = FuncFormatter(
+            lambda x, pos: str(round(float(x)*100, 2))+'%')
+    plt.gca().yaxis.set_major_formatter(formatter)
+
+    # Labels and title
+    plt.xlabel('Month')
+    if columna in ['bobobo']:
+        plt.ylabel(yLabels[columna])
+    else:
+        plt.ylabel(' ')
+
+    if pais == 'PE':
+        paisNombre = 'Perú'
+    elif pais == 'CO':
+        paisNombre = 'Colombia'
+    elif pais == 'MX':
+        paisNombre = 'México'
+    elif pais == 'CR':
+        paisNombre = 'Costa Rica'
+
+    plt.legend(loc='upper center', bbox_to_anchor=(0.5, 1.15),
+               ncol=2, frameon=False, prop={'size': 16})
+
+    if prioridad == '2':
+        plt.xticks(range(3, months[1]+1))
+    else:
+        plt.xticks(range(months[0], months[1]+1))
+
+    plot_folder = f'{mainPlotFolder}/{pais}/p{prioridad}/{columna}/'
+    plt.gca().xaxis.set_major_locator(MaxNLocator(integer=True))
+
+    # Create note for the last 4 months
+    if len(NewPriority) >= 4:
+        note = f'El rendimiento de la nueva prioridad en los últimos 4 meses es:\n- Media de los últimos 4 meses: {
+            round(meanLast4MonthsNew, 2)}'
+    else:
+        note = 'No hay suficientes datos para calcular la media de los últimos 4 meses.'
+
+    # Save note and plot
+    saveTXT(plot_folder, 'note.txt', note)
+    savePlot(plot_folder, f'{config[0][0].upper()}_{config[1][0].upper()}.png')
 
 
 def makePlot(pais: str, prioridad: str, columna: str, yLabels: dict, config: tuple = ('bottom', 'top'), tasaCambio=0.06):
@@ -240,6 +321,7 @@ def makePlot(pais: str, prioridad: str, columna: str, yLabels: dict, config: tup
 
     plt.legend(loc='upper center', bbox_to_anchor=(
         0.5, 1.15), ncol=2, frameon=False, prop={'size': 16})
+    plt.gca().xaxis.set_major_locator(MaxNLocator(integer=True))
 
     if prioridad == '2':
         plt.xticks(range(3, months[1]+1))
@@ -258,6 +340,79 @@ def makePlot(pais: str, prioridad: str, columna: str, yLabels: dict, config: tup
     saveTXT(plot_folder, f'note.txt', note)
     savePlot(plot_folder, f'''{config[0][0].upper()}{
              config[1][0].upper()}.png''')
+
+
+def makeMultiMetricPlot(pais: str, prioridad: str, columnas: list, yLabels: dict, config: tuple = ('bottom', 'top'), tasaCambio=0.06):
+    folder = f'{mainFolder}/{pais}/p{prioridad}/'
+    data_dict = {}
+
+    for columna in columnas:
+        file_path = folder + f'comparacion_{columna}.csv'
+        data = pd.read_csv(file_path, skiprows=1)
+
+        if prioridad == '2':
+            data = data.iloc[2:]
+            data.reset_index(drop=True, inplace=True)
+
+        Month = data['month']
+        OldPriority = data['Old priority']
+        NewPriority = data['New priority']
+
+        data_dict[columna] = pd.DataFrame(
+            {'Month': Month, 'OldPriority': OldPriority, 'NewPriority': NewPriority})
+
+    sns.set_theme(style="whitegrid")  # Set style, optional
+    plt.figure(figsize=(12, 8))  # Set figure size, optional
+
+    for columna in columnas:
+        data = data_dict[columna]
+        sns.lineplot(x='Month', y='NewPriority', data=data, label=f'{
+                     columna.replace("_", " ").replace("gmv", "/gmv").capitalize()}', linewidth=2)
+
+    max_values = [max(data_dict[col]['NewPriority']) for col in columnas]
+    max_value = max(max_values)
+    min_values = [min(data_dict[col]['NewPriority']) for col in columnas]
+    min_value = min(min_values)
+
+    meanValue = (max_value - min_value)
+    bigData = max_value > 1
+
+    for columna in columnas:
+        data = data_dict[columna]
+        NewPriority = data['NewPriority']
+
+        for i, (mes, new_priority) in enumerate(zip(data['Month'], NewPriority)):
+            plt.text(mes, new_priority + ((-meanValue*tasaCambio) if config[1] == 'bottom' else (meanValue*tasaCambio)),
+                     f'{round(new_priority/1000000, 2)}M' if max_value // 1000000 > 0 else (
+                f'{round(new_priority * 100, 2)}%' if (max_value <
+                                                       1) and not bigData else f"{new_priority:,.2f}"
+            ),
+                # Adjusted fontsize
+                color='black', ha='center', va=config[1], fontsize=12,
+                # Added bbox
+                # Added bbox with border
+                bbox=dict(facecolor='white', edgecolor='black', boxstyle='round,pad=0.3', linewidth=1))
+
+    plt.xlabel('Month')
+    plt.ylabel('Metrics')
+    plt.title(f'Comparison of Various Metrics for Priority {
+              prioridad} in {pais}')
+
+    plt.legend(loc='upper center', bbox_to_anchor=(0.5, 1.15),
+               ncol=2, frameon=False, prop={'size': 12})
+
+    plt.gca().xaxis.set_major_locator(MaxNLocator(integer=True))
+
+    if bigData:
+        formatter = FuncFormatter(lambda x, pos: '{:,.2f}'.format(x))
+        plt.gca().yaxis.set_major_formatter(formatter)
+    else:
+        formatter = FuncFormatter(lambda x, pos: str(round(x*100, 2)) + '%')
+        plt.gca().yaxis.set_major_formatter(formatter)
+
+    plot_folder = f'{mainPlotFolder}/{pais}/p{prioridad}/multi_metrics/'
+
+    savePlot(plot_folder, f'''{'_'.join(columnas)}.png''')
 
 
 def makePlotWith2Columns(pais: str, prioridad: str, columna: str, columna2: str, yLabels: dict):
@@ -329,14 +484,21 @@ def makePlotWith2Columns(pais: str, prioridad: str, columna: str, columna2: str,
 
 def main():
     paises, prioridades, columns, yLabelsPerColumn = getInitialData(serio)
+    combinatory = getCombinatoryData()
 
-    # combinatoryData = getCombinatoryData(serio)
     configs = [('bottom', 'top'), ('top', 'bottom'),
                ('bottom', 'bottom'), ('top', 'top')]
     for pais in paises:
         for prioridad in prioridades:
-            for columna in columns:
-                for config in configs:
-                    makePlot(pais, prioridad, columna,
-                             yLabelsPerColumn, config)
+            for config in configs:
+                for columna in columns:
+                    makeNewPriorityPlot(pais, prioridad, columna,
+                                        yLabelsPerColumn, config)
+            for combination in combinatory:
+                makeMultiMetricPlot(pais, prioridad, combination,
+                                    yLabelsPerColumn, config)
             print(f'Plots de {pais} p{prioridad} creado')
+
+
+main()
+makePlots()

@@ -1,2 +1,2 @@
-- The new priority has performed the same as the old one over the last {mesesAtras} months
-- The last 3 months mean of the old priority is 36.84% and the new priority is 36.84%
+El rendimiento de la nueva prioridad en los últimos 4 meses es:
+- Media de los últimos 4 meses: 0.37

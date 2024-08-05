@@ -80,9 +80,17 @@ def comparation_per_column(priority: str = '5', column: str = 'daily_online_hour
             comparation_results.append(
                 {'month': month, 'Old priority': old_value, 'New priority': new_value})
 
+    if column == 'eff_online_rs':
+        # put values int
+        for i in range(len(comparation_results)):
+            comparation_results[i]['Old priority'] = int(
+                comparation_results[i]['Old priority'])
+            comparation_results[i]['New priority'] = int(
+                comparation_results[i]['New priority'])
     DFcomparation = pd.DataFrame(comparation_results)
     fileName = f'{mainFolder}/{country}/p{
         str(priorityNumber)}/comparacion_{column}.csv'
+
     DFcomparation.to_csv(fileName, index=False)
     with open(fileName, 'r', newline='') as file:
         reader = csv.reader(file)
@@ -132,7 +140,7 @@ def start():
     paises = ['PE', 'CO', 'MX', 'CR']
     prioridades = ['1', '2', '3', '4', '5']
     columns = ['daily_orders', 'orders_per_eff_online', 'daily_online_hours',
-               'b_cancel_rate', 'bad_rating_rate', "healthy_stores", 'imperfect_orders', 'ted', 'ted_gmv', 'exposure_uv', 'b_p1p2', "r_burn", "r_burn_gmv", "r_burn_per_order", "b2c_total_burn", "b2c_gmv", "b2c_per_order"]
+               'b_cancel_rate', 'bad_rating_rate', "healthy_stores", 'imperfect_orders', 'ted', 'ted_gmv', 'exposure_uv', 'b_p1p2', "r_burn", "r_burn_gmv", "r_burn_per_order", "b2c_total_burn", "b2c_gmv", "b2c_per_order", 'total_p2c_burn', 'p2c_gmv', 'p2c_burn_per_order']
     a = ['eff_online_rs', 'daily_orders', 'imperfect_order_rate']
     columns = columns + a
 
