@@ -43,7 +43,7 @@ def getInitialData(serio: bool):
     return paises, prioridades, columns, yLabelsPerColumn
 
 
-def getCombinatoryData(serio: bool = True):
+def getCombinatoryData():
     combinatoryData = [
         ['ted_gmv', 'r_burn_gmv', 'b2c_gmv', 'p2c_gmv'],
         ['imperfect_order_rate', 'b_cancel_rate', 'bad_rating_rate'],
@@ -72,21 +72,14 @@ def saveTXT(folder_path: str, file_name: str, content: str):
         print(e)
 
 
-def checkForNanValues(npArray):
-    for i in range(len(npArray)):
-        if npArray[i] == None:
-            npArray[i] = 0
-    return npArray
-
-
 def makeNewPriorityPlot(pais: str, prioridad: str, columna: str, yLabels: dict, config: tuple = ('bottom', 'top'), tasaCambio=0.06):
     folder = f'{mainFolder}/{pais}/p{prioridad}/'
     file_path = folder + f'comparacion_{columna}.csv'
     data = pd.read_csv(file_path, skiprows=1)
 
-    if prioridad != 'JAJAJA':
-        data = data.iloc[months[0]-1:]
-        data.reset_index(drop=True, inplace=True)
+    data = data.iloc[months[0]-1:]
+    data.reset_index(drop=True, inplace=True)
+
     Month = data['month']
     NewPriority = data['New priority']
 
@@ -164,185 +157,6 @@ def makeNewPriorityPlot(pais: str, prioridad: str, columna: str, yLabels: dict, 
     savePlot(plot_folder, f'{config[0][0].upper()}{config[1][0].upper()}.png')
 
 
-def makePlot(pais: str, prioridad: str, columna: str, yLabels: dict, config: tuple = ('bottom', 'top'), tasaCambio=0.06):
-    folder = f'{mainFolder}/{pais}/p{prioridad}/'
-    file_path = folder + f'comparacion_{columna}.csv'
-    data = pd.read_csv(file_path, skiprows=1)
-
-    if prioridad == '2':
-        data = data.iloc[months[0]-1:]
-        data.reset_index(drop=True, inplace=True)
-    Month = data['month']
-    OldPriority = data['Old priority']
-    NewPriority = data['New priority']
-
-    # Create a DataFrame
-    data = pd.DataFrame(
-        {'Month': Month, 'OldPriority': OldPriority, 'NewPriority': NewPriority})
-
-    # Plot using seaborn
-    sns.set_theme(style="whitegrid")  # Set style, optional
-    plt.figure(figsize=(9, 6))  # Set figure size, optional
-
-    bigData = False
-    for i in range(len(OldPriority)):
-        if OldPriority[i] > 1 or NewPriority[i] > 1:
-            bigData = True
-            break
-    if columna in ['orders_per_eff_online']:
-        bigData = True
-    # Plot OldPriority
-    sns.lineplot(x='Month', y='OldPriority',
-                 data=data, label=f'Previous {columna.replace("_", " ").replace("gmv", "/gmv").capitalize()}', linewidth=4)
-
-    # Plot NewPriority
-    sns.lineplot(x='Month', y='NewPriority',
-                 data=data, label=f'New {columna.replace("_", " ").replace("gmv", "/gmv").capitalize()}', linewidth=4, color='#fc4c02')
-
-    #! AAAAA
-    meanLast3MonthsOld = np.mean(OldPriority[-mesesAtras:])
-    meanLast3MonthsNew = np.mean(NewPriority[-mesesAtras:])
-    maxValue = max(max(OldPriority), max(NewPriority))
-    minValue = min(min(OldPriority), min(NewPriority))
-    meanValue = (maxValue - minValue)
-
-    for i, (mes, old_priority, new_priority) in enumerate(zip(Month, OldPriority, NewPriority)):
-        plt.text(mes, old_priority + ((-meanValue*tasaCambio) if config[0] == 'bottom' else (meanValue*tasaCambio)),
-                 f'''{round(old_priority/1000000, 2)}M''' if maxValue // 1000000 > 0 else (
-            f'''{round(old_priority * 100, 2)
-                 }%''' if (maxValue < 1) and not bigData else f"{old_priority:,.2f}"
-        ),
-            color='blue', ha='center', va=config[0],
-            bbox=dict(facecolor='white', edgecolor='blue', boxstyle='round,pad=0.3'))
-        plt.text(mes, new_priority + ((-meanValue*tasaCambio) if config[1] == 'bottom' else (meanValue*tasaCambio)),
-                 f'''{round(new_priority/1000000, 2)}M''' if maxValue // 1000000 > 0 else (
-            f'''{round(new_priority * 100, 2)
-                 }%''' if (maxValue < 1) and not bigData else f"{new_priority:,.2f}"
-        ), color='#fc4c02', ha='center', va=config[1],
-                 bbox=dict(facecolor='white', edgecolor='#fc4c02', boxstyle='round,pad=0.3'))
-    #! AAAAA
-
-    # Add labels and title
-    if bigData:
-        if max(max(OldPriority), max(NewPriority)) > 10:
-            formatter = FuncFormatter(lambda x, pos: '{:,.0f}'.format(x))
-            plt.gca().yaxis.set_major_formatter(formatter)
-        elif max(max(OldPriority), max(NewPriority)) > 1:
-            formatter = FuncFormatter(lambda x, pos: '{:,.1f}'.format(x))
-            plt.gca().yaxis.set_major_formatter(formatter)
-        else:
-            formatter = FuncFormatter(lambda x, pos: '{:,.2f}'.format(x))
-            plt.gca().yaxis.set_major_formatter(formatter)
-    else:
-        formatter = FuncFormatter(lambda x, pos: str(round(x*100, 2)) + '%')
-        plt.gca().yaxis.set_major_formatter(formatter)
-    if bigData:
-        if list(data['NewPriority'].values)[-mesesAtras-1] == 0 or list(data['NewPriority'].values)[-1] == 0 or list(data['NewPriority'].values)[-mesesAtras-1] == None or list(data['NewPriority'].values)[-1] == None or np.isnan(list(data['NewPriority'].values)[-mesesAtras-1]) or np.isnan(list(data['NewPriority'].values)[-1]):
-            cambiosNew = None
-        else:
-            cambiosNew = (list(data['NewPriority'].values)
-                          [-1] / list(data['NewPriority'].values)[-mesesAtras-1])-1
-        if list(data['OldPriority'].values)[-mesesAtras-1] == 0 or list(data['OldPriority'].values)[-1] == 0 or list(data['OldPriority'].values)[-mesesAtras-1] == None or list(data['OldPriority'].values)[-1] == None or np.isnan(list(data['OldPriority'].values)[-mesesAtras-1]) or np.isnan(list(data['OldPriority'].values)[-1]):
-            cambiosOld = None
-        else:
-            cambiosOld = (list(data['OldPriority'].values)
-                          [-1] / list(data['OldPriority'].values)[-mesesAtras-1])-1
-    else:
-        if list(data['NewPriority'].values)[-mesesAtras-1] == 0 or list(data['NewPriority'].values)[-1] == 0 or list(data['NewPriority'].values)[-mesesAtras-1] == None or list(data['NewPriority'].values)[-1] == None or np.isnan(list(data['NewPriority'].values)[-mesesAtras-1]) or np.isnan(list(data['NewPriority'].values)[-1]):
-            cambiosNew = None
-        else:
-            cambiosNew = list(data['NewPriority'].values)[-1] - \
-                list(data['NewPriority'].values)[-mesesAtras-1]
-        if list(data['OldPriority'].values)[-mesesAtras-1] == 0 or list(data['OldPriority'].values)[-1] == 0 or list(data['OldPriority'].values)[-mesesAtras-1] == None or list(data['OldPriority'].values)[-1] == None or np.isnan(list(data['OldPriority'].values)[-mesesAtras-1]) or np.isnan(list(data['OldPriority'].values)[-1]):
-            cambiosOld = None
-        else:
-            cambiosOld = list(data['OldPriority'].values)[-1] - \
-                list(data['OldPriority'].values)[-mesesAtras-1]
-    if cambiosNew is None or cambiosOld is None:
-        note = 'The change cannot be calculated over the last {mesesAtras} months'
-    elif cambiosNew > cambiosOld:
-        if bigData:
-            if cambiosNew < 0 and cambiosOld < 0:
-                note = f'The new priority has@a better tendency@than the old one over the last {mesesAtras} months ({
-                    round(cambiosNew*100, 2)}% > {round(cambiosOld*100, 2)}%)'
-            else:
-                note = f'The new priority has@a better tendency@than the old one over the last {mesesAtras} months ({
-                    round(cambiosNew*100, 2)}% > {round(cambiosOld*100, 2)}%)'
-        else:
-            if cambiosNew < 0 and cambiosOld < 0:
-                note = f'The new priority has@a better tendency@than the old one over the last {mesesAtras} months ({round(
-                    cambiosNew*100, 2)} > {round(cambiosOld*100, 2)} percentage points)'
-            else:
-                note = f'The new priority has@a better tendency@than the old one over the last {mesesAtras} months ({round(
-                    cambiosNew*100, 2)} > {round(cambiosOld*100, 2)} percentage points)'
-    elif cambiosNew < cambiosOld:
-        if bigData:
-            if cambiosNew < 0 and cambiosOld < 0:
-                note = f'The new priority has@a worse tendency@than the old one over the last {mesesAtras} months ({
-                    round(cambiosNew*100, 2)}% < {round(cambiosOld*100, 2)}%)'
-            else:
-                note = f'The new priority has@a worse tendency@than the old one over the last {mesesAtras} months ({
-                    round(cambiosNew*100, 2)}% < {round(cambiosOld*100, 2)}%)'
-        else:
-            if cambiosNew < 0 and cambiosOld < 0:
-                note = f'The new priority has@a worse tendency@than the old one over the last {mesesAtras} months ({round(
-                    cambiosNew*100, 2)} < {round(cambiosOld*100, 2)} percentage points)'
-            else:
-                note = f'The new priority has@a worse tendency@than the old one over the last {mesesAtras} months ({round(
-                    cambiosNew*100, 2)} < {round(cambiosOld*100, 2)} percentage points)'
-    else:
-        note = 'The new priority has performed the same as the old one over the last {mesesAtras} months'
-
-    plt.xlabel('Month')
-    # if columna in yLabels:
-    if columna in ['lala']:
-        plt.ylabel(yLabels[columna])
-    else:
-        plt.ylabel(' ')
-    if pais == 'PE':
-        paisNombre = 'Perú'
-    elif pais == 'CO':
-        paisNombre = 'Colombia'
-    elif pais == 'MX':
-        paisNombre = 'México'
-    elif pais == 'CR':
-        paisNombre = 'Costa Rica'
-    # plt.title(f"""Comparación de la prioridad {prioridad} en {paisNombre} respecto a
-    #           {columna.replace("_", " ").replace("gmv", "/gmv").capitalize()} por mes""")
-
-    #! here we put the note under, now we'll make a txt with that data
-
-    # plt.annotate(
-    #     note,
-    #     xy=(-0.1, -0.2),
-    #     xycoords="axes fraction",
-    #     bbox=dict(boxstyle="round,pad=0.3",
-    #               edgecolor="black", facecolor="aliceblue")
-    # )
-
-    plt.legend(loc='upper center', bbox_to_anchor=(
-        0.5, 1.15), ncol=2, frameon=False, prop={'size': 16})
-    plt.gca().xaxis.set_major_locator(MaxNLocator(integer=True))
-
-    if prioridad == '2':
-        plt.xticks(range(3, months[1]+1))
-    else:
-        plt.xticks(range(months[0], months[1]+1))
-
-    plot_folder = f'{mainPlotFolder}/{pais}/p{prioridad}/{columna}/'
-
-    if bigData:
-        note += f'\n- The last 3 months mean of the old priority is {round(
-            meanLast3MonthsOld, 2)} and the new priority is {round(meanLast3MonthsNew, 2)}'
-    else:
-        note += f'\n- The last 3 months mean of the old priority is {round(
-            meanLast3MonthsOld*100, 2)}% and the new priority is {round(meanLast3MonthsNew*100, 2)}%'
-    note = '- '+note
-    saveTXT(plot_folder, f'note.txt', note)
-    savePlot(plot_folder, f'''{config[0][0].upper()}{
-             config[1][0].upper()}.png''')
-
-
 def makeMultiMetricPlot(pais: str, prioridad: str, columnas: list, yLabels: dict, config: tuple = ('bottom', 'top'), tasaCambio=0.06):
     folder = f'{mainFolder}/{pais}/p{prioridad}/'
     data_dict = {}
@@ -351,9 +165,8 @@ def makeMultiMetricPlot(pais: str, prioridad: str, columnas: list, yLabels: dict
         file_path = folder + f'comparacion_{columna}.csv'
         data = pd.read_csv(file_path, skiprows=1)
 
-        if prioridad != 'JAJAJA':
-            data = data.iloc[months[0]-1:]
-            data.reset_index(drop=True, inplace=True)
+        data = data.iloc[months[0]-1:]
+        data.reset_index(drop=True, inplace=True)
 
         Month = data['month']
         OldPriority = data['Old priority']
@@ -418,73 +231,6 @@ def makeMultiMetricPlot(pais: str, prioridad: str, columnas: list, yLabels: dict
     saveTXT(plot_folder, f'note.txt', 'Example text')
 
 
-def makePlotWith2Columns(pais: str, prioridad: str, columna: str, columna2: str, yLabels: dict):
-    folder = f'{mainFolder}/{pais}/p{prioridad}/'
-    file_path = folder + f'comparacion_{columna}.csv'
-    data = pd.read_csv(file_path, skiprows=1)
-
-    Month = data['month']
-    OldPriorityFirstFeature = data['Old priority']
-    NewPriorityFirstFeature = data['New priority']
-
-    file_path2 = folder + f'comparacion_{columna2}.csv'
-    data2 = pd.read_csv(file_path2, skiprows=1)
-    OldPrioritySecondFeature = data2['Old priority']
-    NewPrioritySecondFeature = data2['New priority']
-
-    df = pd.DataFrame({
-        'Month': Month,
-        'Y1': OldPriorityFirstFeature,
-        'Y2': NewPriorityFirstFeature,
-        'Y3': OldPrioritySecondFeature,
-        'Y4': NewPrioritySecondFeature
-    })
-
-    # Crear el gráfico
-    fig, ax1 = plt.subplots(figsize=(9, 6))
-
-    # Primer eje Y
-    sns.lineplot(data=df, x='Month', y='Y1', ax=ax1, label=f'''P_old en {
-                 columna.replace("_", " ").capitalize()}''', color='#aec7e8')
-    sns.lineplot(data=df, x='Month', y='Y2', ax=ax1, label=f'''P_new en {
-                 columna.replace("_", " ").capitalize()}''', color='#1f77b4')
-    if columna in yLabels:
-        ax1.set_ylabel(yLabels[columna])
-    else:
-        ax1.set_ylabel(' ')
-
-    # Segundo eje Y
-    ax2 = ax1.twinx()
-    sns.lineplot(data=df, x='Month', y='Y3', ax=ax2, label=f'''P_old en {
-                 columna2.replace("_", " ").capitalize()}''', color='#98df8a')
-    sns.lineplot(data=df, x='Month', y='Y4', ax=ax2, label=f'''P_new en {
-                 columna2.replace("_", " ").capitalize()}''', color='#2ca02c')
-    if columna2 in yLabels:
-        ax2.set_ylabel(yLabels[columna2])
-    else:
-        ax2.set_ylabel(' ')
-
-    # Ajustar leyendas
-    plt.xticks(range(months[0], months[1]+1))
-    if pais == 'PE':
-        paisNombre = 'Perú'
-    elif pais == 'CO':
-        paisNombre = 'Colombia'
-    elif pais == 'MX':
-        paisNombre = 'México'
-    elif pais == 'CR':
-        paisNombre = 'Costa Rica'
-    # plt.title(f"""Comparación de la prioridad {prioridad} en {paisNombre} respecto a
-    #           {columna.replace("_", " ").replace("gmv", "/gmv").capitalize()} y {columna2.replace("_", " ").capitalize()} por mes""")
-    plt.xticks(range(months[0], months[1]+1))
-    handles1, labels1 = ax1.get_legend_handles_labels()
-    handles2, labels2 = ax2.get_legend_handles_labels()
-    ax1.legend(handles=handles1, labels=labels1, loc='upper left')
-    ax2.legend(handles=handles2, labels=labels2, loc='upper right')
-    plot_folder = f'{mainPlotFolder}/{pais}/p{prioridad}/combinaciones/'
-    savePlot(plot_folder, f'comparacion_{columna}_X_{columna2}.png')
-
-
 def main():
     paises, prioridades, columns, yLabelsPerColumn = getInitialData(serio)
     combinatory = getCombinatoryData()
@@ -493,10 +239,10 @@ def main():
                ('bottom', 'bottom'), ('top', 'top')]
     for pais in paises:
         for prioridad in prioridades:
-            # for config in configs:
-            #     for columna in columns:
-            #         makeNewPriorityPlot(pais, prioridad, columna,
-            #                             yLabelsPerColumn, config)
+            for config in configs:
+                for columna in columns:
+                    makeNewPriorityPlot(pais, prioridad, columna,
+                                        yLabelsPerColumn, config)
             for combination in combinatory:
                 makeMultiMetricPlot(pais, prioridad, combination,
                                     yLabelsPerColumn, ('top', 'top'))
