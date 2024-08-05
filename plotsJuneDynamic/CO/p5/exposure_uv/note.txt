@@ -1,2 +1,2 @@
-- The new priority has@a worse tendency@than the old one over the last 3 months (-8.0% < -2.21%)
-- The last 3 months mean of the old priority is 17261153.33 and the new priority is 15513169.33
+El rendimiento de la nueva prioridad en los últimos 4 meses es:
+- Media de los últimos 4 meses: 16101936.5

@@ -145,11 +145,12 @@ def makePlots():
             # Configuraciones de la gráfica
             plt.xticks(rotation=45)
             plt.xlabel('Month')
-            plt.ylabel('Number of priorities')
-            plt.title(f'''Flow of priorities changes for {
+            plt.ylabel('% of change')
+            plt.title(f'''Flow of priority changes for {
                       priority_initial} in {country}''')
             plt.legend(loc='upper center', bbox_to_anchor=(0.5, 1.15),
                        ncol=4, frameon=False, prop={'size': 12})
+            plt.grid(True)
             plt.tight_layout()
 
             file_name = f'changesPriority.png'.replace(" ", "_")
