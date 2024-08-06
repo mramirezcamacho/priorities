@@ -7,6 +7,7 @@ import pandas as pd
 from priorityChangesScript import makePlots2
 from matplotlib.ticker import MaxNLocator, FuncFormatter
 from centralizedData import plotsFolder, comparationData
+from divideData import getColumns
 
 
 months = [3, 7]
@@ -19,13 +20,7 @@ def getInitialData(serio: bool):
     if serio:
         paises = ['PE', 'CO', 'MX', 'CR']
         prioridades = ['0', '1', '2', '3', '4', '5']
-        columns = ['daily_orders', 'orders_per_eff_online', 'daily_online_hours', 'b2c_per_order',
-                   'b_cancel_rate', 'bad_rating_rate', "healthy_stores", 'imperfect_orders', 'ted',
-                   'ted_gmv', 'exposure_uv', 'b_p1p2', "r_burn", "r_burn_gmv", "r_burn_per_order",
-                   'exposure_per_eff_online', "b2c_total_burn", "b2c_gmv", "b2c_per_order", 'eff_online_rs',
-                   'imperfect_order_rate']
-        # prioridades = ['4', '5']
-        # columns = ['eff_online_rs', 'imperfect_order_rate']
+        columns = getColumns()
     else:
         paises = ['CO']
         prioridades = ['0', '1', '2', '3', '4', '5']
@@ -207,7 +202,7 @@ def makeMultiMetricPlot(pais: str, prioridad: str, columnas: list, yLabels: dict
                                                        1) and not bigData else f"{new_priority:,.2f}"
             ),
                 # Adjusted fontsize
-                color='black', ha='center', va=config[1], fontsize=14,
+                color='black', ha='center', va=config[1], fontsize=16,
                 # Added bbox
                 # Added bbox with border
                 bbox=dict(facecolor='white', edgecolor='black', boxstyle='round,pad=0.3', linewidth=1))
@@ -334,5 +329,6 @@ def main():
             print(f'Plots de {pais} p{prioridad} creado')
 
 
-main()
-makePlots2()
+if __name__ == '__main__':
+    main()
+    makePlots2()

@@ -117,6 +117,3 @@ def start():
             for columna in columns:
                 comparation_per_column(prioridad, columna, pais)
             unificarCSV(pais, prioridad)
-
-
-start()

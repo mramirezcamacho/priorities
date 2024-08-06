@@ -221,7 +221,7 @@ def makePlots2():
 
                 # Add text labels to each point
                 for i in range(len(months)):
-                    plt.text(months[i], values[i] + 0.3, f'{values[i]:.2f}%', color=color, ha='center', va='bottom',
+                    plt.text(months[i], values[i] + 0.3, f'{values[i]:.2f}%', color=color, ha='center', va='bottom', fontsize=16,
                              bbox=dict(facecolor='white', edgecolor=color, boxstyle='round,pad=0.3'))
 
             # Plot configurations
@@ -244,4 +244,5 @@ def makePlots2():
             plt.close()
 
 
-# makePlots2()
+if __name__ == '__main__':
+    makePlots2()

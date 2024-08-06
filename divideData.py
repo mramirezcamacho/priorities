@@ -7,6 +7,17 @@ folderToGetData = mainData+"/"
 folderToSendData = dividedData
 
 
+def getColumns(filePath: str = folderToGetData):
+    files = os.listdir(filePath)
+    columns = []
+    for file in files:
+        data = pd.read_csv(filePath+file)
+        for column in data.columns[3:]:
+            if column not in columns:
+                columns.append(column)
+    return columns
+
+
 def dividePerCountry(filePath: str = folderToGetData, comparation=False):
     """
     Divide the data per country and save it in a new folder

@@ -279,10 +279,15 @@ def makePresentation(MAC: bool = True, prioridades: list = ['1', '2', '3', '4', 
     prs.save(f'{output_dir}/{add}_{bigFolder}.pptx')
 
 
-bigFolders = [plotsFolder,]
-for bigFolder in bigFolders:
-    if both:
-        makePresentation(MAC=True, bigFolder=bigFolder)
-        makePresentation(MAC=False, bigFolder=bigFolder)
-    else:
-        makePresentation(MAC=MAC, bigFolder=bigFolder)
+def main():
+    bigFolders = [plotsFolder,]
+    for bigFolder in bigFolders:
+        if both:
+            makePresentation(MAC=True, bigFolder=bigFolder)
+            makePresentation(MAC=False, bigFolder=bigFolder)
+        else:
+            makePresentation(MAC=MAC, bigFolder=bigFolder)
+
+
+if __name__ == '__main__':
+    main()
