@@ -306,6 +306,54 @@ def makeDualYPlot(pais: str, prioridad: str, columnas: list, yLabels: dict, conf
     saveTXT(plot_folder, f'note.txt', 'Example text')
 
 
+def graphsForAllPriorities(country: str, columns: list):
+    for columna in columns:
+        df = pd.read_csv(
+            f'{mainFolder}/{country}/All/{columna}.csv', skiprows=1)
+        df = df.iloc[months[0]-1:]
+        df.reset_index(drop=True, inplace=True)
+        monthsDF = df['month'].values
+        categories = df.columns[1:].values
+        for i in range(len(categories)):
+            categories[i] = categories[i] + f' {columna.replace("_",
+                                                                " ").replace("gmv", "/gmv").capitalize()}'
+        data = df.iloc[:, 1:].values
+        totals = np.sum(data, axis=1)
+        percentages = data / totals[:, None] * 100
+
+        # Plotting the stacked bar chart
+        fig, ax = plt.subplots(figsize=(12, 7))
+
+        # Define the bottom of each bar segment
+        bottom = np.zeros(len(monthsDF))
+
+        # Plot each category
+        for i in range(len(categories)):
+            bars = ax.bar(monthsDF, data[:, i],
+                          label=categories[i], bottom=bottom)
+
+            # Add percentage labels
+            for j, bar in enumerate(bars):
+                height = bar.get_height()
+                percentage = f'{percentages[j, i]:.1f}%'
+                ax.text(bar.get_x() + bar.get_width() / 2, bottom[j] + height / 2,
+                        percentage, ha='center', va='center', color='black', fontsize=10)
+
+            bottom += data[:, i]
+
+        # Adding labels and title
+        ax.set_ylabel(' ')
+        ax.legend(loc='upper center',
+                  bbox_to_anchor=(0.5, 1.15), ncol=3, frameon=False,
+                  prop={'size': 16})
+        # Adjust layout to prevent clipping
+        plt.tight_layout()
+
+        # Save the plot
+        plot_folder = f'{mainPlotFolder}/{country}/All/{columna}/'
+        savePlot(plot_folder, 'All.png')
+
+
 def main():
     paises, prioridades, columns, yLabelsPerColumn = getInitialData(serio)
     combinatory = getCombinatoryData()
@@ -314,21 +362,20 @@ def main():
                ('bottom', 'bottom'), ('top', 'top')]
     for pais in paises:
         for prioridad in prioridades:
-            for config in configs:
-                for columna in columns:
-                    makeNewPriorityPlot(pais, prioridad, columna,
-                                        yLabelsPerColumn, config)
-                for combination in combinatory:
-                    if combination[1] == 'Basic':
-                        makeMultiMetricPlot(pais, prioridad, combination[0],
-                                            yLabelsPerColumn, config)
-                    else:
-                        makeDualYPlot(pais, prioridad, combination[0],
-                                      yLabelsPerColumn, config)
-
+            # for config in configs:
+            #     for columna in columns:
+            #         makeNewPriorityPlot(pais, prioridad, columna,
+            #                             yLabelsPerColumn, config)
+            #     for combination in combinatory:
+            #         if combination[1] == 'Basic':
+            #             makeMultiMetricPlot(pais, prioridad, combination[0],
+            #                                 yLabelsPerColumn, config)
+            #         else:
+            #             makeDualYPlot(pais, prioridad, combination[0],
+            #                           yLabelsPerColumn, config)
             print(f'Plots de {pais} p{prioridad} creado')
+        graphsForAllPriorities(pais, columns)
 
 
 if __name__ == '__main__':
     main()
-    makePlots2()

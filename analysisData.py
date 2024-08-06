@@ -18,6 +18,50 @@ def createFolders(paises, prioridades):
                 f'{folderToSendData}/{pais}/p{prioridad}', exist_ok=True)
 
 
+def comparacionAllPriorities(country: str, priorities: list, columns: list):
+    df_data = pd.read_csv(f'{folderToGetData}/{country}_data.csv')
+    months = sorted(df_data['month_'].unique())
+    for columna in columns:
+        newDF = pd.DataFrame(columns=['month', 'New Rs', 'Priority 1',
+                             'Priority 2', 'Priority 3', 'Priority 4', 'Priority 5'])
+        for month in months:
+            row2append = {'month': month}
+            for priority in priorities:
+                if priority == 'New Rs':
+                    priority = '0'
+                meanWhile = df_data[(df_data['month_'] == month)]
+                if priority == '0':
+                    meanWhile = meanWhile[(
+                        meanWhile['priority'] == 'New Rs')]
+                else:
+                    meanWhile = meanWhile[(
+                        meanWhile['priority'] == f'Priority {priority}')]
+                meanWhile = meanWhile[meanWhile[columna].notna()]
+                value = meanWhile[columna].values[0]
+                if columna == 'eff_online_rs':
+                    value = int(value)
+                if priority == '0':
+                    row2append['New Rs'] = value
+                else:
+                    row2append[f'''Priority {
+                        priority}'''] = value
+
+            newDF.loc[len(newDF)] = row2append
+        os.makedirs(f'{folderToSendData}/{country}/All', exist_ok=True)
+        fileName = f'{folderToSendData}/{country}/All/{columna}.csv'
+        newDF.to_csv(fileName, index=False)
+        with open(fileName, 'r', newline='') as file:
+            reader = csv.reader(file)
+            existing_data = list(reader)
+        new_row = [columna.replace('_', ' ').capitalize(), 'Priority 0', 'Priority 1',
+                   'Priority 2', 'Priority 3', 'Priority 4', 'Priority 5']
+        existing_data.insert(0, new_row)
+        with open(fileName, 'w', newline='') as file:
+            writer = csv.writer(file)
+            writer.writerows(existing_data)
+            print(f"Comparación guardada en '{fileName}'")
+
+
 def comparation_per_column(priority: str, column: str, country: str):
     df_data = pd.read_csv(f'{folderToGetData}/{country}_data.csv')
     months = sorted(df_data['month_'].unique())
@@ -107,7 +151,7 @@ def getColumns(country: str):
 
 def start():
     paises = ['PE', 'CO', 'MX', 'CR']
-    prioridades = ['New Rs', '1', '2', '3', '4', '5']
+    prioridades = ['New Rs', '1', '2', '3', '4', '5',]
 
     # add exposure and p1p2 etc
     createFolders(paises, prioridades)
@@ -117,3 +161,8 @@ def start():
             for columna in columns:
                 comparation_per_column(prioridad, columna, pais)
             unificarCSV(pais, prioridad)
+        comparacionAllPriorities(pais, prioridades, columns)
+
+
+if __name__ == '__main__':
+    start()
