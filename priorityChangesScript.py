@@ -3,13 +3,14 @@ import os
 from pprint import pprint
 from matplotlib import pyplot as plt
 import pandas as pd
+from centralizedData import plotsFolder
 
-SUPEROUTPUT = 'plotsJuneDynamic'
+SUPEROUTPUT = plotsFolder
 
 
 def saveData2Csv():
     # Load the CSV data into a DataFrame
-    df = pd.read_csv('priorityChanges/changesOfPriorities2.csv')
+    df = pd.read_csv('priorityChanges/changesOfPriorities3.csv')
     df = df.fillna('No Registered')
 
     monthsColumns = df.columns[2:]
@@ -243,6 +244,4 @@ def makePlots2():
             plt.close()
 
 
-# saveData2Csv()
-# makePlots()
-makePlots2()
+# makePlots2()

@@ -1,13 +1,13 @@
+import pandas as pd
+from centralizedData import mainData, dividedData
 import os
 
-import pandas as pd
+
+folderToGetData = mainData+"/"
+folderToSendData = dividedData
 
 
-folderToGetData = 'dataDynamic/'
-folderToSendData = 'dataDynamicDivided'
-
-
-def dividePerCountry(filePath: str = folderToGetData):
+def dividePerCountry(filePath: str = folderToGetData, comparation=False):
     """
     Divide the data per country and save it in a new folder
     """
@@ -39,9 +39,11 @@ def dividePerCountry(filePath: str = folderToGetData):
                 dataCountry = dataCountry.sort_values(
                     by=['week', 'Country', 'priority'], ascending=[False, True, False])
             # Save the data
-            dataCountry.to_csv(
-                f'{folderToSendData}/'+f'{file[:3]}{country}_data'+'.csv', index=False)
+            if comparation:
+                dataCountry.to_csv(
+                    f'{folderToSendData}/'+f'{file[:3]}{country}_data'+'.csv', index=False)
+            else:
+                dataCountry.to_csv(
+                    f'{folderToSendData}/'+f'{country}_data.csv', index=False)
+
     return
-
-
-dividePerCountry()

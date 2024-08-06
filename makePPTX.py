@@ -6,14 +6,16 @@ from pptx.util import Inches, Pt
 from PIL import Image
 from pptx.dml.color import RGBColor
 from pptx.enum.text import PP_ALIGN, MSO_ANCHOR
+from centralizedData import plotsFolder, presentationsFolder
+
 
 MAC = 1
 both = 1
 
-columns = ['orders_per_eff_online', 'b_p1p2', 'ted_gmv_r_burn_gmv_b2c_gmv_p2c_gmv',
+columns = ['orders_per_eff_online', 'exposure_per_eff_online_b_p1p2', 'ted_gmv_r_burn_gmv_b2c_gmv_p2c_gmv',
            #    "b_cancel_rate", 'bad_rating_rate', 'imperfect_order_rate',
            'eff_online_rs', 'daily_orders', 'priorityChanges',
-           'imperfect_order_rate_b_cancel_rate_bad_rating_rate', 'eff_online_rs_healthy_stores',
+           'imperfect_order_rate_bad_rating_rate', 'eff_online_rs_healthy_stores',
            ]
 
 # P1P2 vs UV en distintos ejes
@@ -134,7 +136,7 @@ def add_text(slide, text_letters, new=True, last_p=None, font_size=0.5, bold=Fal
 
 
 def createFolder(folder=str):
-    folder = f'pptx_presentations/{folder}'
+    folder = f'{presentationsFolder}/{folder}'
     if not os.path.exists(folder):
         os.makedirs(folder)
 
@@ -181,7 +183,7 @@ def addGraphAndText(slide, graph_image_path: str, graph_note_path: str, Ypositio
         slideSizeX, imgInchSize, howMuchi, size)
     graph = Image.open(graph_image_path)
     graph = graph.resize(size)
-    graph_path = f"""pptx_presentations/{
+    graph_path = f"""{presentationsFolder}/{
         folder}/supportImage/resized_graph_{i}_{howMuchi}.png"""
     graph.save(graph_path)
     positionX = None
@@ -199,8 +201,10 @@ def addGraphAndText(slide, graph_image_path: str, graph_note_path: str, Ypositio
 
 
 def getPriorityText(priority: str):
+    if priority == "0":
+        priorityText = 'New Rs'
     if priority == "1":
-        priorityText = 'Priority 1 (New Rs)'
+        priorityText = 'Priority 1'
     elif priority == "2":
         priorityText = 'Priority 2'
     elif priority == "3":
@@ -212,7 +216,7 @@ def getPriorityText(priority: str):
     return priorityText
 
 
-def makePresentation(MAC: bool = True, prioridades: list = ['1', '2', '3', '4', '5'], bigFolder='plotsJuneDynamic', imagesPerSlide: int = 3):
+def makePresentation(MAC: bool = True, prioridades: list = ['1', '2', '3', '4', '5',], bigFolder=plotsFolder, imagesPerSlide: int = 3):
     if MAC:
         paises = ['CO', 'PE', 'CR',]
     else:
@@ -227,7 +231,7 @@ def makePresentation(MAC: bool = True, prioridades: list = ['1', '2', '3', '4', 
             prs.slide_width = Inches(width)
             prs.slide_height = Inches(height)
             createFolder(f'{bigFolder}/supportImage')
-            output_dir = f'pptx_presentations/{bigFolder}'
+            output_dir = f'{presentationsFolder}/{bigFolder}'
             for i in range(0, len(graph_image_paths)):
                 if i % imagesPerSlide == 0:
                     slide_layout = prs.slide_layouts[6]  # Using a blank layout
@@ -275,7 +279,7 @@ def makePresentation(MAC: bool = True, prioridades: list = ['1', '2', '3', '4', 
     prs.save(f'{output_dir}/{add}_{bigFolder}.pptx')
 
 
-bigFolders = ['plotsJuneDynamic',]
+bigFolders = [plotsFolder,]
 for bigFolder in bigFolders:
     if both:
         makePresentation(MAC=True, bigFolder=bigFolder)
