@@ -12,9 +12,9 @@ from centralizedData import plotsFolder, presentationsFolder
 MAC = 1
 both = 1
 
-columns = ['orders_per_eff_online', 'exposure_per_eff_online_b_p1p2', 'ted_gmv_r_burn_gmv_b2c_gmv_p2c_gmv',
+columns = ['orders_per_eff_online', 'eff_online_rs', 'daily_orders',
            #    "b_cancel_rate", 'bad_rating_rate', 'imperfect_order_rate',
-           'eff_online_rs', 'daily_orders', 'priorityChanges',
+           'exposure_per_eff_online_b_p1p2', 'ted_gmv_r_burn_gmv_b2c_gmv_p2c_gmv', 'priorityChanges',
            'imperfect_order_rate_bad_rating_rate', 'eff_online_rs_healthy_stores',
            ]
 

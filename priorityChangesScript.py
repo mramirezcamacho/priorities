@@ -126,6 +126,8 @@ def makePlots():
     for country, priorities in Data.items():
         # Iterar sobre cada prioridad inicial
         for priority_initial, months_data in priorities.items():
+            if priority_initial == 'No Registered' or priority_initial == 'Priority 6':
+                continue
             output_folder = f'plotsJuneDynamic/{country}/{
                 priorityFolderName(priority_initial)}'
             if not os.path.exists(output_folder):

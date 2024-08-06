@@ -49,6 +49,8 @@ def getCombinatoryData():
         (['imperfect_order_rate', 'orders_per_eff_online'], 'Basic'),
         (['eff_online_rs', 'healthy_stores'], 'Basic'),
         (['exposure_per_eff_online', 'b_p1p2'], 'Dual'),
+        (['ted_gmv', 'asp'], 'Dual'),
+
     ]
     return combinatoryData
 
@@ -314,9 +316,6 @@ def graphsForAllPriorities(country: str, columns: list):
         df.reset_index(drop=True, inplace=True)
         monthsDF = df['month'].values
         categories = df.columns[1:].values
-        for i in range(len(categories)):
-            categories[i] = categories[i] + f' {columna.replace("_",
-                                                                " ").replace("gmv", "/gmv").capitalize()}'
         data = df.iloc[:, 1:].values
         totals = np.sum(data, axis=1)
         percentages = data / totals[:, None] * 100
@@ -337,12 +336,15 @@ def graphsForAllPriorities(country: str, columns: list):
                 height = bar.get_height()
                 percentage = f'{percentages[j, i]:.1f}%'
                 ax.text(bar.get_x() + bar.get_width() / 2, bottom[j] + height / 2,
-                        percentage, ha='center', va='center', color='black', fontsize=10)
+                        percentage, ha='center', va='center', color='black', fontsize=12,
+                        bbox=dict(facecolor='white', edgecolor='black', boxstyle='round,pad=0.3', linewidth=1))
 
             bottom += data[:, i]
 
         # Adding labels and title
-        ax.set_ylabel(' ')
+        ax.set_ylabel(
+            f'{columna.replace("_", " ").replace("gmv", "/gmv").capitalize()}', fontsize=16)
+        ax.set_xlabel('Months', fontsize=16)
         ax.legend(loc='upper center',
                   bbox_to_anchor=(0.5, 1.15), ncol=3, frameon=False,
                   prop={'size': 16})
@@ -362,17 +364,18 @@ def main():
                ('bottom', 'bottom'), ('top', 'top')]
     for pais in paises:
         for prioridad in prioridades:
-            # for config in configs:
-            #     for columna in columns:
-            #         makeNewPriorityPlot(pais, prioridad, columna,
-            #                             yLabelsPerColumn, config)
-            #     for combination in combinatory:
-            #         if combination[1] == 'Basic':
-            #             makeMultiMetricPlot(pais, prioridad, combination[0],
-            #                                 yLabelsPerColumn, config)
-            #         else:
-            #             makeDualYPlot(pais, prioridad, combination[0],
-            #                           yLabelsPerColumn, config)
+            for config in configs:
+                # for columna in columns:
+                #     makeNewPriorityPlot(pais, prioridad, columna,
+                #                         yLabelsPerColumn, config)
+                # for combination in combinatory:
+                #     if combination[1] == 'Basic':
+                #         makeMultiMetricPlot(pais, prioridad, combination[0],
+                #                             yLabelsPerColumn, config)
+                #     else:
+                #         makeDualYPlot(pais, prioridad, combination[0],
+                #                       yLabelsPerColumn, config)
+                pass
             print(f'Plots de {pais} p{prioridad} creado')
         graphsForAllPriorities(pais, columns)
 
