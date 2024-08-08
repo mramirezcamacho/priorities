@@ -238,104 +238,73 @@ def makeMultiMetricPlot(pais: str, prioridad: str, columnas: list, yLabels: dict
 def RBurnGraphs(pais: str, prioridad: str):
     if prioridad == '0':
         return
-    importantColumns = ['All_3_burns_orders', 'B2C_R_Burn_orders', 'B2C_and_P2C_orders',
-                        'R_Burn_and_P2C_orders', 'B2C_Only_orders', 'R_Burn_Only_orders', 'P2C_Only_orders', 'No_Burn_orders']
+
     miniData = {}
-    getMax = {}
-    influential = False
-    if influential:
-        for columna in importantColumns:
+
+    groups = {
+        'Co-Subsidized Orders': ['All_3_burns_orders', 'B2C_R_Burn_orders'],
+        'R burn': ['R_Burn_Only_orders', 'R_Burn_and_P2C_orders'],
+        'Others': ['B2C_Only_orders', 'B2C_and_P2C_orders', 'P2C_Only_orders'],
+        'Organic': ['No_Burn_orders']
+    }
+
+    for group in groups:
+        for columna in groups[group]:
             dataColumn = pd.read_csv(
                 f'{mainFolder}/{pais}/p{prioridad}/{columna}.csv', skiprows=1)
             dataColumn = dataColumn.iloc[months[0]-1:]
             monthsDF = list(dataColumn['month'].values)
-            suma = 0
             for monthDF in monthsDF:
                 if monthDF not in miniData:
                     miniData[monthDF] = {}
-                miniData[monthDF][columna] = dataColumn.loc[dataColumn['month']
-                                                            == monthDF]['Priority'].values[0]
-                suma += miniData[monthDF][columna]
-            getMax[columna] = suma
-        best4overall = sorted(getMax, key=getMax.get, reverse=True)[:3]
-        df = pd.DataFrame(miniData).T
-        bestColumns = list(set(best4overall))
-        dataForPlot = []
-        for columna in bestColumns:
-            dataForPlot.append(df[columna].values)
-        rest = [1]*len(dataForPlot[0])
-        for array in dataForPlot:
-            for i in range(len(array)):
-                rest[i] -= array[i]
-        dataForPlot.append(np.array(rest))
-        bestColumns.append('Rest')
-        bestColumns = [columna.replace("_", " ") for columna in bestColumns]
-    else:
-        miniData = {}
-        groups = {'Co-Subsidized Orders': ['All_3_burns_orders', 'B2C_R_Burn_orders'],
-                  'R burn': ['R_Burn_Only_orders', 'R_Burn_and_P2C_orders'],
-                  'Others': ['B2C_Only_orders', 'B2C_and_P2C_orders', 'P2C_Only_orders'],
-                  'Organic': ['No_Burn_orders']}
-        for group in groups:
-            suma = 0
-            for columna in groups[group]:
-                dataColumn = pd.read_csv(
-                    f'{mainFolder}/{pais}/p{prioridad}/{columna}.csv', skiprows=1)
-                dataColumn = dataColumn.iloc[months[0]-1:]
-                monthsDF = list(dataColumn['month'].values)
-                for monthDF in monthsDF:
-                    if monthDF not in miniData:
-                        miniData[monthDF] = {}
-                    miniData[monthDF][group] = dataColumn.loc[dataColumn['month']
-                                                              == monthDF]['Priority'].values[0]
-                    suma += miniData[monthDF][group]
-            getMax[group] = suma
-        best4overall = list(groups.keys())
-        df = pd.DataFrame(miniData).T
-        bestColumns = list(set(best4overall))
-        dataForPlot = []
-        for columna in bestColumns:
-            dataForPlot.append(df[columna].values)
-        bestColumns = [columna.replace("_", " ") for columna in bestColumns]
+                miniData[monthDF][group] = dataColumn.loc[dataColumn['month']
+                                                          == monthDF]['Priority'].values[0]
 
-    data = np.array(dataForPlot).T
+    df = pd.DataFrame(miniData).T
+    bestColumns = list(groups.keys())
+
+    # Replace missing values with 0 and normalize the data
+    df.fillna(0, inplace=True)
+    data = df[bestColumns].values
     totals = np.sum(data, axis=1)
-    percentages = data / totals[:, None] * 100
+
+    # Normalize data to make sure it sums to 100%
+    data_normalized = data / totals[:, None] * 100
 
     # Plotting the stacked bar chart
-    fig, ax = plt.subplots(figsize=(12, 7))
+    fig, ax = plt.subplots(figsize=(9, 6))
 
     # Define the bottom of each bar segment
     bottom = np.zeros(len(monthsDF))
 
     # Plot each category
-    for i in range(len(bestColumns)):
-        bars = ax.bar(monthsDF, data[:, i],
-                      label=bestColumns[i], bottom=bottom)
+    for i, columna in enumerate(bestColumns):
+        bars = ax.bar(
+            monthsDF, data_normalized[:, i], label=columna, bottom=bottom)
 
         # Add percentage labels
         for j, bar in enumerate(bars):
             height = bar.get_height()
-            percentage = f'{percentages[j, i]:.1f}%'
+            percentage = f'{data_normalized[j, i]:.1f}%'
             ax.text(bar.get_x() + bar.get_width() / 2, bottom[j] + height / 2,
                     percentage, ha='center', va='center', color='black', fontsize=12,
                     bbox=dict(facecolor='white', edgecolor='black', boxstyle='round,pad=0.3', linewidth=1))
 
-        bottom += data[:, i]
+        bottom += data_normalized[:, i]
 
     # Adding labels and title
-    ax.set_ylabel(
-        f'Percentage of orders', fontsize=16)
     ax.set_xlabel('Months', fontsize=16)
-    ax.legend(loc='upper center',
-              bbox_to_anchor=(0.5, 1.15), ncol=3, frameon=False,
-              prop={'size': 14})
+    ax.legend(loc='upper center', bbox_to_anchor=(0.5, 1.15),
+              ncol=3, frameon=False, prop={'size': 14})
+
     # Adjust layout to prevent clipping
     plt.tight_layout()
 
     # Save the plot
-    plot_folder = f'{mainPlotFolder}/{pais}/All/DistributionOrdersDiscounts/'
+    plot_folder = f'''{
+        mainPlotFolder}/{pais}/p{prioridad}/DistributionOrdersDiscounts/'''
     savePlot(plot_folder, 'All.png')
+    saveTXT(plot_folder, 'note.txt', 'Example text')
 
 
 def makeDualYPlot(pais: str, prioridad: str, columnas: list, yLabels: dict, config: tuple = ('bottom', 'top'), tasaCambio=0.02):
@@ -425,7 +394,7 @@ def graphsForAllPriorities(country: str, columns: list):
         percentages = data / totals[:, None] * 100
 
         # Plotting the stacked bar chart
-        fig, ax = plt.subplots(figsize=(12, 7))
+        fig, ax = plt.subplots(figsize=(9, 6))
 
         # Define the bottom of each bar segment
         bottom = np.zeros(len(monthsDF))
@@ -451,13 +420,14 @@ def graphsForAllPriorities(country: str, columns: list):
         ax.set_xlabel('Months', fontsize=16)
         ax.legend(loc='upper center',
                   bbox_to_anchor=(0.5, 1.15), ncol=3, frameon=False,
-                  prop={'size': 16})
+                  prop={'size': 14})
         # Adjust layout to prevent clipping
         plt.tight_layout()
 
         # Save the plot
         plot_folder = f'{mainPlotFolder}/{country}/All/{columna}/'
         savePlot(plot_folder, 'All.png')
+        saveTXT(plot_folder, 'note.txt', 'Example text')
 
 
 def main():
@@ -469,16 +439,16 @@ def main():
     for pais in paises:
         for prioridad in prioridades:
             for config in configs:
-                # for columna in columns:
-                #     makeNewPriorityPlot(pais, prioridad, columna,
-                #                         yLabelsPerColumn, config)
-                # for combination in combinatory:
-                #     if combination[1] == 'Basic':
-                #         makeMultiMetricPlot(pais, prioridad, combination[0],
-                #                             yLabelsPerColumn, config)
-                #     else:
-                #         makeDualYPlot(pais, prioridad, combination[0],
-                #                       yLabelsPerColumn, config)
+                for columna in columns:
+                    makeNewPriorityPlot(pais, prioridad, columna,
+                                        yLabelsPerColumn, config)
+                for combination in combinatory:
+                    if combination[1] == 'Basic':
+                        makeMultiMetricPlot(pais, prioridad, combination[0],
+                                            yLabelsPerColumn, config)
+                    else:
+                        makeDualYPlot(pais, prioridad, combination[0],
+                                      yLabelsPerColumn, config)
                 pass
                 RBurnGraphs(pais, prioridad)
             print(f'Plots de {pais} p{prioridad} creado')

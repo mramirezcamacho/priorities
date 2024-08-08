@@ -13,10 +13,10 @@ MAC = 1
 both = 1
 
 columns = ['orders_per_eff_online', 'eff_online_rs', 'daily_orders',
-           #    "b_cancel_rate", 'bad_rating_rate', 'imperfect_order_rate',
            'exposure_per_eff_online_b_p1p2', 'ted_gmv_r_burn_gmv_b2c_gmv_p2c_gmv', 'priorityChanges',
-           'imperfect_order_rate_bad_rating_rate', 'eff_online_rs_healthy_stores',
+           'imperfect_order_rate_bad_rating_rate', 'eff_online_rs_healthy_stores', 'DistributionOrdersDiscounts'
            ]
+columnsCountry = ['daily_orders', 'eff_online_rs', 'complete_orders']
 
 # P1P2 vs UV en distintos ejes
 
@@ -34,8 +34,8 @@ def getFilesFromFolder(folder):
 def getGoodFile(folder):
     files = getFilesFromFolder(folder)
     pool = ['BB.png', 'TB.png', 'BT.png', 'TT.png']
-    for f in pool:
-        if f not in files:
+    for f in files:
+        if f not in pool:
             return f
     pool = ['TT.png']
     return random.choice(pool)
@@ -141,13 +141,19 @@ def createFolder(folder=str):
         os.makedirs(folder)
 
 
-def getImagesAndNotes(folderInitial: str, pais: str, prioridad: str):
+def getImagesAndNotes(folderInitial: str, pais: str, prioridad: str, country=False):
     graph_image_paths = []
     graph_text_paths = []
     # Adjust this path as per your actual image
-
-    for graph in columns:
-        folder = f'{folderInitial}/{pais}/p{prioridad}/{graph}'
+    if not country:
+        columnsToUse = columns
+    else:
+        columnsToUse = columnsCountry
+    for graph in columnsToUse:
+        if not country:
+            folder = f'{folderInitial}/{pais}/p{prioridad}/{graph}'
+        else:
+            folder = f'{folderInitial}/{pais}/All/{graph}'
         path = getGoodFile(folder)
         graph_image_paths.append(folder+'/'+path)
         graph_text_paths.append(folder+'/'+'note.txt')
@@ -263,7 +269,7 @@ def makePresentation(MAC: bool = True, prioridades: list = ['1', '2', '3', '4', 
                 imgTop = subTitleStart[1]+0.8
                 addGraphAndText(slide, graph_image_paths[i], graph_text_paths[i],
                                 imgTop, (i % imagesPerSlide+1, min(imagesPerSlide, len(graph_image_paths)-imagesPerSlide*(i//imagesPerSlide))), bigFolder)
-                if i % imagesPerSlide == 0 and i//imagesPerSlide < 2:
+                if i % imagesPerSlide == 0:
                     space, a, imgInchSize, heightOfImg = calculateSpace(width, 4.5, min(
                         imagesPerSlide, len(graph_image_paths)-imagesPerSlide*(i//imagesPerSlide)))
                     add_text(slide, f'Insights', font_size=0.2,
@@ -271,6 +277,36 @@ def makePresentation(MAC: bool = True, prioridades: list = ['1', '2', '3', '4', 
                              BG=(252, 76, 2))
 
             # Save the presentation
+        slide_layout = prs.slide_layouts[6]
+        slide = prs.slides.add_slide(slide_layout)
+        country_image_path = f'resources/{pais}.png'
+        didi = f'resources/didi.png'
+        slide.shapes.add_picture(country_image_path, Inches(
+            0.5), Inches(0.1), width=Inches(0.75), height=Inches(0.75))
+        slide.shapes.add_picture(didi, Inches(
+            13), Inches(0.01), width=Inches(1.5), height=Inches(0.84375))
+        titleStart = (1.3, 0.1)
+        add_text(slide, f'PERFORMANCE', font_size=0.5,
+                 bold=True, color=(252, 76, 2), position=(titleStart[0], titleStart[1], width-titleStart[0]-2-0.5, 0.75),)
+        actionTitleStart = (0.5, titleStart[1]+0.75)
+        add_text(slide, f'Action Title', font_size=0.5,
+                 bold=True, color=(0, 0, 0), position=(actionTitleStart[0], actionTitleStart[1], width-0.5, 0.5), vertical=True)
+        subTitleStart = (0.5, actionTitleStart[1]+0.5)
+        add_text(slide, f'Country overview - ', font_size=0.25,
+                 bold=False, color=(0, 0, 0), position=(subTitleStart[0], subTitleStart[1], width-0.5, 0.4), vertical=True)
+        imgTop = subTitleStart[1]+0.8
+        graph_image_paths, graph_text_paths = getImagesAndNotes(
+            bigFolder, pais, priority, country=True)
+        for i in range(0, len(graph_image_paths)):
+            addGraphAndText(slide, graph_image_paths[i], graph_text_paths[i],
+                            imgTop, (i+1, len(graph_image_paths)), bigFolder, size=(800, 600))
+            if i == 0:
+                space, a, imgInchSize, heightOfImg = calculateSpace(
+                    width, 4.5, len(graph_image_paths))
+                add_text(slide, f'Insights', font_size=0.2,
+                         bold=False, color=(255, 255, 255), position=(space, imgTop+heightOfImg, imgInchSize-0.03, 0.3), vertical=True,
+                         BG=(252, 76, 2))
+
         print(f'Acabé con {pais} en {bigFolder}!')
     if MAC:
         add = 'MAC'
