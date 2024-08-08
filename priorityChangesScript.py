@@ -108,69 +108,6 @@ def priorityFolderName(priority):
         return 'noReg'
 
 
-def makePlots():
-    Data = df_to_dict()
-    Data = makePercentages(Data)
-    priority_colors = {
-        'Priority 1': 'blue',
-        'Priority 2': 'orange',
-        'Priority 3': 'green',
-        'Priority 4': '#1eaae7',
-        'Priority 5': 'purple',
-        'Priority 6': 'brown',
-        'Stays': '#e7411e',
-        'No Registered': 'gray'
-    }
-
-    # Iterar sobre cada país en el diccionario
-    for country, priorities in Data.items():
-        # Iterar sobre cada prioridad inicial
-        for priority_initial, months_data in priorities.items():
-            if priority_initial == 'No Registered' or priority_initial == 'Priority 6':
-                continue
-            output_folder = f'plotsJuneDynamic/{country}/{
-                priorityFolderName(priority_initial)}'
-            if not os.path.exists(output_folder):
-                os.makedirs(output_folder)
-            plt.figure(figsize=(12, 8))  # Tamaño de la figura
-
-            months = list(months_data.keys())
-            priority_labels = list(months_data[months[0]].keys())
-
-            # Crear un array de valores por prioridad destino para cada mes
-            for priority_target in priority_labels:
-                values = [months_data[month].get(
-                    priority_target, 0) for month in months]
-                # Obtener color, 'black' si no está definido
-                color = priority_colors.get(priority_target, 'black')
-                plt.plot(months, values, label=priority_target,
-                         linewidth=4, color=color)
-
-                # Añadir etiquetas de texto a cada punto
-                for i in range(len(months)):
-                    plt.text(months[i], values[i] + 0.3, f'{values[i]:.2f}%', color=color, ha='center', va='bottom', bbox=dict(
-                        facecolor='white', edgecolor=color, boxstyle='round,pad=0.3'))
-
-            # Configuraciones de la gráfica
-            plt.xticks(rotation=45)
-            plt.xlabel('Month')
-            plt.ylabel('% of change')
-            plt.title(f'''Flow of priority changes for {
-                      priority_initial} in {country}''')
-            plt.legend(loc='upper center', bbox_to_anchor=(0.5, 1.15),
-                       ncol=4, frameon=False, prop={'size': 12})
-            plt.grid(True)
-            plt.tight_layout()
-
-            file_name = f'changesPriority.png'.replace(" ", "_")
-            if priorityFolderName(priority_initial) != 'p6':
-                plt.savefig(os.path.join(output_folder, file_name))
-            plt.close()
-
-            # Mostrar la gráfica
-            # plt.show()
-
-
 def saveTXT(folder_path: str, file_name: str, content: str):
     os.makedirs(folder_path, exist_ok=True)
     output_file = os.path.join(folder_path, file_name)
@@ -227,21 +164,19 @@ def makePlots2():
                              bbox=dict(facecolor='white', edgecolor=color, boxstyle='round,pad=0.3'))
 
             # Plot configurations
-            plt.xticks(rotation=45)
-            plt.xlabel('Month')
-            plt.ylabel('% of change')
-            plt.title(f' ')
+            plt.xlabel(' ')
+            plt.ylabel(' ')
+            plt.title(' ')
+            plt.xticks(fontsize=20)  # Set X-axis tick labels font size
+            plt.yticks(fontsize=20)  # Set Y-axis tick labels font size
             # plt.title(f'''Flow of priority changes for {
             #           priority_initial} in {country}''')
             plt.legend(loc='upper center', bbox_to_anchor=(
-                0.5, 1.15), ncol=4, frameon=False, prop={'size': 16})
+                0.5, 1.15), ncol=4, frameon=False, prop={'size': 18})
             plt.grid(True)
             plt.tight_layout()
 
-            plt.savefig(os.path.join(output_folder, "TT.png"))
-            plt.savefig(os.path.join(output_folder, "TB.png"))
-            plt.savefig(os.path.join(output_folder, "BT.png"))
-            plt.savefig(os.path.join(output_folder, "BB.png"))
+            plt.savefig(os.path.join(output_folder, "All.png"))
             saveTXT(output_folder, "note.txt", "Example text")
             plt.close()
 

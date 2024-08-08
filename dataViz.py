@@ -9,6 +9,7 @@ from priorityChangesScript import makePlots2
 from matplotlib.ticker import MaxNLocator, FuncFormatter
 from centralizedData import plotsFolder, comparationData
 from divideData import getColumns
+import calendar
 
 
 months = [3, 7]
@@ -22,11 +23,17 @@ def getInitialData(serio: bool):
         paises = ['PE', 'CO', 'MX', 'CR']
         prioridades = ['0', '1', '2', '3', '4', '5']
         columns = getColumns()
+        columns = ['orders_per_eff_online', 'eff_online_rs', 'daily_orders',
+                   'exposure_per_eff_online', 'b_p1p2', 'ted_gmv', 'r_burn_gmv', 'b2c_gmv', 'p2c_gmv',
+                   'imperfect_order_rate', 'bad_rating_rate', 'eff_online_rs', 'healthy_stores',
+                   'exposure_uv', 'asp', 'aop', 'complete_orders'
+                   ]
+
     else:
-        paises = ['CO']
+        paises = ['MX']
         prioridades = ['0', '1', '2', '3', '4', '5']
-        columns = ['orders_per_eff_online', 'ted_gmv', 'b_p1p2',
-                   "b_cancel_rate", 'bad_rating_rate', 'imperfect_orders', ]
+        columns = ['orders_per_eff_online', 'eff_online_rs', 'daily_orders',
+                   'exposure_per_eff_online', 'b_p1p2', 'ted_gmv', 'r_burn_gmv', ]
     yLabelsPerColumn = {
         'daily_orders': 'Ordenes diarias',
         'orders_per_eff_online': 'Ordenes por eficiencia online',
@@ -88,6 +95,7 @@ def makeNewPriorityPlot(pais: str, prioridad: str, columna: str, yLabels: dict, 
     # Create a DataFrame
     data = pd.DataFrame({'Month': Month, 'PriorityData': PriorityData})
 
+    data['Month'] = data['Month'].apply(lambda x: calendar.month_name[x])
     # Plot using seaborn
     sns.set_theme(style="whitegrid")  # Set style, optional
     plt.figure(figsize=(9, 6))  # Set figure size, optional
@@ -102,16 +110,17 @@ def makeNewPriorityPlot(pais: str, prioridad: str, columna: str, yLabels: dict, 
     minValue = min(PriorityData)
     meanValue = (maxValue - minValue)
 
-    for i, (mes, new_priority) in enumerate(zip(Month, PriorityData)):
+    # Annotate data points
+    for i, (mes, new_priority) in enumerate(zip(data['Month'], PriorityData)):
         plt.text(mes, new_priority + ((-meanValue*tasaCambio) if config[1] == 'bottom' else (meanValue*tasaCambio)),
                  f'''{round(new_priority/1000000, 2)}M''' if maxValue // 1000000 > 0 else (
             f'''{round(new_priority * 100, 2)
                  }%''' if (maxValue < 1) else f"{new_priority:,.2f}"
-        ), color='#fc4c02', ha='center', va=config[1],
+        ), color='#fc4c02', ha='center', va=config[1], fontsize=16,
                  bbox=dict(facecolor='white', edgecolor='#fc4c02', boxstyle='round,pad=0.3'))
 
     # Format y-axis
-    if maxValue > 10:
+    if maxValue > 30:
         formatter = FuncFormatter(lambda x, pos: '{:,.0f}'.format(x))
     elif maxValue > 1:
         formatter = FuncFormatter(lambda x, pos: '{:,.1f}'.format(x))
@@ -120,12 +129,27 @@ def makeNewPriorityPlot(pais: str, prioridad: str, columna: str, yLabels: dict, 
             lambda x, pos: str(round(float(x)*100, 2))+'%')
     plt.gca().yaxis.set_major_formatter(formatter)
 
-    # Labels and title
-    plt.xlabel('Month', fontsize=16)
-    if columna in ['bobobo']:
-        plt.ylabel(yLabels[columna])
-    else:
-        plt.ylabel(' ')
+    # Draw the line between the last two months and calculate the percentage change
+    if len(PriorityData) >= 2:
+        last_value = PriorityData.iloc[-1]
+        second_last_value = PriorityData.iloc[-3]
+        percentage_change = (last_value - second_last_value) / \
+            second_last_value * 100
+
+        # Coordinates for the line
+        x_coords = [data.index[-3], data.index[-1]]
+        y_coords = [second_last_value, last_value]
+
+        # Draw the line
+        plt.plot(x_coords, y_coords, color='#007acc',
+                 linewidth=2, linestyle='--')
+
+        # Annotate the percentage change
+        mid_x = (x_coords[0] + x_coords[1]) / 2
+        mid_y = (y_coords[0] + y_coords[1]) / 2
+        plt.text(mid_x, mid_y, f'{percentage_change:.2f}%', color='#007acc',
+                 ha='center', va='bottom', fontsize=16, fontweight='bold',
+                 bbox=dict(facecolor='white', edgecolor='#007acc', boxstyle='round,pad=0.3'))
 
     if pais == 'PE':
         paisNombre = 'Perú'
@@ -139,15 +163,14 @@ def makeNewPriorityPlot(pais: str, prioridad: str, columna: str, yLabels: dict, 
     plt.legend(loc='upper center', bbox_to_anchor=(0.5, 1.15),
                ncol=2, frameon=False, prop={'size': 16})
 
-    if prioridad == '2':
-        plt.xticks(range(3, months[1]+1))
-    else:
-        plt.xticks(range(months[0], months[1]+1))
+    plt.xticks(range(len(data['Month'])))
+    plt.xlabel(' ')
+    plt.ylabel(' ')
 
     plot_folder = f'{mainPlotFolder}/{pais}/p{prioridad}/{columna}/'
     plt.gca().xaxis.set_major_locator(MaxNLocator(integer=True))
-    plt.xticks(fontsize=16)  # Set X-axis tick labels font size
-    plt.yticks(fontsize=16)  # Set Y-axis tick labels font size
+    plt.xticks(fontsize=20)  # Set X-axis tick labels font size
+    plt.yticks(fontsize=20)  # Set Y-axis tick labels font size
 
     # Create note for the last 4 months
     if len(PriorityData) >= 4:
@@ -177,6 +200,8 @@ def makeMultiMetricPlot(pais: str, prioridad: str, columnas: list, yLabels: dict
 
         data_dict[columna] = pd.DataFrame(
             {'Month': Month, 'PriorityData': PriorityData})
+        data_dict[columna]['Month'] = data_dict[columna]['Month'].apply(
+            lambda x: calendar.month_name[x])
 
     sns.set_theme(style="whitegrid")  # Set style, optional
     plt.figure(figsize=(12, 8))  # Set figure size, optional
@@ -210,11 +235,11 @@ def makeMultiMetricPlot(pais: str, prioridad: str, columnas: list, yLabels: dict
                 # Added bbox with border
                 bbox=dict(facecolor='white', edgecolor='black', boxstyle='round,pad=0.3', linewidth=1))
 
-    plt.xlabel('Month', fontsize=16)
+    plt.xlabel(' ')
     plt.ylabel(' ')
 
-    plt.xticks(fontsize=16)  # Set X-axis tick labels font size
-    plt.yticks(fontsize=16)  # Set Y-axis tick labels font size
+    plt.xticks(fontsize=20)  # Set X-axis tick labels font size
+    plt.yticks(fontsize=20)  # Set Y-axis tick labels font size
 
     plt.legend(loc='upper center', bbox_to_anchor=(0.5, 1.15),
                ncol=2, frameon=False, prop={'size': 16})
@@ -253,7 +278,7 @@ def RBurnGraphs(pais: str, prioridad: str):
             dataColumn = pd.read_csv(
                 f'{mainFolder}/{pais}/p{prioridad}/{columna}.csv', skiprows=1)
             dataColumn = dataColumn.iloc[months[0]-1:]
-            monthsDF = list(dataColumn['month'].values)
+            monthsDF = dataColumn['month']
             for monthDF in monthsDF:
                 if monthDF not in miniData:
                     miniData[monthDF] = {}
@@ -262,7 +287,7 @@ def RBurnGraphs(pais: str, prioridad: str):
 
     df = pd.DataFrame(miniData).T
     bestColumns = list(groups.keys())
-
+    monthsDF = np.array(monthsDF.apply(lambda x: calendar.month_name[x]))
     # Replace missing values with 0 and normalize the data
     df.fillna(0, inplace=True)
     data = df[bestColumns].values
@@ -287,15 +312,17 @@ def RBurnGraphs(pais: str, prioridad: str):
             height = bar.get_height()
             percentage = f'{data_normalized[j, i]:.1f}%'
             ax.text(bar.get_x() + bar.get_width() / 2, bottom[j] + height / 2,
-                    percentage, ha='center', va='center', color='black', fontsize=12,
+                    percentage, ha='center', va='center', color='black', fontsize=14,
                     bbox=dict(facecolor='white', edgecolor='black', boxstyle='round,pad=0.3', linewidth=1))
 
         bottom += data_normalized[:, i]
 
     # Adding labels and title
-    ax.set_xlabel('Months', fontsize=16)
+    ax.set_xlabel(' ', )
     ax.legend(loc='upper center', bbox_to_anchor=(0.5, 1.15),
               ncol=3, frameon=False, prop={'size': 14})
+    plt.xticks(fontsize=20)  # Set X-axis tick labels font size
+    plt.yticks(fontsize=20)  # Set Y-axis tick labels font size
 
     # Adjust layout to prevent clipping
     plt.tight_layout()
@@ -326,6 +353,8 @@ def makeDualYPlot(pais: str, prioridad: str, columnas: list, yLabels: dict, conf
 
         data_dict[columna] = pd.DataFrame(
             {'Month': Month, 'PriorityData': PriorityData})
+        data_dict[columna]['Month'] = data_dict[columna]['Month'].apply(
+            lambda x: calendar.month_name[x])
 
     sns.set_theme(style="ticks")
     fig, ax1 = plt.subplots(figsize=(12, 8))
@@ -333,12 +362,11 @@ def makeDualYPlot(pais: str, prioridad: str, columnas: list, yLabels: dict, conf
     # Plot for the first column on the left Y-axis
     data1 = data_dict[columnas[0]]
     color1 = 'tab:blue'
-    ax1.set_xlabel('Month')
+    ax1.set_xlabel(' ')
     # ax1.set_ylabel(yLabels.get(columnas[0], columnas[0]), color=color1)
     ax1.plot(data1['Month'], data1['PriorityData'], label=columnas[0].replace("_", " ").replace("gmv", "/gmv").capitalize(),
              color=color1, linewidth=4)
     ax1.tick_params(axis='y', labelcolor=color1, labelsize=16)
-
     # Plot for the second column on the right Y-axis
     ax2 = ax1.twinx()  # instantiate a second axes that shares the same x-axis
     data2 = data_dict[columnas[1]]
@@ -375,6 +403,9 @@ def makeDualYPlot(pais: str, prioridad: str, columnas: list, yLabels: dict, conf
             formatter = FuncFormatter(
                 lambda x, pos: str(round(x * 100, 2)) + '%')
         ax.yaxis.set_major_formatter(formatter)
+    plt.xticks(fontsize=24)  # Set X-axis tick labels font size
+    plt.yticks(fontsize=24)  # Set Y-axis tick labels font size
+
     plot_folder = f'{mainPlotFolder}/{pais}/p{prioridad}/{'_'.join(columnas)}/'
     savePlot(plot_folder,  f'''{config[0][0].upper()}{
              config[1][0].upper()}.png''')
@@ -387,7 +418,8 @@ def graphsForAllPriorities(country: str, columns: list):
             f'{mainFolder}/{country}/All/{columna}.csv', skiprows=1)
         df = df.iloc[months[0]-1:]
         df.reset_index(drop=True, inplace=True)
-        monthsDF = df['month'].values
+        monthsDF = df['month']
+        monthsDF = monthsDF.apply(lambda x: calendar.month_name[x])
         categories = df.columns[1:].values
         data = df.iloc[:, 1:].values
         totals = np.sum(data, axis=1)
@@ -409,7 +441,7 @@ def graphsForAllPriorities(country: str, columns: list):
                 height = bar.get_height()
                 percentage = f'{percentages[j, i]:.1f}%'
                 ax.text(bar.get_x() + bar.get_width() / 2, bottom[j] + height / 2,
-                        percentage, ha='center', va='center', color='black', fontsize=12,
+                        percentage, ha='center', va='center', color='black', fontsize=14,
                         bbox=dict(facecolor='white', edgecolor='black', boxstyle='round,pad=0.3', linewidth=1))
 
             bottom += data[:, i]
@@ -417,11 +449,13 @@ def graphsForAllPriorities(country: str, columns: list):
         # Adding labels and title
         ax.set_ylabel(
             f'{columna.replace("_", " ").replace("gmv", "/gmv").capitalize()}', fontsize=16)
-        ax.set_xlabel('Months', fontsize=16)
+        ax.set_xlabel(' ', fontsize=16)
         ax.legend(loc='upper center',
                   bbox_to_anchor=(0.5, 1.15), ncol=3, frameon=False,
                   prop={'size': 14})
         # Adjust layout to prevent clipping
+        plt.xticks(fontsize=20)  # Set X-axis tick labels font size
+        plt.yticks(fontsize=20)  # Set Y-axis tick labels font size
         plt.tight_layout()
 
         # Save the plot
@@ -450,10 +484,11 @@ def main():
                         makeDualYPlot(pais, prioridad, combination[0],
                                       yLabelsPerColumn, config)
                 pass
-                RBurnGraphs(pais, prioridad)
+            RBurnGraphs(pais, prioridad)
             print(f'Plots de {pais} p{prioridad} creado')
         graphsForAllPriorities(pais, columns)
 
 
 if __name__ == '__main__':
     main()
+    makePlots2()

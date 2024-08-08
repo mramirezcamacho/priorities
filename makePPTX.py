@@ -319,8 +319,8 @@ def main():
     bigFolders = [plotsFolder,]
     for bigFolder in bigFolders:
         if both:
-            makePresentation(MAC=True, bigFolder=bigFolder)
             makePresentation(MAC=False, bigFolder=bigFolder)
+            makePresentation(MAC=True, bigFolder=bigFolder)
         else:
             makePresentation(MAC=MAC, bigFolder=bigFolder)
 
