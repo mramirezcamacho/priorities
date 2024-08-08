@@ -203,8 +203,8 @@ def makeMultiMetricPlot(pais: str, prioridad: str, columnas: list, yLabels: dict
         data_dict[columna]['Month'] = data_dict[columna]['Month'].apply(
             lambda x: calendar.month_name[x])
 
-    sns.set_theme(style="whitegrid")  # Set style, optional
-    plt.figure(figsize=(12, 8))  # Set figure size, optional
+    sns.set_theme(style="whitegrid")
+    plt.figure(figsize=(12, 8))
 
     for columna in columnas:
         data = data_dict[columna]
@@ -219,27 +219,36 @@ def makeMultiMetricPlot(pais: str, prioridad: str, columnas: list, yLabels: dict
     meanValue = (max_value - min_value)
     bigData = max_value > 1
 
+    last_positions = {}
+    # Adjustable offset factor to reduce overlaps
+    offset = meanValue * tasaCambio * 3
+
     for columna in columnas:
         data = data_dict[columna]
         PriorityData = data['PriorityData']
 
         for i, (mes, new_priority) in enumerate(zip(data['Month'], PriorityData)):
+            text_label = f'{round(new_priority/1000000, 2)}M' if max_value // 1000000 > 0 else (
+                f'{round(new_priority * 100, 2)}%' if (max_value < 1) and not bigData else f"{new_priority:,.2f}")
+
+            # Check for overlapping with previous labels
+            if mes in last_positions:
+                last_position = last_positions[mes]
+                if abs(new_priority - last_position) < offset:
+                    new_priority += offset  # Adjust position to avoid overlap
+
+            last_positions[mes] = new_priority
+
             plt.text(mes, new_priority + ((-meanValue*tasaCambio) if config[1] == 'bottom' else (meanValue*tasaCambio)),
-                     f'{round(new_priority/1000000, 2)}M' if max_value // 1000000 > 0 else (
-                f'{round(new_priority * 100, 2)}%' if (max_value <
-                                                       1) and not bigData else f"{new_priority:,.2f}"
-            ),
-                # Adjusted fontsize
-                color='black', ha='center', va=config[1], fontsize=16,
-                # Added bbox
-                # Added bbox with border
-                bbox=dict(facecolor='white', edgecolor='black', boxstyle='round,pad=0.3', linewidth=1))
+                     text_label,
+                     color='black', ha='center', va=config[1], fontsize=16,
+                     bbox=dict(facecolor='white', edgecolor='black', boxstyle='round,pad=0.3', linewidth=1))
 
     plt.xlabel(' ')
     plt.ylabel(' ')
 
-    plt.xticks(fontsize=20)  # Set X-axis tick labels font size
-    plt.yticks(fontsize=20)  # Set Y-axis tick labels font size
+    plt.xticks(fontsize=20)
+    plt.yticks(fontsize=20)
 
     plt.legend(loc='upper center', bbox_to_anchor=(0.5, 1.15),
                ncol=2, frameon=False, prop={'size': 16})
@@ -253,7 +262,7 @@ def makeMultiMetricPlot(pais: str, prioridad: str, columnas: list, yLabels: dict
         formatter = FuncFormatter(lambda x, pos: str(round(x*100, 2)) + '%')
         plt.gca().yaxis.set_major_formatter(formatter)
 
-    plot_folder = f'{mainPlotFolder}/{pais}/p{prioridad}/{'_'.join(columnas)}/'
+    plot_folder = f'{mainPlotFolder}/{pais}/p{prioridad}/{"_".join(columnas)}/'
 
     savePlot(plot_folder,  f'''{config[0][0].upper()}{
              config[1][0].upper()}.png''')
@@ -473,18 +482,19 @@ def main():
     for pais in paises:
         for prioridad in prioridades:
             for config in configs:
-                for columna in columns:
-                    makeNewPriorityPlot(pais, prioridad, columna,
-                                        yLabelsPerColumn, config)
+                # for columna in columns:
+                #     makeNewPriorityPlot(pais, prioridad, columna,
+                #                         yLabelsPerColumn, config)
                 for combination in combinatory:
                     if combination[1] == 'Basic':
                         makeMultiMetricPlot(pais, prioridad, combination[0],
                                             yLabelsPerColumn, config)
                     else:
-                        makeDualYPlot(pais, prioridad, combination[0],
-                                      yLabelsPerColumn, config)
-                pass
-            RBurnGraphs(pais, prioridad)
+                        # makeDualYPlot(pais, prioridad, combination[0],
+                        #               yLabelsPerColumn, config)
+                        pass
+            #     pass
+            # RBurnGraphs(pais, prioridad)
             print(f'Plots de {pais} p{prioridad} creado')
         graphsForAllPriorities(pais, columns)
 
