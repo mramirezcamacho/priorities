@@ -18,6 +18,41 @@ def getColumns(filePath: str = folderToGetData):
     return columns
 
 
+def addNewColumns(df: pd.DataFrame):
+    newColumnsDF = pd.read_csv('newColumns/newColumns.csv')
+    newColumnsToAppend = newColumnsDF.columns[3:]
+    for column in newColumnsToAppend:
+        df[column] = None
+    newColumnsDF['date'] = newColumnsDF['date'].str.split(
+        '-').str[1].astype(int)
+    prioridades = newColumnsDF['priority'].unique()
+    months = newColumnsDF['date'].unique()
+    countries = newColumnsDF['Country'].unique()
+    # now, lets append the new columns to df with the values of newColumnsDF that match with the df
+    for country in countries:
+        for month in months:
+            for priority in prioridades:
+                totalSumOfTheNewColumns = 0
+                for column in newColumnsToAppend:
+                    value = newColumnsDF[(newColumnsDF['Country'] == country) & (
+                        newColumnsDF['date'] == month) & (newColumnsDF['priority'] == priority)][column].values
+                    if len(value) > 0:
+                        totalSumOfTheNewColumns += value[0]
+                if totalSumOfTheNewColumns == 0:
+                    continue
+                for column in newColumnsToAppend:
+                    value = newColumnsDF[(newColumnsDF['Country'] == country) & (
+                        newColumnsDF['date'] == month) & (newColumnsDF['priority'] == priority)][column].values
+                    if len(value) > 0:
+                        df.loc[(df['country_code'] == country) & (df['month_'] == month) & (
+                            df['priority'] == priority), column] = value[0] / totalSumOfTheNewColumns
+    for i, row in df.iterrows():
+        for newColumn in newColumnsToAppend:
+            if df.loc[i, newColumn] is None:
+                df.loc[i, newColumn] = 0
+    return df
+
+
 def dividePerCountry(filePath: str = folderToGetData, comparation=False):
     """
     Divide the data per country and save it in a new folder
@@ -50,6 +85,7 @@ def dividePerCountry(filePath: str = folderToGetData, comparation=False):
                 dataCountry = dataCountry.sort_values(
                     by=['week', 'Country', 'priority'], ascending=[False, True, False])
             # Save the data
+            dataCountry = addNewColumns(dataCountry)
             if comparation:
                 dataCountry.to_csv(
                     f'{folderToSendData}/'+f'{file[:3]}{country}_data'+'.csv', index=False)
@@ -58,3 +94,8 @@ def dividePerCountry(filePath: str = folderToGetData, comparation=False):
                     f'{folderToSendData}/'+f'{country}_data.csv', index=False)
 
     return
+
+
+if __name__ == '__main__':
+    dividePerCountry()
+    print('Data divided successfully')

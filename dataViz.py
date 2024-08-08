@@ -365,16 +365,16 @@ def main():
     for pais in paises:
         for prioridad in prioridades:
             for config in configs:
-                # for columna in columns:
-                #     makeNewPriorityPlot(pais, prioridad, columna,
-                #                         yLabelsPerColumn, config)
-                # for combination in combinatory:
-                #     if combination[1] == 'Basic':
-                #         makeMultiMetricPlot(pais, prioridad, combination[0],
-                #                             yLabelsPerColumn, config)
-                #     else:
-                #         makeDualYPlot(pais, prioridad, combination[0],
-                #                       yLabelsPerColumn, config)
+                for columna in columns:
+                    makeNewPriorityPlot(pais, prioridad, columna,
+                                        yLabelsPerColumn, config)
+                for combination in combinatory:
+                    if combination[1] == 'Basic':
+                        makeMultiMetricPlot(pais, prioridad, combination[0],
+                                            yLabelsPerColumn, config)
+                    else:
+                        makeDualYPlot(pais, prioridad, combination[0],
+                                      yLabelsPerColumn, config)
                 pass
             print(f'Plots de {pais} p{prioridad} creado')
         graphsForAllPriorities(pais, columns)
