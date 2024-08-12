@@ -16,9 +16,9 @@ def deleteFolders():
 
 
 if __name__ == '__main__':
-    deleteFolders()
-    dividePerCountry()
-    start()
+    # deleteFolders()
+    # dividePerCountry()
+    # start()
     makePlots()
     makePlots2()
     makePPTX()

@@ -16,9 +16,13 @@ columns = ['orders_per_eff_online', 'eff_online_rs', 'daily_orders',
            'imperfect_order_rate_bad_rating_rate', 'eff_online_rs_healthy_stores', 'priorityChanges',
            'exposure_per_eff_online_b_p1p2', 'ted_gmv_r_burn_gmv_b2c_gmv_p2c_gmv', 'DistributionOrdersDiscounts',
            ]
-columnsCountry = ['daily_orders', 'eff_online_rs', 'complete_orders']
+columnsCountry = ['daily_orders', 'eff_online_rs']
 
-# P1P2 vs UV en distintos ejes
+TITLE_START = (1.3, 0.1)
+ACTIONTITLE_START = (0.5, TITLE_START[1]+0.75)
+SUBTITLE_START = (0.5, ACTIONTITLE_START[1]+0.5)
+IMG_TOP = SUBTITLE_START[1]+0.8
+SIZE = (800, 700)
 
 
 def getFilesFromFolder(folder):
@@ -160,7 +164,7 @@ def getImagesAndNotes(folderInitial: str, pais: str, prioridad: str, country=Fal
     return graph_image_paths, graph_text_paths
 
 
-def calculateSpace(slideSizeX: float, imgInchSize: float, howMuchi: int, size: tuple = (800, 600)):
+def calculateSpace(slideSizeX: float, imgInchSize: float, howMuchi: int, size: tuple = SIZE):
     spaceBetweenEquiSpace = round(
         (slideSizeX-(imgInchSize*howMuchi))/(howMuchi+1), 2)
     spaceBetweenBorderSpace = round((slideSizeX-(imgInchSize*howMuchi))/2, 2)
@@ -181,7 +185,7 @@ def calculateSpace(slideSizeX: float, imgInchSize: float, howMuchi: int, size: t
     return space, typeOfSpace, widthOfImg, heightOfImg
 
 
-def addGraphAndText(slide, graph_image_path: str, graph_note_path: str, Yposition: float, slideData: tuple, folder: str, size: tuple = (800, 600), slideSize: tuple = (14.5, 7.5)):
+def addGraphAndText(slide, graph_image_path: str, graph_note_path: str, Yposition: float, slideData: tuple, folder: str, size: tuple = SIZE, slideSize: tuple = (14.5, 7.5)):
     slideSizeX, slideSizeY = slideSize
     i, howMuchi = slideData
     imgInchSize = 4.5
@@ -222,7 +226,27 @@ def getPriorityText(priority: str):
     return priorityText
 
 
+def basicSlide(prs, country, actionTitle, priorityText):
+    WIDTH, HEIGHT = (14.5, 7.5)
+    slide_layout = prs.slide_layouts[6]  # Using a blank layout
+    slide = prs.slides.add_slide(slide_layout)
+    country_image_path = f'resources/{country}.png'
+    didi = f'resources/didi.png'
+    slide.shapes.add_picture(country_image_path, Inches(
+        0.5), Inches(0.1), width=Inches(0.75), height=Inches(0.75))
+    slide.shapes.add_picture(didi, Inches(
+        13), Inches(0.01), width=Inches(1.5), height=Inches(0.84375))
+    add_text(slide, actionTitle, font_size=0.5,
+             bold=True, color=(252, 76, 2), position=(TITLE_START[0], TITLE_START[1], WIDTH-TITLE_START[0]-2-0.5, 0.75),)
+    add_text(slide, f'Action Title', font_size=0.5*0.7,
+             bold=True, color=(0, 0, 0), position=(ACTIONTITLE_START[0], ACTIONTITLE_START[1], WIDTH-0.5, 0.5), vertical=True)
+    add_text(slide, f'{priorityText} - ', font_size=0.25,
+             bold=False, color=(0, 0, 0), position=(SUBTITLE_START[0], SUBTITLE_START[1], WIDTH-0.5, 0.4), vertical=True)
+    return slide
+
+
 def makePresentation(MAC: bool = True, prioridades: list = ['1', '2', '3', '4',], bigFolder=plotsFolder, imagesPerSlide: int = 3):
+
     if MAC:
         paises = ['CO', 'PE', 'CR',]
     else:
@@ -240,71 +264,37 @@ def makePresentation(MAC: bool = True, prioridades: list = ['1', '2', '3', '4',]
             output_dir = f'{presentationsFolder}/{bigFolder}'
             for i in range(0, len(graph_image_paths)):
                 if i % imagesPerSlide == 0:
-                    slide_layout = prs.slide_layouts[6]  # Using a blank layout
-                    slide = prs.slides.add_slide(slide_layout)
-                    country_image_path = f'resources/{pais}.png'
-                    didi = f'resources/didi.png'
-                    slide.shapes.add_picture(country_image_path, Inches(
-                        0.5), Inches(0.1), width=Inches(0.75), height=Inches(0.75))
-                    slide.shapes.add_picture(didi, Inches(
-                        13), Inches(0.01), width=Inches(1.5), height=Inches(0.84375))
-                titleStart = (1.3, 0.1)
-                priorityText = getPriorityText(priority)
-                if i % imagesPerSlide == 0:
-                    if i//imagesPerSlide == 0:
-                        add_text(slide, f'PERFORMANCE', font_size=0.5,
-                                 bold=True, color=(252, 76, 2), position=(titleStart[0], titleStart[1], width-titleStart[0]-2-0.5, 0.75),)
-                    elif i//imagesPerSlide == 1:
-                        add_text(slide, f'MIXED', font_size=0.5,
-                                 bold=True, color=(252, 76, 2), position=(titleStart[0], titleStart[1], width-titleStart[0]-2-0.5, 0.75),)
+                    priorityText = getPriorityText(priority)
+                    title = ''
+                    if i // imagesPerSlide == 0:
+                        title = 'PERFORMANCE'
+                    elif i // imagesPerSlide == 1:
+                        title = 'SERVICE'
+                    elif i // imagesPerSlide == 2:
+                        title = 'EXPOSURE AND BURN'
                     else:
-                        add_text(slide, f'SERVICE', font_size=0.5,
-                                 bold=True, color=(252, 76, 2), position=(titleStart[0], titleStart[1], width-titleStart[0]-2-0.5, 0.75),)
-                    actionTitleStart = (0.5, titleStart[1]+0.75)
-                    add_text(slide, f'Action Title', font_size=0.5,
-                             bold=True, color=(0, 0, 0), position=(actionTitleStart[0], actionTitleStart[1], width-0.5, 0.5), vertical=True)
-                    subTitleStart = (0.5, actionTitleStart[1]+0.5)
-                    add_text(slide, f'{priorityText} - ', font_size=0.25,
-                             bold=False, color=(0, 0, 0), position=(subTitleStart[0], subTitleStart[1], width-0.5, 0.4), vertical=True)
-                imgTop = subTitleStart[1]+0.8
+                        title = 'NO TITLE'
+                    slide = basicSlide(prs, pais, title, priorityText)
                 addGraphAndText(slide, graph_image_paths[i], graph_text_paths[i],
-                                imgTop, (i % imagesPerSlide+1, min(imagesPerSlide, len(graph_image_paths)-imagesPerSlide*(i//imagesPerSlide))), bigFolder)
+                                IMG_TOP, (i % imagesPerSlide+1, min(imagesPerSlide, len(graph_image_paths)-imagesPerSlide*(i//imagesPerSlide))), bigFolder)
                 if i % imagesPerSlide == 0:
                     space, a, imgInchSize, heightOfImg = calculateSpace(width, 4.5, min(
                         imagesPerSlide, len(graph_image_paths)-imagesPerSlide*(i//imagesPerSlide)))
-                    add_text(slide, f'Insights', font_size=0.2,
-                             bold=False, color=(255, 255, 255), position=(space, imgTop+heightOfImg, imgInchSize-0.03, 0.3), vertical=True,
+                    add_text(slide, f'Comments', font_size=0.2,
+                             bold=False, color=(255, 255, 255), position=(space, IMG_TOP+heightOfImg, imgInchSize-0.03, 0.3), vertical=True,
                              BG=(252, 76, 2))
-
-            # Save the presentation
-        slide_layout = prs.slide_layouts[6]
-        slide = prs.slides.add_slide(slide_layout)
-        country_image_path = f'resources/{pais}.png'
-        didi = f'resources/didi.png'
-        slide.shapes.add_picture(country_image_path, Inches(
-            0.5), Inches(0.1), width=Inches(0.75), height=Inches(0.75))
-        slide.shapes.add_picture(didi, Inches(
-            13), Inches(0.01), width=Inches(1.5), height=Inches(0.84375))
-        titleStart = (1.3, 0.1)
-        add_text(slide, f'PERFORMANCE', font_size=0.5,
-                 bold=True, color=(252, 76, 2), position=(titleStart[0], titleStart[1], width-titleStart[0]-2-0.5, 0.75),)
-        actionTitleStart = (0.5, titleStart[1]+0.75)
-        add_text(slide, f'Action Title', font_size=0.5,
-                 bold=True, color=(0, 0, 0), position=(actionTitleStart[0], actionTitleStart[1], width-0.5, 0.5), vertical=True)
-        subTitleStart = (0.5, actionTitleStart[1]+0.5)
-        add_text(slide, f'Country overview - ', font_size=0.25,
-                 bold=False, color=(0, 0, 0), position=(subTitleStart[0], subTitleStart[1], width-0.5, 0.4), vertical=True)
-        imgTop = subTitleStart[1]+0.8
+        # Country overview
+        slide = basicSlide(prs, pais, 'PERFORMANCE', 'Country overview')
         graph_image_paths, graph_text_paths = getImagesAndNotes(
             bigFolder, pais, priority, country=True)
         for i in range(0, len(graph_image_paths)):
             addGraphAndText(slide, graph_image_paths[i], graph_text_paths[i],
-                            imgTop, (i+1, len(graph_image_paths)), bigFolder, size=(800, 600))
+                            IMG_TOP, (i+1, len(graph_image_paths)), bigFolder, size=SIZE)
             if i == 0:
                 space, a, imgInchSize, heightOfImg = calculateSpace(
                     width, 4.5, len(graph_image_paths))
-                add_text(slide, f'Insights', font_size=0.2,
-                         bold=False, color=(255, 255, 255), position=(space, imgTop+heightOfImg, imgInchSize-0.03, 0.3), vertical=True,
+                add_text(slide, f'Comments', font_size=0.2,
+                         bold=False, color=(255, 255, 255), position=(space, IMG_TOP+heightOfImg, imgInchSize-0.03, 0.3), vertical=True,
                          BG=(252, 76, 2))
 
         print(f'Acabé con {pais} en {bigFolder}!')

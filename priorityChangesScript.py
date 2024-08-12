@@ -145,7 +145,7 @@ def makePlots2():
                 priorityFolderName(priority_initial)}/priorityChanges'''
             if not os.path.exists(output_folder):
                 os.makedirs(output_folder)
-            plt.figure(figsize=(12, 8))  # Figure size
+            plt.figure(figsize=(12, 10.5))  # Figure size
 
             months = sorted(months_data.keys(), key=lambda x: month_order[x])
             priority_labels = list(months_data[months[0]].keys())

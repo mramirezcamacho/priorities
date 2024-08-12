@@ -98,7 +98,7 @@ def makeNewPriorityPlot(pais: str, prioridad: str, columna: str, yLabels: dict, 
     data['Month'] = data['Month'].apply(lambda x: calendar.month_name[x])
     # Plot using seaborn
     sns.set_theme(style="whitegrid")  # Set style, optional
-    plt.figure(figsize=(9, 6))  # Set figure size, optional
+    plt.figure(figsize=(12, 10.5))  # Set figure size, optional
 
     # Plot PriorityData
     sns.lineplot(x='Month', y='PriorityData',
@@ -206,7 +206,7 @@ def makeMultiMetricPlot(pais: str, prioridad: str, columnas: list, yLabels: dict
             lambda x: calendar.month_name[x])
 
     sns.set_theme(style="whitegrid")
-    plt.figure(figsize=(12, 8))
+    plt.figure(figsize=(12, 10.5))
 
     for columna in columnas:
         data = data_dict[columna]
@@ -368,7 +368,7 @@ def makeDualYPlot(pais: str, prioridad: str, columnas: list, yLabels: dict, conf
             lambda x: calendar.month_name[x])
 
     sns.set_theme(style="ticks")
-    fig, ax1 = plt.subplots(figsize=(12, 8))
+    fig, ax1 = plt.subplots(figsize=(12, 10.5))
 
     # Plot for the first column on the left Y-axis
     data1 = data_dict[columnas[0]]
