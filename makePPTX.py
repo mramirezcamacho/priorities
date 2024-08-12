@@ -222,7 +222,7 @@ def getPriorityText(priority: str):
     return priorityText
 
 
-def makePresentation(MAC: bool = True, prioridades: list = ['1', '2', '3', '4', '5',], bigFolder=plotsFolder, imagesPerSlide: int = 3):
+def makePresentation(MAC: bool = True, prioridades: list = ['1', '2', '3', '4',], bigFolder=plotsFolder, imagesPerSlide: int = 3):
     if MAC:
         paises = ['CO', 'PE', 'CR',]
     else:

@@ -115,7 +115,7 @@ def makeNewPriorityPlot(pais: str, prioridad: str, columna: str, yLabels: dict, 
         plt.text(mes, new_priority + ((-meanValue*tasaCambio) if config[1] == 'bottom' else (meanValue*tasaCambio)),
                  f'''{round(new_priority/1000000, 2)}M''' if maxValue // 1000000 > 0 else (
             f'''{round(new_priority * 100, 2)
-                 }%''' if (maxValue < 1) else f"{new_priority:,.2f}"
+                 }%''' if (maxValue < 1 and columna != 'orders_per_eff_online') else f"{new_priority:,.2f}"
         ), color='#fc4c02', ha='center', va=config[1], fontsize=16,
                  bbox=dict(facecolor='white', edgecolor='#fc4c02', boxstyle='round,pad=0.3'))
 
@@ -127,6 +127,8 @@ def makeNewPriorityPlot(pais: str, prioridad: str, columna: str, yLabels: dict, 
     else:
         formatter = FuncFormatter(
             lambda x, pos: str(round(float(x)*100, 2))+'%')
+    if columna == 'orders_per_eff_online':
+        formatter = FuncFormatter(lambda x, pos: '{:,.1f}'.format(x))
     plt.gca().yaxis.set_major_formatter(formatter)
 
     # Draw the line between the last two months and calculate the percentage change
@@ -482,19 +484,18 @@ def main():
     for pais in paises:
         for prioridad in prioridades:
             for config in configs:
-                # for columna in columns:
-                #     makeNewPriorityPlot(pais, prioridad, columna,
-                #                         yLabelsPerColumn, config)
+                for columna in columns:
+                    makeNewPriorityPlot(pais, prioridad, columna,
+                                        yLabelsPerColumn, config)
                 for combination in combinatory:
                     if combination[1] == 'Basic':
                         makeMultiMetricPlot(pais, prioridad, combination[0],
                                             yLabelsPerColumn, config)
                     else:
-                        # makeDualYPlot(pais, prioridad, combination[0],
-                        #               yLabelsPerColumn, config)
-                        pass
+                        makeDualYPlot(pais, prioridad, combination[0],
+                                      yLabelsPerColumn, config)
             #     pass
-            # RBurnGraphs(pais, prioridad)
+            RBurnGraphs(pais, prioridad)
             print(f'Plots de {pais} p{prioridad} creado')
         graphsForAllPriorities(pais, columns)
 
