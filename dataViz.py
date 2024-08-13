@@ -20,8 +20,8 @@ serio = 1
 
 def getInitialData(serio: bool):
     if serio:
-        paises = ['PE', 'CO', 'MX', 'CR']
-        prioridades = ['0', '1', '2', '3', '4', '5']
+        paises = ['MX', 'CO', 'PE', 'CR']
+        prioridades = ['0', '1', '2', '3', '4',]
         columns = getColumns()
         columns = ['orders_per_eff_online', 'eff_online_rs', 'daily_orders',
                    'exposure_per_eff_online', 'b_p1p2', 'ted_gmv', 'r_burn_gmv', 'b2c_gmv', 'p2c_gmv',
@@ -116,7 +116,7 @@ def makeNewPriorityPlot(pais: str, prioridad: str, columna: str, yLabels: dict, 
                  f'''{round(new_priority/1000000, 2)}M''' if maxValue // 1000000 > 0 else (
             f'''{round(new_priority * 100, 2)
                  }%''' if (maxValue < 1 and columna != 'orders_per_eff_online') else f"{new_priority:,.2f}"
-        ), color='#fc4c02', ha='center', va=config[1], fontsize=16,
+        ), color='#fc4c02', ha='center', va=config[1], fontsize=22,
                  bbox=dict(facecolor='white', edgecolor='#fc4c02', boxstyle='round,pad=0.3'))
 
     # Format y-axis
@@ -150,20 +150,11 @@ def makeNewPriorityPlot(pais: str, prioridad: str, columna: str, yLabels: dict, 
         mid_x = (x_coords[0] + x_coords[1]) / 2
         mid_y = (y_coords[0] + y_coords[1]) / 2
         plt.text(mid_x, mid_y, f'{percentage_change:.2f}%', color='#007acc',
-                 ha='center', va='bottom', fontsize=16, fontweight='bold',
+                 ha='center', va='bottom', fontsize=22, fontweight='bold',
                  bbox=dict(facecolor='white', edgecolor='#007acc', boxstyle='round,pad=0.3'))
 
-    if pais == 'PE':
-        paisNombre = 'Perú'
-    elif pais == 'CO':
-        paisNombre = 'Colombia'
-    elif pais == 'MX':
-        paisNombre = 'México'
-    elif pais == 'CR':
-        paisNombre = 'Costa Rica'
-
     plt.legend(loc='upper center', bbox_to_anchor=(0.5, 1.15),
-               ncol=2, frameon=False, prop={'size': 16})
+               ncol=2, frameon=False, prop={'size': 20})
 
     plt.xticks(range(len(data['Month'])))
     plt.xlabel(' ')
@@ -175,11 +166,21 @@ def makeNewPriorityPlot(pais: str, prioridad: str, columna: str, yLabels: dict, 
     plt.yticks(fontsize=20)  # Set Y-axis tick labels font size
 
     # Create note for the last 4 months
-    if len(PriorityData) >= 4:
-        note = f'Mean over the last {months[1]-months[0]} months: {
-            round(meanLastXMonthsNew, 2)}'
-    else:
-        note = 'No hay suficientes datos para calcular la media de los últimos 4 meses.'
+    note = ''
+    # format it to millions if it is bigger than 1M, and to percentage if it is less than 1
+    highest = f'''Highest: {round(maxValue/1000000, 2)}M''' if maxValue // 1000000 > 0 else (
+        f'''Highest: {round(maxValue * 100, 2)}%\n''' if maxValue < 1 and columna != 'orders_per_eff_online' else f'''Highest: {maxValue:,.2f}''')
+
+    lowest = f'''Lowest: {round(minValue/1000000, 2)}M''' if minValue // 1000000 > 0 else (
+        f'''Lowest: {round(minValue * 100, 2)}%''' if minValue < 1 and columna != 'orders_per_eff_online' else f'''Lowest: {minValue:,.2f}''')
+
+    highestAndLowest = highest + ', ' + lowest + '\n'
+    # Format the mean of the last 4 months
+    meanLastXMonths = f'''Mean of the last 4 months: {
+        round(meanLastXMonthsNew / 1000000, 2)}M\n''' if maxValue // 1000000 > 0 else (
+        f'''Mean of the last 4 months: {round(meanLastXMonthsNew * 100, 2)}%\n''' if maxValue < 1 and columna != 'orders_per_eff_online' else f'''Mean of the last 4 months: {meanLastXMonthsNew:,.2f}\n''')
+
+    note += highestAndLowest + meanLastXMonths
 
     # Save note and plot
     saveTXT(plot_folder, 'note.txt', note)
@@ -243,7 +244,7 @@ def makeMultiMetricPlot(pais: str, prioridad: str, columnas: list, yLabels: dict
 
             plt.text(mes, new_priority + ((-meanValue*tasaCambio) if config[1] == 'bottom' else (meanValue*tasaCambio)),
                      text_label,
-                     color='black', ha='center', va=config[1], fontsize=16,
+                     color='black', ha='center', va=config[1], fontsize=22,
                      bbox=dict(facecolor='white', edgecolor='black', boxstyle='round,pad=0.3', linewidth=1))
 
     plt.xlabel(' ')
@@ -253,7 +254,7 @@ def makeMultiMetricPlot(pais: str, prioridad: str, columnas: list, yLabels: dict
     plt.yticks(fontsize=20)
 
     plt.legend(loc='upper center', bbox_to_anchor=(0.5, 1.15),
-               ncol=2, frameon=False, prop={'size': 16})
+               ncol=2, frameon=False, prop={'size': 20})
 
     plt.gca().xaxis.set_major_locator(MaxNLocator(integer=True))
 
@@ -268,7 +269,26 @@ def makeMultiMetricPlot(pais: str, prioridad: str, columnas: list, yLabels: dict
 
     savePlot(plot_folder,  f'''{config[0][0].upper()}{
              config[1][0].upper()}.png''')
-    saveTXT(plot_folder, f'note.txt', 'Example text')
+
+    noteText = ''
+    for columna in columnas:
+        # put the average of the last 4 months, and the percentage change between the last 2 months
+        noteText += (
+            f'''{columna.replace("_", " ").replace("gmv", "/gmv").capitalize()} average in the last 4 months: {
+                round(np.mean(data_dict[columna].iloc[-months[1]:, 1])/1000000, 2)}M'''
+            if max_value // 1000000 > 0
+            else f'''{columna.replace("_", " ").replace("gmv", "/gmv").capitalize()} average in the last 4 months: {round(np.mean(data_dict[columna].iloc[-months[1]:, 1]) * 100, 2)} %'''
+            if max_value < 1 and columna != 'orders_per_eff_online'
+            else f'''{columna.replace("_", " ").replace("gmv", "/gmv").capitalize()} average in the last 4 months: {np.mean(data_dict[columna].iloc[-months[1]:, 1]):,.2f}'''
+        )
+        noteText += (
+            f''' and the percentage change between the last 2 months: {round(
+                (data_dict[columna].iloc[-1, 1] - data_dict[columna].iloc[-2, 1]) / data_dict[columna].iloc[-3, 1] * 100, 2)}%.\n'''
+        )
+    if len(columnas) > 2:
+        noteText = ''
+
+    saveTXT(plot_folder, 'note.txt', noteText)
 
 
 def RBurnGraphs(pais: str, prioridad: str):
@@ -293,8 +313,10 @@ def RBurnGraphs(pais: str, prioridad: str):
             for monthDF in monthsDF:
                 if monthDF not in miniData:
                     miniData[monthDF] = {}
-                miniData[monthDF][group] = dataColumn.loc[dataColumn['month']
-                                                          == monthDF]['Priority'].values[0]
+                if group not in miniData[monthDF]:
+                    miniData[monthDF][group] = 0
+                miniData[monthDF][group] += dataColumn[dataColumn['month']
+                                                       == monthDF]['Priority'].values[0]
 
     df = pd.DataFrame(miniData).T
     bestColumns = list(groups.keys())
@@ -308,7 +330,7 @@ def RBurnGraphs(pais: str, prioridad: str):
     data_normalized = data / totals[:, None] * 100
 
     # Plotting the stacked bar chart
-    fig, ax = plt.subplots(figsize=(9, 6))
+    fig, ax = plt.subplots(figsize=(12, 10.5))
 
     # Define the bottom of each bar segment
     bottom = np.zeros(len(monthsDF))
@@ -323,7 +345,7 @@ def RBurnGraphs(pais: str, prioridad: str):
             height = bar.get_height()
             percentage = f'{data_normalized[j, i]:.1f}%'
             ax.text(bar.get_x() + bar.get_width() / 2, bottom[j] + height / 2,
-                    percentage, ha='center', va='center', color='black', fontsize=14,
+                    percentage, ha='center', va='center', color='black', fontsize=22,
                     bbox=dict(facecolor='white', edgecolor='black', boxstyle='round,pad=0.3', linewidth=1))
 
         bottom += data_normalized[:, i]
@@ -331,7 +353,7 @@ def RBurnGraphs(pais: str, prioridad: str):
     # Adding labels and title
     ax.set_xlabel(' ', )
     ax.legend(loc='upper center', bbox_to_anchor=(0.5, 1.15),
-              ncol=3, frameon=False, prop={'size': 14})
+              ncol=3, frameon=False, prop={'size': 20})
     plt.xticks(fontsize=20)  # Set X-axis tick labels font size
     plt.yticks(fontsize=20)  # Set Y-axis tick labels font size
 
@@ -342,7 +364,22 @@ def RBurnGraphs(pais: str, prioridad: str):
     plot_folder = f'''{
         mainPlotFolder}/{pais}/p{prioridad}/DistributionOrdersDiscounts/'''
     savePlot(plot_folder, 'All.png')
-    saveTXT(plot_folder, 'note.txt', 'Example text')
+    # this note is more complicated, we'll show the nominal values from the csv, do check this out
+    noteText = 'Last Month Data:\n'
+    dfNomalValues = pd.read_csv('newColumns/newColumns.csv')
+    dfNomalValues['date'] = dfNomalValues['date'].str.split(
+        '-').str[1].astype(int)
+    dfNomalValues = dfNomalValues[dfNomalValues['date'] == months[1]]
+    for group, columns in groups.items():
+        sumPerGroup = 0
+        for column in columns:
+            data2check = dfNomalValues[(dfNomalValues['Country'] == pais) & (
+                dfNomalValues['priority'] == f'Priority {prioridad}')]
+            if len(data2check) > 0:
+                sumPerGroup += int(data2check[column].values[0])
+        noteText += f'{group}: {sumPerGroup/1000000}M orders\n' if sumPerGroup // 1000000 > 0 else (
+            f'{group}: {sumPerGroup:,.0f} orders\n')
+    saveTXT(plot_folder, 'note.txt', noteText)
 
 
 def makeDualYPlot(pais: str, prioridad: str, columnas: list, yLabels: dict, config: tuple = ('bottom', 'top'), tasaCambio=0.02):
@@ -405,7 +442,7 @@ def makeDualYPlot(pais: str, prioridad: str, columnas: list, yLabels: dict, conf
                         f'{round(new_priority * 100, 2)}%' if (max_value <
                                                                1) and not bigData else f"{new_priority:,.2f}"
             ),
-                color=color, ha='center', va=config[1], fontsize=16,
+                color=color, ha='center', va=config[1], fontsize=22,
                 bbox=dict(facecolor='white', edgecolor=color, boxstyle='round,pad=0.3', linewidth=1))
 
         if bigData:
@@ -420,7 +457,22 @@ def makeDualYPlot(pais: str, prioridad: str, columnas: list, yLabels: dict, conf
     plot_folder = f'{mainPlotFolder}/{pais}/p{prioridad}/{'_'.join(columnas)}/'
     savePlot(plot_folder,  f'''{config[0][0].upper()}{
              config[1][0].upper()}.png''')
-    saveTXT(plot_folder, f'note.txt', 'Example text')
+    noteText = ''
+    for columna in columnas:
+        # put the average of the last 4 months, and the percentage change between the last 2 months
+        noteText += (
+            f'''{columna.replace("_", " ").replace("gmv", "/gmv").capitalize()} average in the last 4 months: {
+                round(np.mean(data_dict[columna].iloc[-months[1]:, 1])/1000000, 2)}M'''
+            if max_value // 1000000 > 0
+            else f'''{columna.replace("_", " ").replace("gmv", "/gmv").capitalize()} average in the last 4 months: {round(np.mean(data_dict[columna].iloc[-months[1]:, 1]) * 100, 2)} %'''
+            if max_value < 1 and columna != 'orders_per_eff_online'
+            else f'''{columna.replace("_", " ").replace("gmv", "/gmv").capitalize()} average in the last 4 months: {np.mean(data_dict[columna].iloc[-months[1]:, 1]):,.2f}'''
+        )
+        noteText += (
+            f''' and the percentage change between the last 2 months: {round(
+                (data_dict[columna].iloc[-1, 1] - data_dict[columna].iloc[-2, 1]) / data_dict[columna].iloc[-3, 1] * 100, 2)}%.\n'''
+        )
+    saveTXT(plot_folder, 'note.txt', noteText)
 
 
 def graphsForAllPriorities(country: str, columns: list):
@@ -437,7 +489,7 @@ def graphsForAllPriorities(country: str, columns: list):
         percentages = data / totals[:, None] * 100
 
         # Plotting the stacked bar chart
-        fig, ax = plt.subplots(figsize=(9, 6))
+        fig, ax = plt.subplots(figsize=(12, 10.5))
 
         # Define the bottom of each bar segment
         bottom = np.zeros(len(monthsDF))
@@ -452,18 +504,18 @@ def graphsForAllPriorities(country: str, columns: list):
                 height = bar.get_height()
                 percentage = f'{percentages[j, i]:.1f}%'
                 ax.text(bar.get_x() + bar.get_width() / 2, bottom[j] + height / 2,
-                        percentage, ha='center', va='center', color='black', fontsize=14,
+                        percentage, ha='center', va='center', color='black', fontsize=22,
                         bbox=dict(facecolor='white', edgecolor='black', boxstyle='round,pad=0.3', linewidth=1))
 
             bottom += data[:, i]
 
         # Adding labels and title
         ax.set_ylabel(
-            f'{columna.replace("_", " ").replace("gmv", "/gmv").capitalize()}', fontsize=16)
-        ax.set_xlabel(' ', fontsize=16)
+            f'{columna.replace("_", " ").replace("gmv", "/gmv").capitalize()}', fontsize=22)
+        ax.set_xlabel(' ', fontsize=18)
         ax.legend(loc='upper center',
                   bbox_to_anchor=(0.5, 1.15), ncol=3, frameon=False,
-                  prop={'size': 14})
+                  prop={'size': 22})
         # Adjust layout to prevent clipping
         plt.xticks(fontsize=20)  # Set X-axis tick labels font size
         plt.yticks(fontsize=20)  # Set Y-axis tick labels font size
@@ -472,15 +524,20 @@ def graphsForAllPriorities(country: str, columns: list):
         # Save the plot
         plot_folder = f'{mainPlotFolder}/{country}/All/{columna}/'
         savePlot(plot_folder, 'All.png')
-        saveTXT(plot_folder, 'note.txt', 'Example text')
+        # for the text, put the nominal numbers of the last 2 months
+        textForNote = 'Last Month Data:\n'
+        for i in range(len(categories)):
+            textForNote += f'{categories[i]}: {round(data[-1, i] / 1000000, 2)}M, ' if data[-1, i] // 1000000 > 0 else (
+                f'{categories[i]}: {round(data[-1, i] * 100, 2)}%, ' if data[-1, i] < 1 and columna != 'orders_per_eff_online' else f'{categories[i]}: {data[-1, i]:,.2f}, ')
+        textForNote = textForNote[:-2]
+        saveTXT(plot_folder, 'note.txt', textForNote)
 
 
 def main():
     paises, prioridades, columns, yLabelsPerColumn = getInitialData(serio)
     combinatory = getCombinatoryData()
 
-    configs = [('bottom', 'top'), ('top', 'bottom'),
-               ('bottom', 'bottom'), ('top', 'top')]
+    configs = [('top', 'top'), ]
     for pais in paises:
         for prioridad in prioridades:
             for config in configs:
@@ -495,7 +552,8 @@ def main():
                         makeDualYPlot(pais, prioridad, combination[0],
                                       yLabelsPerColumn, config)
             #     pass
-            RBurnGraphs(pais, prioridad)
+            if prioridad != '0':
+                RBurnGraphs(pais, prioridad)
             print(f'Plots de {pais} p{prioridad} creado')
         graphsForAllPriorities(pais, columns)
 

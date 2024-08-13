@@ -1,1 +1,2 @@
-Example text
+Imperfect order rate: 0.03
+Bad rating rate: 0.03

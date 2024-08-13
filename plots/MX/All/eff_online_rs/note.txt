@@ -1,1 +1,2 @@
-Example text
+Last Month Data:
+New Rs: 1,724.00, Priority 1: 3,927.00, Priority 2: 4,820.00, Priority 3: 1,880.00, Priority 4: 7,103.00, Priority 5: 6,520.00

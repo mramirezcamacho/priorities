@@ -1,1 +1,2 @@
-Example text
+Ted /gmv average in the last 4 months: 0.19 and the percentage change between the last 2 months: 9.08%.
+Asp average in the last 4 months: 6,960.28 and the percentage change between the last 2 months: 0.23%.

@@ -1,1 +1,2 @@
-Example text
+Exposure per eff online average in the last 4 months: 37371.34 % and the percentage change between the last 2 months: -5.85%.
+B p1p2 average in the last 4 months: 0.65 % and the percentage change between the last 2 months: 2.28%.

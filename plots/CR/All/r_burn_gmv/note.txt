@@ -1,1 +1,2 @@
-Example text
+Last Month Data:
+New Rs: 8.37%, Priority 1: 20.83%, Priority 2: 18.06%, Priority 3: 12.78%, Priority 4: 15.54%, Priority 5: 9.25%

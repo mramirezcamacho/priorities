@@ -1,1 +1,2 @@
-Mean over the last 4 months: 4362.88
+Highest: 5,309.97, Lowest: 2,871.42
+Mean of the last 4 months: 4,362.88

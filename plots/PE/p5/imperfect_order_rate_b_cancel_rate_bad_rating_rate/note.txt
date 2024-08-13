@@ -1,1 +1,3 @@
-Example text
+Imperfect order rate: 0.03
+B cancel rate: 0.05
+Bad rating rate: 0.03

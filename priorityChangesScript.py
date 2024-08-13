@@ -160,7 +160,7 @@ def makePlots2():
 
                 # Add text labels to each point
                 for i in range(len(months)):
-                    plt.text(months[i], values[i] + 0.3, f'{values[i]:.2f}%', color=color, ha='center', va='bottom', fontsize=16,
+                    plt.text(months[i], values[i] + 0.3, f'{values[i]:.2f}%', color=color, ha='center', va='bottom', fontsize=20,
                              bbox=dict(facecolor='white', edgecolor=color, boxstyle='round,pad=0.3'))
 
             # Plot configurations
@@ -172,12 +172,12 @@ def makePlots2():
             # plt.title(f'''Flow of priority changes for {
             #           priority_initial} in {country}''')
             plt.legend(loc='upper center', bbox_to_anchor=(
-                0.5, 1.15), ncol=4, frameon=False, prop={'size': 18})
+                0.5, 1.15), ncol=4, frameon=False, prop={'size': 20})
             plt.grid(True)
             plt.tight_layout()
 
             plt.savefig(os.path.join(output_folder, "All.png"))
-            saveTXT(output_folder, "note.txt", "Example text")
+            saveTXT(output_folder, "note.txt", "")
             plt.close()
 
 

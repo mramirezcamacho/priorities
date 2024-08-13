@@ -46,9 +46,8 @@ def getGoodFile(folder):
 
 
 def doGreatComment(file: str, position: tuple = None, slide=None):
+    FONT_SIZE = 0.14
     column = file.split('/')[-2]
-    if position is None:
-        raise ValueError('Position is required')
     with open(file, 'r') as file:
         content = file.read()
     inverse = False
@@ -57,13 +56,15 @@ def doGreatComment(file: str, position: tuple = None, slide=None):
     divided = content.split('@')
     if content == 'The change cannot be calculated over the last 3 months':
         return
+    if content == '':
+        content = 'No comments'
     if len(divided) == 1:
-        add_text(slide, content, font_size=0.15,
+        add_text(slide, content, font_size=FONT_SIZE,
                  bold=False, color=(0, 0, 0), position=position, vertical=False,
                  BG=(242, 242, 242))
         return
     else:
-        firstPart = add_text(slide, divided[0], font_size=0.15,
+        firstPart = add_text(slide, divided[0], font_size=FONT_SIZE,
                              bold=False, color=(0, 0, 0), position=position, vertical=False,
                              BG=(242, 242, 242))
         if inverse:
@@ -73,13 +74,13 @@ def doGreatComment(file: str, position: tuple = None, slide=None):
                 divided[1] = "a worse tendency"
         if divided[1] == "a worse tendency":
             color = (204, 0, 0)
-            add_text(slide, divided[1], font_size=0.15, new=False, last_p=firstPart,
+            add_text(slide, divided[1], font_size=FONT_SIZE, new=False, last_p=firstPart,
                      bold=True, color=color, )
         else:
             color = (127, 169, 108)
-            add_text(slide, divided[1], font_size=0.15, new=False, last_p=firstPart,
+            add_text(slide, divided[1], font_size=FONT_SIZE, new=False, last_p=firstPart,
                      bold=True, color=color, )
-        add_text(slide, divided[2], font_size=0.15, new=False, last_p=firstPart,
+        add_text(slide, divided[2], font_size=FONT_SIZE, new=False, last_p=firstPart,
                  bold=False, color=(0, 0, 0), BG=(242, 242, 242))
     return
 
@@ -206,8 +207,8 @@ def addGraphAndText(slide, graph_image_path: str, graph_note_path: str, Ypositio
                              width=Inches(imgInchSize), height=Inches(heightOfImg))
     if howMuchi == 2:
         space = 0.5
-    doGreatComment(graph_note_path, (positionX, Yposition+heightOfImg+0.3,
-                   imgInchSize-0.03, slideSizeY-space-Yposition-heightOfImg), slide=slide)
+    doGreatComment(graph_note_path, (positionX, Yposition+heightOfImg+0.15,
+                                     imgInchSize-0.03, slideSizeY-space-Yposition-heightOfImg), slide=slide)
 
 
 def getPriorityText(priority: str):
@@ -281,7 +282,7 @@ def makePresentation(MAC: bool = True, prioridades: list = ['1', '2', '3', '4',]
                     space, a, imgInchSize, heightOfImg = calculateSpace(width, 4.5, min(
                         imagesPerSlide, len(graph_image_paths)-imagesPerSlide*(i//imagesPerSlide)))
                     add_text(slide, f'Comments', font_size=0.2,
-                             bold=False, color=(255, 255, 255), position=(space, IMG_TOP+heightOfImg, imgInchSize-0.03, 0.3), vertical=True,
+                             bold=False, color=(255, 255, 255), position=(space, IMG_TOP+heightOfImg-0.15, imgInchSize-0.03, 0.3), vertical=True,
                              BG=(252, 76, 2))
         # Country overview
         slide = basicSlide(prs, pais, 'PERFORMANCE', 'Country overview')
@@ -294,7 +295,7 @@ def makePresentation(MAC: bool = True, prioridades: list = ['1', '2', '3', '4',]
                 space, a, imgInchSize, heightOfImg = calculateSpace(
                     width, 4.5, len(graph_image_paths))
                 add_text(slide, f'Comments', font_size=0.2,
-                         bold=False, color=(255, 255, 255), position=(space, IMG_TOP+heightOfImg, imgInchSize-0.03, 0.3), vertical=True,
+                         bold=False, color=(255, 255, 255), position=(space, IMG_TOP+heightOfImg-0.15, imgInchSize-0.03, 0.3), vertical=True,
                          BG=(252, 76, 2))
 
         print(f'Acabé con {pais} en {bigFolder}!')
