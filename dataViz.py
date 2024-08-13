@@ -12,7 +12,7 @@ from divideData import getColumns
 import calendar
 
 
-months = [3, 7]
+MONTHS = [3, 7]
 mainFolder = comparationData
 mainPlotFolder = plotsFolder
 serio = 1
@@ -26,7 +26,7 @@ def getInitialData(serio: bool):
         columns = ['orders_per_eff_online', 'eff_online_rs', 'daily_orders',
                    'exposure_per_eff_online', 'b_p1p2', 'ted_gmv', 'r_burn_gmv', 'b2c_gmv', 'p2c_gmv',
                    'imperfect_order_rate', 'bad_rating_rate', 'eff_online_rs', 'healthy_stores',
-                   'exposure_uv', 'asp', 'aop', 'complete_orders'
+                   'exposure_uv', 'asp', 'aop', 'b_cancel_rate',
                    ]
 
     else:
@@ -86,7 +86,7 @@ def makeNewPriorityPlot(pais: str, prioridad: str, columna: str, yLabels: dict, 
     file_path = folder + f'{columna}.csv'
     data = pd.read_csv(file_path, skiprows=1)
 
-    data = data.iloc[months[0]-1:]
+    data = data.iloc[MONTHS[0]-1:]
     data.reset_index(drop=True, inplace=True)
 
     Month = data['month']
@@ -105,7 +105,7 @@ def makeNewPriorityPlot(pais: str, prioridad: str, columna: str, yLabels: dict, 
                  data=data, label=f'{columna.replace("_", " ").replace("gmv", "/gmv").capitalize()}', linewidth=4, color='#fc4c02')
 
     # Mean and range calculations
-    meanLastXMonthsNew = np.mean(PriorityData[-months[1]+months[0]:])
+    meanLastXMonthsNew = np.mean(PriorityData[-MONTHS[1]+MONTHS[0]:])
     maxValue = max(PriorityData)
     minValue = min(PriorityData)
     meanValue = (maxValue - minValue)
@@ -195,7 +195,7 @@ def makeMultiMetricPlot(pais: str, prioridad: str, columnas: list, yLabels: dict
         file_path = folder + f'{columna}.csv'
         data = pd.read_csv(file_path, skiprows=1)
 
-        data = data.iloc[months[0]-1:]
+        data = data.iloc[MONTHS[0]-1:]
         data.reset_index(drop=True, inplace=True)
 
         Month = data['month']
@@ -275,11 +275,11 @@ def makeMultiMetricPlot(pais: str, prioridad: str, columnas: list, yLabels: dict
         # put the average of the last 4 months, and the percentage change between the last 2 months
         noteText += (
             f'''{columna.replace("_", " ").replace("gmv", "/gmv").capitalize()} average in the last 4 months: {
-                round(np.mean(data_dict[columna].iloc[-months[1]:, 1])/1000000, 2)}M'''
+                round(np.mean(data_dict[columna].iloc[-MONTHS[1]:, 1])/1000000, 2)}M'''
             if max_value // 1000000 > 0
-            else f'''{columna.replace("_", " ").replace("gmv", "/gmv").capitalize()} average in the last 4 months: {round(np.mean(data_dict[columna].iloc[-months[1]:, 1]) * 100, 2)} %'''
+            else f'''{columna.replace("_", " ").replace("gmv", "/gmv").capitalize()} average in the last 4 months: {round(np.mean(data_dict[columna].iloc[-MONTHS[1]:, 1]) * 100, 2)} %'''
             if max_value < 1 and columna != 'orders_per_eff_online'
-            else f'''{columna.replace("_", " ").replace("gmv", "/gmv").capitalize()} average in the last 4 months: {np.mean(data_dict[columna].iloc[-months[1]:, 1]):,.2f}'''
+            else f'''{columna.replace("_", " ").replace("gmv", "/gmv").capitalize()} average in the last 4 months: {np.mean(data_dict[columna].iloc[-MONTHS[1]:, 1]):,.2f}'''
         )
         noteText += (
             f''' and the percentage change between the last 2 months: {round(
@@ -308,7 +308,7 @@ def RBurnGraphs(pais: str, prioridad: str):
         for columna in groups[group]:
             dataColumn = pd.read_csv(
                 f'{mainFolder}/{pais}/p{prioridad}/{columna}.csv', skiprows=1)
-            dataColumn = dataColumn.iloc[months[0]-1:]
+            dataColumn = dataColumn.iloc[MONTHS[0]-1:]
             monthsDF = dataColumn['month']
             for monthDF in monthsDF:
                 if monthDF not in miniData:
@@ -369,7 +369,7 @@ def RBurnGraphs(pais: str, prioridad: str):
     dfNomalValues = pd.read_csv('newColumns/newColumns.csv')
     dfNomalValues['date'] = dfNomalValues['date'].str.split(
         '-').str[1].astype(int)
-    dfNomalValues = dfNomalValues[dfNomalValues['date'] == months[1]]
+    dfNomalValues = dfNomalValues[dfNomalValues['date'] == MONTHS[1]]
     for group, columns in groups.items():
         sumPerGroup = 0
         for column in columns:
@@ -393,7 +393,7 @@ def makeDualYPlot(pais: str, prioridad: str, columnas: list, yLabels: dict, conf
         file_path = folder + f'{columna}.csv'
         data = pd.read_csv(file_path, skiprows=1)
 
-        data = data.iloc[months[0]-1:]
+        data = data.iloc[MONTHS[0]-1:]
         data.reset_index(drop=True, inplace=True)
 
         Month = data['month']
@@ -462,11 +462,11 @@ def makeDualYPlot(pais: str, prioridad: str, columnas: list, yLabels: dict, conf
         # put the average of the last 4 months, and the percentage change between the last 2 months
         noteText += (
             f'''{columna.replace("_", " ").replace("gmv", "/gmv").capitalize()} average in the last 4 months: {
-                round(np.mean(data_dict[columna].iloc[-months[1]:, 1])/1000000, 2)}M'''
+                round(np.mean(data_dict[columna].iloc[-MONTHS[1]:, 1])/1000000, 2)}M'''
             if max_value // 1000000 > 0
-            else f'''{columna.replace("_", " ").replace("gmv", "/gmv").capitalize()} average in the last 4 months: {round(np.mean(data_dict[columna].iloc[-months[1]:, 1]) * 100, 2)} %'''
+            else f'''{columna.replace("_", " ").replace("gmv", "/gmv").capitalize()} average in the last 4 months: {round(np.mean(data_dict[columna].iloc[-MONTHS[1]:, 1]) * 100, 2)} %'''
             if max_value < 1 and columna != 'orders_per_eff_online'
-            else f'''{columna.replace("_", " ").replace("gmv", "/gmv").capitalize()} average in the last 4 months: {np.mean(data_dict[columna].iloc[-months[1]:, 1]):,.2f}'''
+            else f'''{columna.replace("_", " ").replace("gmv", "/gmv").capitalize()} average in the last 4 months: {np.mean(data_dict[columna].iloc[-MONTHS[1]:, 1]):,.2f}'''
         )
         noteText += (
             f''' and the percentage change between the last 2 months: {round(
@@ -479,7 +479,7 @@ def graphsForAllPriorities(country: str, columns: list):
     for columna in columns:
         df = pd.read_csv(
             f'{mainFolder}/{country}/All/{columna}.csv', skiprows=1)
-        df = df.iloc[months[0]-1:]
+        df = df.iloc[MONTHS[0]-1:]
         df.reset_index(drop=True, inplace=True)
         monthsDF = df['month']
         monthsDF = monthsDF.apply(lambda x: calendar.month_name[x])
