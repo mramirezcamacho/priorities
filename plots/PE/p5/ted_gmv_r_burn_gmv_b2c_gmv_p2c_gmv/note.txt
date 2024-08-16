@@ -1,4 +1,0 @@
-Ted /gmv: 0.23
-R burn /gmv: 0.12
-B2c /gmv: 0.0
-P2c /gmv: 0.12

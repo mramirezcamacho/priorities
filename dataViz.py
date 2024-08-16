@@ -15,7 +15,7 @@ import calendar
 MONTHS = [3, 7]
 mainFolder = comparationData
 mainPlotFolder = plotsFolder
-serio = 1
+serio = 0
 
 
 def getInitialData(serio: bool):
@@ -26,14 +26,17 @@ def getInitialData(serio: bool):
         columns = ['orders_per_eff_online', 'eff_online_rs', 'daily_orders',
                    'exposure_per_eff_online', 'b_p1p2', 'ted_gmv', 'r_burn_gmv', 'b2c_gmv', 'p2c_gmv',
                    'imperfect_order_rate', 'bad_rating_rate', 'eff_online_rs', 'healthy_stores',
-                   'exposure_uv', 'asp', 'aop', 'b_cancel_rate',
+                   'exposure_uv', 'asp', 'aop', 'b_cancel_rate', 'overdue_orders_per_total_orders',
                    ]
 
     else:
         paises = ['MX']
-        prioridades = ['0', '1', '2', '3', '4', '5']
+        prioridades = ['0', '1', '2', '3', '4',]
         columns = ['orders_per_eff_online', 'eff_online_rs', 'daily_orders',
-                   'exposure_per_eff_online', 'b_p1p2', 'ted_gmv', 'r_burn_gmv', ]
+                   'exposure_per_eff_online', 'b_p1p2', 'ted_gmv', 'r_burn_gmv', 'b2c_gmv', 'p2c_gmv',
+                   'imperfect_order_rate', 'bad_rating_rate', 'eff_online_rs', 'healthy_stores',
+                   'exposure_uv', 'asp', 'aop', 'b_cancel_rate', 'overdue_orders_per_total_orders',
+                   ]
     yLabelsPerColumn = {
         'daily_orders': 'Ordenes diarias',
         'orders_per_eff_online': 'Ordenes por eficiencia online',
@@ -56,6 +59,7 @@ def getCombinatoryData():
         (['imperfect_order_rate', 'bad_rating_rate'], 'Basic'),
         (['imperfect_order_rate', 'orders_per_eff_online'], 'Basic'),
         (['eff_online_rs', 'healthy_stores'], 'Basic'),
+        (['overdue_orders_per_total_orders', 'b_cancel_rate'], 'Dual'),
         (['exposure_per_eff_online', 'b_p1p2'], 'Dual'),
         (['ted_gmv', 'asp'], 'Dual'),
 
@@ -109,6 +113,20 @@ def makeNewPriorityPlot(pais: str, prioridad: str, columna: str, yLabels: dict, 
     maxValue = max(PriorityData)
     minValue = min(PriorityData)
     meanValue = (maxValue - minValue)
+
+    if meanValue < 0.05:
+        margin = meanValue + 0.01
+    elif meanValue < 0.1:
+        margin = meanValue + 0.04
+    elif meanValue < 1:
+        margin = meanValue * 0.30
+    else:
+        margin = meanValue * 0.20
+
+    if minValue - margin < 0:
+        plt.ylim([0, maxValue + margin])
+    else:
+        plt.ylim([minValue - margin, maxValue + margin])
 
     # Annotate data points
     for i, (mes, new_priority) in enumerate(zip(data['Month'], PriorityData)):
@@ -220,10 +238,20 @@ def makeMultiMetricPlot(pais: str, prioridad: str, columnas: list, yLabels: dict
     min_value = min(min_values)
 
     meanValue = (max_value - min_value)
+    margin = 0
+    if meanValue < 0.05:
+        margin = meanValue + 0.02
+    else:
+        margin = meanValue * 0.20
+
+    if min_value - margin < 0:
+        plt.ylim([0, max_value + margin])
+    else:
+        plt.ylim([min_value - margin, max_value + margin])
+
     bigData = max_value > 1
 
     last_positions = {}
-    # Adjustable offset factor to reduce overlaps
     offset = meanValue * tasaCambio * 3
 
     for columna in columnas:
@@ -234,17 +262,15 @@ def makeMultiMetricPlot(pais: str, prioridad: str, columnas: list, yLabels: dict
             text_label = f'{round(new_priority/1000000, 2)}M' if max_value // 1000000 > 0 else (
                 f'{round(new_priority * 100, 2)}%' if (max_value < 1) and not bigData else f"{new_priority:,.2f}")
 
-            # Check for overlapping with previous labels
             if mes in last_positions:
                 last_position = last_positions[mes]
                 if abs(new_priority - last_position) < offset:
-                    new_priority += offset  # Adjust position to avoid overlap
+                    new_priority += offset if new_priority > last_position else -offset
 
             last_positions[mes] = new_priority
 
             plt.text(mes, new_priority + ((-meanValue*tasaCambio) if config[1] == 'bottom' else (meanValue*tasaCambio)),
-                     text_label,
-                     color='black', ha='center', va=config[1], fontsize=22,
+                     text_label, color='black', ha='center', va=config[1], fontsize=22,
                      bbox=dict(facecolor='white', edgecolor='black', boxstyle='round,pad=0.3', linewidth=1))
 
     plt.xlabel(' ')
@@ -414,26 +440,46 @@ def makeDualYPlot(pais: str, prioridad: str, columnas: list, yLabels: dict, conf
     # ax1.set_ylabel(yLabels.get(columnas[0], columnas[0]), color=color1)
     ax1.plot(data1['Month'], data1['PriorityData'], label=columnas[0].replace("_", " ").replace("gmv", "/gmv").capitalize(),
              color=color1, linewidth=4)
-    ax1.tick_params(axis='y', labelcolor=color1, labelsize=16)
-    # Plot for the second column on the right Y-axis
+    ax1.tick_params(axis='y', labelcolor=color1,
+                    labelsize=22)  # Set y-ticks font size
+    ax1.tick_params(axis='x', labelsize=22)  # Set x-ticks font size
+# Plot for the second column on the right Y-axis
     ax2 = ax1.twinx()  # instantiate a second axes that shares the same x-axis
     data2 = data_dict[columnas[1]]
     color2 = 'tab:red'
     # ax2.set_ylabel(yLabels.get(columnas[1], columnas[1]), color=color2)
     ax2.plot(data2['Month'], data2['PriorityData'], label=columnas[1].replace("_", " ").replace("gmv", "/gmv").capitalize(),
              color=color2, linewidth=4)
-    ax2.tick_params(axis='y', labelcolor=color2, labelsize=16)
+    ax2.tick_params(axis='y', labelcolor=color2, labelsize=22)
 
     # Add legend
     fig.legend(loc='upper center', bbox_to_anchor=(0.5, 1),
                ncol=2, frameon=False, prop={'size': 22})
 
     ax1.xaxis.set_major_locator(MaxNLocator(integer=True))
+    i = 0
     # Format Y-axis
     for ax, data, color in [(ax1, data1, color1), (ax2, data2, color2)]:
         max_value = max(data['PriorityData'])
         min_value = min(data['PriorityData'])
         meanValue = (max_value - min_value)
+        if meanValue < 0.05:
+            margin = meanValue + 0.04
+        elif meanValue < 1:
+            margin = meanValue * 0.30
+        else:
+            margin = meanValue * 0.20
+
+        if i == 0:
+            if min_value - margin*3 < 0:
+                ax.set_ylim([0, max_value + margin])
+            else:
+                ax.set_ylim([min_value - margin*3, max_value + margin])
+            i = 1
+        else:
+            ax.set_ylim([min_value - margin, max_value + margin*3])
+            i = 0
+
         bigData = max_value > 1
 
         for i, (mes, new_priority) in enumerate(zip(data['Month'], data['PriorityData'])):
@@ -450,9 +496,11 @@ def makeDualYPlot(pais: str, prioridad: str, columnas: list, yLabels: dict, conf
         else:
             formatter = FuncFormatter(
                 lambda x, pos: str(round(x * 100, 2)) + '%')
+
         ax.yaxis.set_major_formatter(formatter)
-    plt.xticks(fontsize=24)  # Set X-axis tick labels font size
-    plt.yticks(fontsize=24)  # Set Y-axis tick labels font size
+        ax.tick_params(axis='y', labelcolor=color, labelsize=20)
+    plt.xticks(fontsize=22)  # Set X-axis tick labels font size
+    plt.yticks(fontsize=22)  # Set Y-axis tick labels font size
 
     plot_folder = f'{mainPlotFolder}/{pais}/p{prioridad}/{'_'.join(columnas)}/'
     savePlot(plot_folder,  f'''{config[0][0].upper()}{

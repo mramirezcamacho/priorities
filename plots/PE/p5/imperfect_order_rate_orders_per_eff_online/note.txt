@@ -1,2 +1,0 @@
-Imperfect order rate: 0.03
-Orders per eff online: 0.35

@@ -53,6 +53,30 @@ def addNewColumns(df: pd.DataFrame):
     return df
 
 
+def addNewColumns2(df: pd.DataFrame):
+    newColumnsDF = pd.read_csv('newColumns/newColumns2.csv')
+    newColumnToAppend = 'overdue_orders_per_total_orders'
+    df[newColumnToAppend] = None
+    months = newColumnsDF['month_'].unique()
+    countries = newColumnsDF['country_code'].unique()
+    prioridades = newColumnsDF['priority'].unique()
+    for country in countries:
+        for month in months:
+            for priority in prioridades:
+                valueNumerator = newColumnsDF[(newColumnsDF['country_code'] == country) & (
+                    newColumnsDF['month_'] == month) & (newColumnsDF['priority'] == priority)]['overdue_orders'].values
+                valueDenominador = newColumnsDF[(newColumnsDF['country_code'] == country) & (
+                    newColumnsDF['month_'] == month) & (newColumnsDF['priority'] == priority)]['total_complete_orders_for_overdue'].values
+                if len(valueNumerator) == 0 or len(valueDenominador) == 0:
+                    df.loc[(df['country_code'] == country) & (df['month_'] == month) & (
+                        df['priority'] == priority), newColumnToAppend] = 0
+                else:
+                    value = valueNumerator[0] / valueDenominador[0]
+                    df.loc[(df['country_code'] == country) & (df['month_'] == month) & (
+                        df['priority'] == priority), newColumnToAppend] = value
+    return df
+
+
 def dividePerCountry(filePath: str = folderToGetData, comparation=False):
     """
     Divide the data per country and save it in a new folder
@@ -86,6 +110,7 @@ def dividePerCountry(filePath: str = folderToGetData, comparation=False):
                     by=['week', 'Country', 'priority'], ascending=[False, True, False])
             # Save the data
             dataCountry = addNewColumns(dataCountry)
+            dataCountry = addNewColumns2(dataCountry)
             if comparation:
                 dataCountry.to_csv(
                     f'{folderToSendData}/'+f'{file[:3]}{country}_data'+'.csv', index=False)

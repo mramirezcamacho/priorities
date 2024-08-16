@@ -9,11 +9,11 @@ from pptx.enum.text import PP_ALIGN, MSO_ANCHOR
 from centralizedData import plotsFolder, presentationsFolder
 
 
-MAC = 1
-both = 1
+MAC = 0
+MX = 1
 
 columns = ['orders_per_eff_online', 'eff_online_rs', 'daily_orders',
-           'imperfect_order_rate_bad_rating_rate', 'eff_online_rs_healthy_stores', 'priorityChanges',
+           'imperfect_order_rate_bad_rating_rate', 'overdue_orders_per_total_orders_b_cancel_rate', 'priorityChanges',
            'exposure_per_eff_online_b_p1p2', 'ted_gmv_r_burn_gmv_b2c_gmv_p2c_gmv', 'DistributionOrdersDiscounts',
            ]
 columnsCountry = ['daily_orders', 'eff_online_rs']
@@ -309,11 +309,10 @@ def makePresentation(MAC: bool = True, prioridades: list = ['1', '2', '3', '4',]
 def main():
     bigFolders = [plotsFolder,]
     for bigFolder in bigFolders:
-        if both:
-            makePresentation(MAC=False, bigFolder=bigFolder)
+        if MAC:
             makePresentation(MAC=True, bigFolder=bigFolder)
-        else:
-            makePresentation(MAC=MAC, bigFolder=bigFolder)
+        if MX:
+            makePresentation(MAC=False, bigFolder=bigFolder)
 
 
 if __name__ == '__main__':

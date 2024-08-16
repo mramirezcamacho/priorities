@@ -1,5 +1,5 @@
 Last Month Data:
-Co-Subsidized Orders: 5,614
-R burn: 2,748
-Others: 279
-Organic: 229
+Co-Subsidized Orders: 5,614 orders
+R burn: 2,748 orders
+Others: 279 orders
+Organic: 229 orders

@@ -1,0 +1,3 @@
+Highest: 5.88%
+, Lowest: 3.35%
+Mean of the last 4 months: 4.61%
