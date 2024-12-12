@@ -23,8 +23,10 @@ def comparacionAllPriorities(country: str, priorities: list, columns: list):
     months = sorted(df_data['month_'].unique())
     for columna in columns:
         newDF = pd.DataFrame(columns=['month', 'New Rs', 'Priority 1',
-                             'Priority 2', 'Priority 3', 'Priority 4', 'Priority 5'])
+                                      'Priority 2', 'Priority 3', 'Priority 4', 'Priority 5'])
+
         for month in months:
+
             row2append = {'month': month}
             for priority in priorities:
                 if priority == 'New Rs':

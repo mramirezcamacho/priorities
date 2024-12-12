@@ -15,10 +15,12 @@ def deleteFolders():
             pass
 
 
+ALL_ALL = 0
 if __name__ == '__main__':
-    deleteFolders()
-    dividePerCountry()
-    start()
+    if ALL_ALL:
+        deleteFolders()
+        dividePerCountry()
+        start()
     makePlots()
     makePlots2()
     makePPTX()

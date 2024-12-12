@@ -9,14 +9,24 @@ from pptx.enum.text import PP_ALIGN, MSO_ANCHOR
 from centralizedData import plotsFolder, presentationsFolder
 
 
-MAC = 0
+MAC = 1
 MX = 1
 
 columns = ['orders_per_eff_online', 'eff_online_rs', 'daily_orders',
-           'imperfect_order_rate_bad_rating_rate', 'overdue_orders_per_total_orders_b_cancel_rate', 'priorityChanges',
-           'exposure_per_eff_online_b_p1p2', 'ted_gmv_r_burn_gmv_b2c_gmv_p2c_gmv', 'DistributionOrdersDiscounts',
+           # 'overdue_orders_per_total_orders_b_cancel_rate',
+           'imperfect_order_rate_bad_rating_rate',
+           'priorityChanges',
+
+           # 'DistributionOrdersDiscounts',
+           # 'exposure_per_eff_online_b_p1p2',
+           'ted_gmv_r_burn_gmv_b2c_gmv_p2c_gmv',
            ]
-columnsCountry = ['daily_orders', 'eff_online_rs']
+columnsCountry = [
+    'daily_orders_percentages',
+    'daily_orders_nominal',
+    'eff_online_rs_percentages',
+    'eff_online_rs_nominal',
+]
 
 TITLE_START = (1.3, 0.1)
 ACTIONTITLE_START = (0.5, TITLE_START[1]+0.75)
@@ -262,7 +272,7 @@ def makePresentation(MAC: bool = True, prioridades: list = ['1', '2', '3', '4',]
             prs.slide_width = Inches(width)
             prs.slide_height = Inches(height)
             createFolder(f'{bigFolder}/supportImage')
-            output_dir = f'{presentationsFolder}/{bigFolder}'
+            output_dir = f'{presentationsFolder}'
             for i in range(0, len(graph_image_paths)):
                 if i % imagesPerSlide == 0:
                     priorityText = getPriorityText(priority)
@@ -285,18 +295,20 @@ def makePresentation(MAC: bool = True, prioridades: list = ['1', '2', '3', '4',]
                              bold=False, color=(255, 255, 255), position=(space, IMG_TOP+heightOfImg-0.15, imgInchSize-0.03, 0.3), vertical=True,
                              BG=(252, 76, 2))
         # Country overview
-        slide = basicSlide(prs, pais, 'PERFORMANCE', 'Country overview')
+
         graph_image_paths, graph_text_paths = getImagesAndNotes(
             bigFolder, pais, priority, country=True)
         for i in range(0, len(graph_image_paths)):
-            addGraphAndText(slide, graph_image_paths[i], graph_text_paths[i],
-                            IMG_TOP, (i+1, len(graph_image_paths)), bigFolder, size=SIZE)
-            if i == 0:
+            if i % 2 == 0:
+                slide = basicSlide(prs, pais, 'PERFORMANCE',
+                                   'Country overview')
                 space, a, imgInchSize, heightOfImg = calculateSpace(
-                    width, 4.5, len(graph_image_paths))
+                    width, 4.5, 2)
                 add_text(slide, f'Comments', font_size=0.2,
                          bold=False, color=(255, 255, 255), position=(space, IMG_TOP+heightOfImg-0.15, imgInchSize-0.03, 0.3), vertical=True,
                          BG=(252, 76, 2))
+            addGraphAndText(slide, graph_image_paths[i], graph_text_paths[i],
+                            IMG_TOP, ((i % 2)+1, 2), bigFolder, size=SIZE)
 
         print(f'Acabé con {pais} en {bigFolder}!')
     if MAC:
@@ -309,10 +321,10 @@ def makePresentation(MAC: bool = True, prioridades: list = ['1', '2', '3', '4',]
 def main():
     bigFolders = [plotsFolder,]
     for bigFolder in bigFolders:
-        if MAC:
-            makePresentation(MAC=True, bigFolder=bigFolder)
         if MX:
             makePresentation(MAC=False, bigFolder=bigFolder)
+        if MAC:
+            makePresentation(MAC=True, bigFolder=bigFolder)
 
 
 if __name__ == '__main__':

@@ -1,2 +1,2 @@
-Highest: 102.41M, Lowest: 95.37M
-Mean of the last 4 months: 99.09M
+Highest: 106.09M, Lowest: 95.37M
+Mean of the last 4 months: 100.8M

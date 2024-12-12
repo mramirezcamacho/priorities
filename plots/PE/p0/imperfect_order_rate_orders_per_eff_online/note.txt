@@ -1,2 +1,2 @@
-Imperfect order rate average in the last 4 months: 0.03 and the percentage change between the last 2 months: -31.26%.
-Orders per eff online average in the last 4 months: 1.35 and the percentage change between the last 2 months: 28.07%.
+Imperfect order rate average in the last 4 months: 0.03 and the percentage change between the last 2 months: 19.78%.
+Orders per eff online average in the last 4 months: 1.49 and the percentage change between the last 2 months: -13.4%.

@@ -12,10 +12,10 @@ from divideData import getColumns
 import calendar
 
 
-MONTHS = [3, 7]
+MONTHS = [3, 9]
 mainFolder = comparationData
 mainPlotFolder = plotsFolder
-serio = 0
+serio = 1
 
 
 def getInitialData(serio: bool):
@@ -26,7 +26,8 @@ def getInitialData(serio: bool):
         columns = ['orders_per_eff_online', 'eff_online_rs', 'daily_orders',
                    'exposure_per_eff_online', 'b_p1p2', 'ted_gmv', 'r_burn_gmv', 'b2c_gmv', 'p2c_gmv',
                    'imperfect_order_rate', 'bad_rating_rate', 'eff_online_rs', 'healthy_stores',
-                   'exposure_uv', 'asp', 'aop', 'b_cancel_rate', 'overdue_orders_per_total_orders',
+                   # 'overdue_orders_per_total_orders',
+                   'exposure_uv', 'asp', 'aop', 'b_cancel_rate',
                    ]
 
     else:
@@ -35,7 +36,11 @@ def getInitialData(serio: bool):
         columns = ['orders_per_eff_online', 'eff_online_rs', 'daily_orders',
                    'exposure_per_eff_online', 'b_p1p2', 'ted_gmv', 'r_burn_gmv', 'b2c_gmv', 'p2c_gmv',
                    'imperfect_order_rate', 'bad_rating_rate', 'eff_online_rs', 'healthy_stores',
-                   'exposure_uv', 'asp', 'aop', 'b_cancel_rate', 'overdue_orders_per_total_orders',
+                   # 'overdue_orders_per_total_orders',
+                   'exposure_uv', 'asp', 'aop', 'b_cancel_rate',
+                   ]
+        columns = ['daily_orders',
+                   'ted_gmv',
                    ]
     yLabelsPerColumn = {
         'daily_orders': 'Ordenes diarias',
@@ -59,7 +64,7 @@ def getCombinatoryData():
         (['imperfect_order_rate', 'bad_rating_rate'], 'Basic'),
         (['imperfect_order_rate', 'orders_per_eff_online'], 'Basic'),
         (['eff_online_rs', 'healthy_stores'], 'Basic'),
-        (['overdue_orders_per_total_orders', 'b_cancel_rate'], 'Dual'),
+        # (['overdue_orders_per_total_orders', 'b_cancel_rate'], 'Dual'),
         (['exposure_per_eff_online', 'b_p1p2'], 'Dual'),
         (['ted_gmv', 'asp'], 'Dual'),
 
@@ -524,61 +529,81 @@ def makeDualYPlot(pais: str, prioridad: str, columnas: list, yLabels: dict, conf
 
 
 def graphsForAllPriorities(country: str, columns: list):
-    for columna in columns:
-        df = pd.read_csv(
-            f'{mainFolder}/{country}/All/{columna}.csv', skiprows=1)
-        df = df.iloc[MONTHS[0]-1:]
-        df.reset_index(drop=True, inplace=True)
-        monthsDF = df['month']
-        monthsDF = monthsDF.apply(lambda x: calendar.month_name[x])
-        categories = df.columns[1:].values
-        data = df.iloc[:, 1:].values
-        totals = np.sum(data, axis=1)
-        percentages = data / totals[:, None] * 100
+    for nominal in [True, False]:
+        for columna in columns:
+            df = pd.read_csv(
+                f'{mainFolder}/{country}/All/{columna}.csv', skiprows=1)
+            df = df.iloc[MONTHS[0]-1:]
+            df.reset_index(drop=True, inplace=True)
+            monthsDF = df['month']
+            monthsDF = monthsDF.apply(lambda x: calendar.month_name[x])
+            categories = df.columns[1:].values
+            data = df.iloc[:, 1:].values
+            totals = np.sum(data, axis=1)
+            percentages = data / totals[:, None] * 100
 
-        # Plotting the stacked bar chart
-        fig, ax = plt.subplots(figsize=(12, 10.5))
+            # Plotting the stacked bar chart
+            fig, ax = plt.subplots(figsize=(12, 10.5))
 
-        # Define the bottom of each bar segment
-        bottom = np.zeros(len(monthsDF))
+            # Define the bottom of each bar segment
+            bottom = np.zeros(len(monthsDF))
 
-        # Plot each category
-        for i in range(len(categories)):
-            bars = ax.bar(monthsDF, data[:, i],
-                          label=categories[i], bottom=bottom)
+            # Plot each category
+            for i in range(len(categories)):
+                bars = ax.bar(monthsDF, data[:, i],
+                              label=categories[i], bottom=bottom)
 
-            # Add percentage labels
-            for j, bar in enumerate(bars):
-                height = bar.get_height()
-                percentage = f'{percentages[j, i]:.1f}%'
-                ax.text(bar.get_x() + bar.get_width() / 2, bottom[j] + height / 2,
-                        percentage, ha='center', va='center', color='black', fontsize=22,
-                        bbox=dict(facecolor='white', edgecolor='black', boxstyle='round,pad=0.3', linewidth=1))
+                # Add percentage labels
+                for j, bar in enumerate(bars):
+                    height = bar.get_height()
+                    if not nominal:
+                        percentage = f'{percentages[j, i]:.1f}%'
+                    else:
+                        percentage = f'{data[j, i]:,.1f}'
+                    ax.text(bar.get_x() + bar.get_width() / 2, bottom[j] + height / 2,
+                            percentage, ha='center', va='center', color='black', fontsize=22,
+                            bbox=dict(facecolor='white', edgecolor='black', boxstyle='round,pad=0.3', linewidth=1))
 
-            bottom += data[:, i]
+                bottom += data[:, i]
+            if not nominal:
+                for j in range(len(monthsDF)):
+                    total_height = bottom[j]  # Total height of the stacked bar
+                    ax.text(j, total_height*1.02, f'''{
+                            total_height:,.1f}''', ha='center', va='bottom', fontsize=19, color='black')
+            # Adding labels and title
+            ax.set_ylabel(
+                f'{columna.replace("_", " ").replace("gmv", "/gmv").capitalize()}', fontsize=22)
+            ax.set_xlabel(' ', fontsize=18)
+            ax.legend(loc='upper center',
+                      bbox_to_anchor=(0.5, 1.15), ncol=3, frameon=False,
+                      prop={'size': 22})
 
-        # Adding labels and title
-        ax.set_ylabel(
-            f'{columna.replace("_", " ").replace("gmv", "/gmv").capitalize()}', fontsize=22)
-        ax.set_xlabel(' ', fontsize=18)
-        ax.legend(loc='upper center',
-                  bbox_to_anchor=(0.5, 1.15), ncol=3, frameon=False,
-                  prop={'size': 22})
-        # Adjust layout to prevent clipping
-        plt.xticks(fontsize=20)  # Set X-axis tick labels font size
-        plt.yticks(fontsize=20)  # Set Y-axis tick labels font size
-        plt.tight_layout()
+            # Adjust layout to prevent clipping
+            ax.set_ylim(0, np.max(bottom) * 1.1)
 
-        # Save the plot
-        plot_folder = f'{mainPlotFolder}/{country}/All/{columna}/'
-        savePlot(plot_folder, 'All.png')
-        # for the text, put the nominal numbers of the last 2 months
-        textForNote = 'Last Month Data:\n'
-        for i in range(len(categories)):
-            textForNote += f'{categories[i]}: {round(data[-1, i] / 1000000, 2)}M, ' if data[-1, i] // 1000000 > 0 else (
-                f'{categories[i]}: {round(data[-1, i] * 100, 2)}%, ' if data[-1, i] < 1 and columna != 'orders_per_eff_online' else f'{categories[i]}: {data[-1, i]:,.2f}, ')
-        textForNote = textForNote[:-2]
-        saveTXT(plot_folder, 'note.txt', textForNote)
+            plt.xticks(fontsize=20)  # Set X-axis tick labels font size
+            plt.yticks(fontsize=20)  # Set Y-axis tick labels font size
+            plt.tight_layout()
+
+            # Save the plot
+            plot_folder = f'''{mainPlotFolder}/{country}/All/{columna}{
+                '_nominal' if nominal else '_percentages'}/'''
+
+            savePlot(plot_folder, f'''All.png''')
+            # for the text, put the nominal numbers of the last 2 months
+            if not nominal:
+                textForNote = 'Last Month Data:\n'
+                for i in range(len(categories)):
+                    textForNote += f'{categories[i]}: {round(data[-1, i] / 1000000, 2)}M, ' if data[-1, i] // 1000000 > 0 else (
+                        f'{categories[i]}: {round(data[-1, i] * 100, 2)}%, ' if data[-1, i] < 1 and columna != 'orders_per_eff_online' else f'{categories[i]}: {data[-1, i]:,.2f}, ')
+            else:
+                textForNote = 'Last Month percentages:\n'
+                for i in range(len(categories)):
+                    textForNote += f'{categories[i]
+                                      }: {round(percentages[-1, i], 2)}%, '
+
+            textForNote = textForNote[:-2]
+            saveTXT(plot_folder, 'note.txt', textForNote)
 
 
 def main():
@@ -600,10 +625,11 @@ def main():
                         makeDualYPlot(pais, prioridad, combination[0],
                                       yLabelsPerColumn, config)
             #     pass
-            if prioridad != '0':
-                RBurnGraphs(pais, prioridad)
+            # if prioridad != '0':
+                # RBurnGraphs(pais, prioridad)
             print(f'Plots de {pais} p{prioridad} creado')
         graphsForAllPriorities(pais, columns)
+        print(f'{pais} done!')
 
 
 if __name__ == '__main__':

@@ -1,2 +1,2 @@
-Imperfect order rate average in the last 4 months: 3.63 % and the percentage change between the last 2 months: -20.07%.
-Bad rating rate average in the last 4 months: 3.59 % and the percentage change between the last 2 months: -31.43%.
+Imperfect order rate average in the last 4 months: 3.63 % and the percentage change between the last 2 months: -12.1%.
+Bad rating rate average in the last 4 months: 3.6 % and the percentage change between the last 2 months: -0.12%.

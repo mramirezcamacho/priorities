@@ -6,6 +6,8 @@ import os
 folderToGetData = mainData+"/"
 folderToSendData = dividedData
 
+ADD_COLUMNS = False
+
 
 def getColumns(filePath: str = folderToGetData):
     files = os.listdir(filePath)
@@ -109,8 +111,9 @@ def dividePerCountry(filePath: str = folderToGetData, comparation=False):
                 dataCountry = dataCountry.sort_values(
                     by=['week', 'Country', 'priority'], ascending=[False, True, False])
             # Save the data
-            dataCountry = addNewColumns(dataCountry)
-            dataCountry = addNewColumns2(dataCountry)
+            if ADD_COLUMNS:
+                dataCountry = addNewColumns(dataCountry)
+                dataCountry = addNewColumns2(dataCountry)
             if comparation:
                 dataCountry.to_csv(
                     f'{folderToSendData}/'+f'{file[:3]}{country}_data'+'.csv', index=False)
