@@ -110,7 +110,6 @@ def comparation_per_column(priority: str, column: str, country: str):
     with open(fileName, 'w', newline='') as file:
         writer = csv.writer(file)
         writer.writerows(existing_data)
-        print(f"Comparación guardada en '{fileName}'")
 
     return DFcomparation
 
