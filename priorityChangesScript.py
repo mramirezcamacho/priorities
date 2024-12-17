@@ -3,14 +3,14 @@ import os
 from pprint import pprint
 from matplotlib import pyplot as plt
 import pandas as pd
-from centralizedData import plotsFolder
+from centralizedData import plotsFolder, files_names
 
 SUPEROUTPUT = plotsFolder
 
 
 def saveData2Csv():
     # Load the CSV data into a DataFrame
-    df = pd.read_csv('priorityChanges/changesOfPriorities3.csv')
+    df = pd.read_csv(f'priorityChanges/{files_names['priorities_data']}')
     df = df.fillna('No Registered')
 
     monthsColumns = df.columns[2:]

@@ -5,3 +5,7 @@ plotsFolder = 'plots'
 presentationsFolder = 'pptx_presentations'
 mutableFolders = [dividedData, comparationData,
                   plotsFolder, presentationsFolder]
+
+files_names = {
+    'priorities_data': 'changesOfPriorities.csv'
+}
